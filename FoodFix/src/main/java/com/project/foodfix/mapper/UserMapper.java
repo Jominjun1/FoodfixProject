@@ -19,6 +19,9 @@ public interface UserMapper {
     @Select("SELECT user_id , user_pw FROM User")
     List<User> getUsers();
 
+    @Select("SELECT * FROM User WHERE user_id = #{user_id} AND user_pw = #{user_pw}")
+    User getUserIdPw(@Param("user_id") String user_id, @Param("user_pw") String user_pw);
+
     @Insert("INSERT INTO User (user_id, user_name, user_phone, address, user_pw , nickname , male) " +
             "VALUES (#{user_id}, #{user_name}, #{user_phone}, #{address}, #{user_pw} , #{nickname} , #{male})")
     int insertUser(User user);

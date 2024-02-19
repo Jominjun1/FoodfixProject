@@ -13,9 +13,10 @@ import lombok.Setter;
 public class User {
 
     @Id
-    private String user_phone; // primary key + unique key
+    private String user_id; // primary key + unique key
 
-    private String user_id; // unique key
+    private String user_phone; // unique key
+
     private String user_name; // unique key
     private String user_pw; // unique key
     private String user_address; // unique key
