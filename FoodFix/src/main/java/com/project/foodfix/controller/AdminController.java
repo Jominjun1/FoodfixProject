@@ -15,12 +15,10 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
-
     @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
-
     // 관리자 등록 API
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody Admin admin) {

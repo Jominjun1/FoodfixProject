@@ -24,7 +24,6 @@ public class MenuController {
         // 메뉴에 속한 매장을 설정하고 저장
         menuService.createMenus(store_id, menus);
     }
-
     // 메뉴 정보 수정 API
     @PutMapping("/update/{menu_id}")
     public void updateMenu(@PathVariable("menu_id") Long menu_id, @RequestBody Menu updatedMenu) {

@@ -11,9 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/store")
 public class StoreController {
-
     private final StoreService storeService;
-
     public StoreController(StoreService storeService) {
         this.storeService = storeService;
     }
@@ -27,7 +25,7 @@ public class StoreController {
     public void updateStore(@PathVariable("store_id") Long store_id, @RequestBody Store updatedStore) {
         storeService.updateStore(store_id, updatedStore);
     }
-
+    // 매장 메뉴 삽입 API
     @PostMapping("/{admin_id}/store")
     public ResponseEntity<String> addStore(@PathVariable("admin_id") String admin_id, @RequestBody Store store) {
         return storeService.addStore(admin_id, store);

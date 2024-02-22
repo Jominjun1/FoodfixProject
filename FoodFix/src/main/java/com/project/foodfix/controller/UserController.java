@@ -47,7 +47,6 @@ public class UserController {
     public void postUser(@PathVariable("user_id") String user_id, @RequestBody User user) {
         userService.postUser(user_id, user);
     }
-
     // 사용자 삭제 API
     @DeleteMapping("/del/{user_id}")
     public void deleteUser(@PathVariable("user_id") String user_id) {
