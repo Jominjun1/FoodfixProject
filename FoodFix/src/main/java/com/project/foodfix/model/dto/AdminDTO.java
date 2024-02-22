@@ -1,17 +1,10 @@
 package com.project.foodfix.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class AdminDTO {
     private String id;
     private String pw;
-
-    public AdminDTO(){
-
-    }
 }
