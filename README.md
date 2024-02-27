@@ -4,11 +4,11 @@
 # **0. 팀원 소개 및 역할**
 * 백엔드 담당(Spring boot) : 조민준  이메일 : simpers@naver.com [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/backend)
 
-* 프론트엔드(React) : 김규리 이메일 : [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_web)
+* 프론트엔드(React) : 김규리 이메일 : kimgyulee00@gmail.com [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_web)
 
-* 프론트엔드(IOS) : 노현민 이메일 : [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_ios)
+* 프론트엔드(IOS) : 노현민 이메일 : miryumin@hansung.ac.kr [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_ios)
 
-* 프론트엔드(Android) : 최명진 이메일 : [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_android)
+* 프론트엔드(Android) : 최명진 이메일 : cmgjn1881@naver.com [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_android)
 
 # **1. 작품 개요**
 >식당 포장과 예약 앱 서비, 식당 관리자 웹 서비스 
