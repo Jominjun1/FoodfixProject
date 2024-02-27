@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:63342")
 public class AdminController {
 
     private final AdminService adminService;
@@ -30,7 +31,7 @@ public class AdminController {
     }
     // 로그인 API
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Admin loginRequest) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Admin loginRequest) {
         return adminService.login(loginRequest);
     }
     // 모든 관리자 정보 조회 API

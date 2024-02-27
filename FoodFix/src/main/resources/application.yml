@@ -10,4 +10,5 @@ spring :
     show-sql : true
     hibernate:
       ddl-auto : update
-
+  session:
+    store-type: none

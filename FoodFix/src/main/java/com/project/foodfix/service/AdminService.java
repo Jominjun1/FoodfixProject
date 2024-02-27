@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AdminService {
@@ -30,7 +28,7 @@ public class AdminService {
         return ResponseEntity.ok("회원 가입 성공");
     }
     // 로그인 메서드
-    public ResponseEntity<String> login(Admin loginRequest) {
+    public ResponseEntity<Map<String, String>> login(Admin loginRequest) {
         String admin_id = loginRequest.getAdmin_id();
         String admin_pw = loginRequest.getAdmin_pw();
 
@@ -39,12 +37,15 @@ public class AdminService {
         if (optionalAdmin.isPresent()) {
             Admin admin = optionalAdmin.get();
             if (admin.getAdmin_pw().equals(admin_pw)) {
-                return ResponseEntity.ok("로그인 성공");
+                Map<String, String> response = new HashMap<>();
+                response.put("message", "로그인 성공");
+                response.put("user_id", admin_id);
+                return ResponseEntity.ok(response);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("비밀번호가 일치하지 않습니다");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "비밀번호가 일치하지 않습니다"));
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("관리자를 찾을 수 없습니다");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "관리자를 찾을 수 없습니다"));
         }
     }
     // 모든 관리자 정보 조회 메서드
