@@ -16,13 +16,13 @@ public class Menu {
     private Long menu_id; // 메뉴 번호 + 기본키
 
     private String menu_name; // 메뉴 이름
-    private double menu_price; // 메뉴 가격
     private String explanation; //메뉴 설명
     private String menu_image; // 메뉴 이미지 경로
+    private double menu_price; // 메뉴 가격
 
     @ManyToOne
-    @JoinColumn(name = "store_id", nullable = false, updatable = false) // "store_id"는 Store 엔터티의 기본 키에 해당하는 필드
+    @JoinColumn(name = "store_id", nullable = false, updatable = false) // (매장) 일대다 (메뉴) 관계
     @JsonIgnore
-    private Store store;
+    private Store store; // 매장 정보
 
 }

@@ -3,9 +3,7 @@ package com.project.foodfix.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Getter
 @Setter
@@ -22,6 +20,7 @@ public class Admin {
     private String admin_phone; // 관리자 전화번호
     private String admin_pw; // 관리자 비밀번호
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL) // (관리자)1대 다(매장) 관계
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL) // (관리자) 일대다 (매장) 관계
     private List<Store> stores = new ArrayList<>();
+
 }
