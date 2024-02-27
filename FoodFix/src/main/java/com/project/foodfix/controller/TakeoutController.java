@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/takeout")
 public class TakeoutController {
     private final TakeoutService takeoutService;

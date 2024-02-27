@@ -1,59 +1,81 @@
 package com.project.foodfix.controller;
 
-import com.project.foodfix.model.Reservation;
-import com.project.foodfix.model.TakeoutOrder;
+import com.project.foodfix.UserType;
+import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.User;
-import com.project.foodfix.model.dto.UserDTO;
-import com.project.foodfix.service.UserService;
+import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
+    private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    private final UserService userService; // 변경된 부분
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
+        this.authService = authService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
-    // 해당 사용자의 포장 주문 조회 API
-    @GetMapping("/orderList/{user_id}")
-    public List<TakeoutOrder> getOrderHistory(@PathVariable("user_id") String user_id) {
-        return userService.getOrderHistory(user_id);
+
+
+    // 사용자 프로필 조회 API
+    @GetMapping("/profile")
+    public ResponseEntity<Object> getUserProfile(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        // 토큰 유효성 검사
+        if (jwtTokenProvider.validateToken(token)) {
+            // 토큰에서 사용자 ID 추출
+            String userId = jwtTokenProvider.extractUserId(token);
+            if (userId != null) {
+                // AuthService 통해 사용자 정보 조회
+                Object user = authService.getUser(userId, UserType.USER);
+                if (user != null) {
+                    return ResponseEntity.ok(user);
+                } else {
+                    System.out.println("데이터베이스에서 사용자를 못찾음");
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                }
+            } else {
+                System.out.println("토큰에서 사용자 ID를 추출하지 못함");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } else {
+            System.out.println("\n" + "토큰 검증에 실패");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
-    // 해당 사용자의 예약 주문 조회 API
-    @GetMapping("/reservationList/{user_id}")
-    public List<Reservation> getReservationHistory(@PathVariable("user_id") String user_id) {
-        return userService.getReservationHistory(user_id);
+
+    // 사용자 로그인 API
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> login(@RequestBody User loginRequest) {
+        return authService.login(loginRequest.getUser_id(), loginRequest.getUser_pw(), UserType.USER);
     }
-    // 로그인 API
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO loginRequest) {
-        return userService.login(loginRequest);
-    }
-    // 사용자 정보 수정 API
-    @PutMapping("/info")
-    public void putUser(@RequestBody User updatedUser) {
-        String user_id = updatedUser.getUser_id();
-        userService.putUser(user_id, updatedUser);
-    }
-    // 사용자 등록 API
+    // 사용자 회원가입 API
     @PostMapping("/signup")
-    public void postUser(@RequestBody User user) {
-        String user_id = user.getUser_id();
-        userService.postUser(user_id, user);
+    public ResponseEntity<String> signup(@RequestBody User user) {
+        return authService.signup(user, UserType.USER);
     }
-    // 사용자 삭제 API
-    @DeleteMapping("/del")
-    public void deleteUser(@RequestBody UserDTO userDTO) {
-        String user_id = userDTO.getUser_id();
-        userService.deleteUser(user_id);
+    // 사용자 로그아웃 API
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        if (jwtTokenProvider.validateToken(token)) {
+            String userId = jwtTokenProvider.extractUserId(token);
+            if (userId != null) {
+                // AuthService 통해 사용자 로그아웃 처리
+                authService.logout(userId, UserType.USER);
+                return ResponseEntity.ok("로그아웃 성공");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 토큰");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 검증 실패");
+        }
     }
 }

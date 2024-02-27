@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 
 @RestController
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/reservation")
 public class ReservationController {
 
