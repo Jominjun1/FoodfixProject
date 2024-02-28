@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/menu")
 public class MenuController {
     private final MenuService menuService;

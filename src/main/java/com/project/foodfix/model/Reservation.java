@@ -16,7 +16,7 @@ public class Reservation {
     private LocalDateTime reservation_Date; // 예약 주문 당시 시간
     private LocalDateTime reservationDateTime; // 예약날짜
     private String res_requirements; // 요구사항
-    private Integer  res_Status; // 예약 주문 상태 (0: 접수중, 1: 예약완료)
+    private Integer  res_Status; // 예약 주문 상태 (0: 접수중, 1: 예약완료 , 2 : 예약 취소 , 3 : 종료 )
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore

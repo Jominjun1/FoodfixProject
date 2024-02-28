@@ -20,7 +20,7 @@ public class TakeoutOrder {
     private String requirements; // 사용자 요구사항
     private Integer  timeStatus; // 포장 주문 시간 결정 ( 0 : 매장의 최소 주문 시간 , 1 : 사용자가 직접 선택 )
     private Integer  timeOrder; // 사용자가 선택한 포장 주문 시간 ( TimeStatus가 1일때만 사용)
-    private Integer  orderStatus; // 주문 상태 (0: 접수중, 1: 준비중, 2: 포장완료, 3: 접수 취소)
+    private Integer  orderStatus; // 주문 상태 (0: 접수중, 1: 준비중, 2: 포장완료, 3: 접수 취소 , 4: 주문 완료)
     private Integer  paymentStatus; // 결제 상태 (0: 미결제, 1: 결제 완료)
     private Integer  paymentMethod; // 결제 방법 (0: 앱결제, 1: 매장결제)
     private double totalMenuPrice; // 총 메뉴 가격
