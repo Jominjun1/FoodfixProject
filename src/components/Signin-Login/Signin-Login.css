@@ -1,0 +1,179 @@
+.login-container{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 50px;
+    width: 600px;
+    background: #fff;
+    padding-bottom: 30px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(10, 10, 10, 0.1);
+}
+
+.signin-container{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 30px;
+    width: 600px;
+    background: #fff;
+    padding-bottom: 30px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(10, 10, 10, 0.1);
+}
+
+.separator-line {
+    margin: 20px auto;
+    width: 400px; 
+    height: 1px; 
+    background-color: #d2cfcf;
+}
+
+.text{
+    color: rgb(112, 208, 150);
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.inputs{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input {
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 400px;
+    height: 43px;
+    background: #f3f1f1;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+
+.checkbox input[type='radio'] {
+    margin-left: 20px;
+}
+
+.custom-input::placeholder {
+    font-size: 12px;
+}
+
+.input input {
+    height: 50px;
+    width: 250px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #797979;
+    font-size: 19px;
+}
+
+.login-submit{
+    display: flex;
+    gap: 30px;
+    margin: 10px auto;
+    border-radius: 10px;
+    border: 1px solid rgb(112, 208, 150);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 40px;
+    color: white;
+    background: rgb(112, 208, 150);
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 30px;
+}
+
+.custom-input {
+    margin-left: 10px;
+}
+
+.signin-box {
+    margin: 0 auto;
+    margin-top: 20px;
+    justify-content: center;
+    border: 1px solid #d8d1d1;
+    border-radius: 10px;
+    padding: 20px;
+    width: 350px;
+    text-align: center;
+}
+
+.signin-box div:first-child {
+    font-weight: bold;
+}
+
+.signin-box div:nth-child(2) {
+    font-size: 12px;
+}
+
+.signin-submit {
+    margin-top: 15px;
+    border: 1px solid #d8d1d1;
+    border-radius: 10px;
+    padding: 10px;
+    width: 80px;
+    height: 20px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    color: white;
+    background: rgb(112, 208, 150);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.login-separator-line {
+    position: relative;
+    margin: 20px auto;
+    width: 400px; 
+    height: 1px; 
+    background-color: #d2cfcf;
+}
+
+.login-separator-line::after {
+    content: "또는";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 0 10px;
+    font-size: 14px;
+}
+
+.login-image {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.naver, .google, .kakao, .apple{
+    margin-right: 20px;
+    margin-left: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
