@@ -43,7 +43,6 @@ const Side = ({ onEditClick, onLeaveClick }) => {
         <div className="side">
             <img src='/images/usericon.png' alt='usericon' className="profile" />
             <div className="edit-user" onClick={onEditClick}>회원 정보 수정</div> 
-            <div className="leave-user" onClick={onLeaveClick}>회원 탈퇴</div>
             <div className="logout" onClick={handleLogout}>로그아웃</div> 
             <div onClick={goBack} className="back">뒤로 가기</div>
         </div>
