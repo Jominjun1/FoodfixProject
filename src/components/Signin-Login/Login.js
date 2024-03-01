@@ -21,17 +21,9 @@ const Login = () => {
             const token = response.data.token; // 받은 토큰
             console.log("로그인에 성공했습니다.");
 
-            // 토큰을 이용하여 관리자의 모든 정보를 불러옵니다.
-            const profileResponse = await axios.get('/admin/profile', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
             // 받은 정보를 로컬 스토리지에 저장합니다.
-            localStorage.setItem('token', token);
-            localStorage.setItem('adminInfo', JSON.stringify(profileResponse.data));
-
+            sessionStorage.setItem('token', token);
+            
             navigate('/');
         } catch (error) {
             console.error(error);

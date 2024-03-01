@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Side.css';
 
-const Side = ({ onEditClick, onLeaveClick }) => {
+const Side = ({ onEditClick, onInfoClick }) => {
     const navigate = useNavigate();
 
     const goBack = () => {
@@ -10,7 +10,7 @@ const Side = ({ onEditClick, onLeaveClick }) => {
     }
 
     const handleLogout = async () => {
-        const token = localStorage.getItem('token'); 
+        const token = sessionStorage.getItem('token'); 
         console.log('Token:', token);
     
         try {
@@ -25,7 +25,7 @@ const Side = ({ onEditClick, onLeaveClick }) => {
     
             if (response.ok) {
                 console.log('Logout successful');
-                localStorage.removeItem('token');
+                sessionStorage.removeItem('token');
                 
                 alert('로그아웃 되었습니다.');
                 navigate('/');
@@ -42,6 +42,7 @@ const Side = ({ onEditClick, onLeaveClick }) => {
     return (
         <div className="side">
             <img src='/images/usericon.png' alt='usericon' className="profile" />
+            <div className="user-info" onClick={onInfoClick}>회원 정보 조회</div> 
             <div className="edit-user" onClick={onEditClick}>회원 정보 수정</div> 
             <div className="logout" onClick={handleLogout}>로그아웃</div> 
             <div onClick={goBack} className="back">뒤로 가기</div>
@@ -50,5 +51,3 @@ const Side = ({ onEditClick, onLeaveClick }) => {
 };
 
 export default Side;
-
-

@@ -1,46 +1,52 @@
-.edit-user-container {
-    margin-left: 380px;
+.editpage-container {
+    margin-left: 400px;
     margin-top: 100px;
-    background-color: #f0f0f0;
+    background-color: #fefefe;
     padding: 20px;
     border-radius: 10px;
     box-sizing: border-box; 
     width: 60%;
-    height: 60%;
-    
+    height: 70%;
+    box-shadow: 0 0 8px rgba(10, 10, 10, 0.1);
 }
 
-.edit-user-container form {
+.editpage-container form {
     max-width: 400px;
     margin: 0 auto;
-}
-
-.editpage-title {
     text-align: center;
 }
 
-.edit-user-container label {
-    display: block;
-    margin-bottom: 5px;
+.editpage-container h2 {
+    text-align: center;
 }
 
-.edit-user-container input {
-    width: 100%;
-    padding: 8px;
+.editpage-container label {
+    display: block;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.editpage-container input {
+    width: 100%;
+    padding: 10px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #e8e8e8;
+    background-color: #e8e8e8;
     border-radius: 5px;
 }
 
-.edit-user-container button {
-    background-color: #007bff;
-    color: #fff;
+.editpage-container button {
+    background-color: #c7c7c7;
+    color: #000000;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-.edit-user-container button:hover {
-    background-color: #0056b3;
+.editpage-container button:hover {
+    background-color: #e8e8e8;
 }
