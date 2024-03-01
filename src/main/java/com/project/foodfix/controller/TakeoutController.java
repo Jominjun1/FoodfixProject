@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/takeout")
 public class TakeoutController {
     private final TakeoutService takeoutService;
-
     public TakeoutController(TakeoutService takeoutService) {
         this.takeoutService = takeoutService;
     }

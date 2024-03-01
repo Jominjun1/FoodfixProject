@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
-
     private final ReviewService reviewService;
-
     @Autowired
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
-
     @PostMapping("/add")
     public ResponseEntity<String> addReview(@RequestBody Review review) {
         reviewService.addReview(review);

@@ -20,7 +20,8 @@ public class JwtTokenProvider {
         // Use secure key
         this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
-
+   
+    // 토큰 생성
     public String createToken(String username) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + jwtConfig.getValidityInMilliseconds());
@@ -33,23 +34,23 @@ public class JwtTokenProvider {
                     .signWith(secretKey, SignatureAlgorithm.HS256)
                     .compact();
         } catch (Exception e) {
-            throw new RuntimeException("Token creation failed", e);
+            throw new RuntimeException("토큰 생성 실패", e);
         }
     }
-
+    // 토큰 검증
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
-            System.err.println("Token has expired: " + e.getMessage());
+            System.err.println("토큰이 만료되었습니다. : " + e.getMessage());
             return false;
         } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
-            System.err.println("Invalid token: " + e.getMessage());
+            System.err.println("잘못된 토큰입니다. : " + e.getMessage());
             return false;
         }
     }
-
+    // 토큰에서 id 추출
     public String extractUserId(String token) {
         try {
             Claims claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();

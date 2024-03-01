@@ -13,23 +13,19 @@ import java.time.LocalDateTime;
 
 @Service
 public class TakeoutService {
-
     private final TakeoutRepository takeoutRepository;
     private final MenuRepository menuRepository;
-
     @Autowired
     public TakeoutService(TakeoutRepository takeoutRepository, MenuRepository menuRepository) {
         this.takeoutRepository = takeoutRepository;
         this.menuRepository = menuRepository;
     }
-
     // 포장 주문을 처리하는 메서드
     public void placeTakeoutOrder(TakeoutDTO takeoutDTO) {
         // 현재 시간을 가져옵니다.
         LocalDateTime orderDateTime = LocalDateTime.now();
         // 예상 완료 시간을 초기화합니다.
         LocalDateTime completeTime ;
-
         // 사용자가 직접 주문 시간을 선택한 경우 처리
         if (takeoutDTO.getTimeStatus() == 1) {
             completeTime = orderDateTime.plusMinutes(takeoutDTO.getPreparationTimeMinutes());
@@ -47,7 +43,6 @@ public class TakeoutService {
         takeoutOrder.setOrderStatus(0);
         takeoutOrder.setPaymentStatus(takeoutDTO.getPaymentMethod() == 0 ? 0 : 1);
         takeoutOrder.setPaymentMethod(takeoutDTO.getPaymentMethod());
-
         // TimeStatus 따라 timeOrder 값을 설정합니다.
         if (takeoutDTO.getTimeStatus() == 1) {
             takeoutOrder.setTimeOrder(takeoutDTO.getPreparationTimeMinutes());
@@ -55,7 +50,6 @@ public class TakeoutService {
             takeoutOrder.setTimeOrder(0);
         }
         double totalMenuPrice = 0;
-
         // 주문된 메뉴 항목들에 대한 처리
         for (TakeoutDTO.OrderItemDTO orderItemDTO : takeoutDTO.getOrderItems()) {
             // 주문된 메뉴 정보를 가져옵니다.
@@ -66,11 +60,9 @@ public class TakeoutService {
             orderItem.setQuantity(orderItemDTO.getQuantity());
             orderItem.setTakeoutOrder(takeoutOrder);
             takeoutOrder.getOrderItems().add(orderItem);
-
             // 주문 총액을 업데이트합니다.
             totalMenuPrice += orderItem.getMenu().getMenu_price() * orderItem.getQuantity();
         }
-
         takeoutOrder.setTotalMenuPrice(totalMenuPrice);
         takeoutOrder.setUser(takeoutDTO.getUser());
         takeoutOrder.setStore(takeoutDTO.getStore());

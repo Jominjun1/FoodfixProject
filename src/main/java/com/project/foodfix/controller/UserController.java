@@ -2,6 +2,7 @@ package com.project.foodfix.controller;
 
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
+import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.User;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,6 @@ public class UserController {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
-
-
     // 사용자 프로필 조회 API
     @GetMapping("/profile")
     public ResponseEntity<Object> getUserProfile(@RequestHeader("Authorization") String authorizationHeader) {
@@ -50,7 +49,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
-
     // 사용자 로그인 API
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> login(@RequestBody User loginRequest) {
@@ -77,5 +75,50 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 검증 실패");
         }
+    }
+    // 사용자 정보 수정 API
+    @PutMapping("/update")
+    public ResponseEntity<String> updateAdminInfo(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Map<String, String> updateInfo) {
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponse();
+
+        String userId = jwtTokenProvider.extractUserId(token);
+        if (userId == null) return unauthorizedResponse();
+
+        User user = (User) authService.getUser(userId, UserType.ADMIN);
+        if (user != null) {
+            // 수정할 정보 업데이트
+            if (updateInfo.containsKey("user_address")) {
+                user.setUser_address(updateInfo.get("user_address"));
+            }
+            if (updateInfo.containsKey("user_name")) {
+                user.setUser_pw(updateInfo.get("user_name"));
+            }
+            if (updateInfo.containsKey("user_phone")) {
+                user.setUser_name(updateInfo.get("user_phone"));
+            }
+            if (updateInfo.containsKey("user_pw")) {
+                user.setUser_phone(updateInfo.get("user_pw"));
+            }
+            // 수정된 정보 저장
+            authService.saveUser(user);
+            return ResponseEntity.ok("유저 정보 수정 성공");
+        }
+        return notFoundResponse();
+    }
+    // 토큰 추출 메서드
+    private String extractToken(String authorizationHeader) {
+        return Optional.ofNullable(authorizationHeader)
+                .map(header -> header.replace("Bearer ", ""))
+                .filter(jwtTokenProvider::validateToken)
+                .orElse(null);
+    }
+    // 권한 없음 응답
+    private ResponseEntity<String> unauthorizedResponse() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 검증 실패");
+    }
+    // 찾을 수 없음 응답
+    private ResponseEntity<String> notFoundResponse() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자를 찾을 수 없습니다.");
     }
 }

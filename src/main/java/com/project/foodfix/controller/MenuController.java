@@ -15,7 +15,6 @@ public class MenuController {
     public MenuController(MenuService menuService) {
         this.menuService = menuService;
     }
-
     // 새로운 메뉴 등록 API
     @PostMapping("/store/{store_id}/create")
     public void createMenus(@PathVariable("store_id") Long store_id, @RequestBody List<Menu> menus) {

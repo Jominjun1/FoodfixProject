@@ -7,14 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReviewService {
-
     private final ReviewRepository reviewRepository;
-
     @Autowired
     public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
-
     public void addReview(Review review) {
         reviewRepository.save(review);
     }

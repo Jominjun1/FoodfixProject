@@ -7,35 +7,29 @@ import com.project.foodfix.model.User;
 import com.project.foodfix.repository.AdminRepository;
 import com.project.foodfix.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AuthService {
-
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider) {
+    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = passwordEncoder;
     }
-
     // 회원가입 기능
     public ResponseEntity<String> signup(Object user, UserType userType) {
         // 사용자 ID 중복 확인 등 회원가입 유효성 검사 수행
         if (isUserIdAvailable(user, userType)) {
-            // 기타 회원가입 관련 로직 수행
-            // 예를 들어, 비밀번호 암호화, 권한 설정 등
-
             // 사용자 정보 저장
             saveUser(user);
 
@@ -44,7 +38,6 @@ public class AuthService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 ID 입니다.");
         }
     }
-
     // 사용자 ID 중복 확인 메서드
     private boolean isUserIdAvailable(Object user, UserType userType) {
         switch (userType) {
@@ -52,16 +45,16 @@ public class AuthService {
                 if (user instanceof User) {
                     return !userRepository.existsById(((User) user).getUser_id());
                 } else {
-                    throw new IllegalArgumentException("Invalid user type");
+                    throw new IllegalArgumentException("잘못된 사용자 유형");
                 }
             case ADMIN:
                 if (user instanceof Admin) {
                     return !adminRepository.existsById(((Admin) user).getAdmin_id());
                 } else {
-                    throw new IllegalArgumentException("Invalid user type");
+                    throw new IllegalArgumentException("잘못된 사용자 유형");
                 }
             default:
-                throw new IllegalArgumentException("Invalid user type");
+                throw new IllegalArgumentException("잘못된 사용자 유형");
         }
     }
     // 로그인 기능
@@ -102,13 +95,11 @@ public class AuthService {
             saveUser(user);
         });
     }
-
-    // 사용자 정보 조회 메서드
+    // 정보 조회 메서드
     public Object getUser(String userId, UserType userType) {
         Optional<?> optionalUser = getUserById(userId, userType);
         return optionalUser.orElse(null);
     }
-
     // 사용자 또는 관리자 ID에 따라 사용자 정보 조회
     private Optional<?> getUserById(String id, UserType userType) {
         return switch (userType) {
@@ -116,16 +107,14 @@ public class AuthService {
             case ADMIN -> adminRepository.findById(id);
         };
     }
-
-    // 사용자 또는 관리자의 비밀번호 유효성 검사
+    // 비밀번호 유효성 검사 메서드
     private boolean isValidPassword(Object user, String password) {
         return switch (user) {
-            case User u -> u.getUser_pw().equals(password);
-            case Admin a -> a.getAdmin_pw().equals(password);
+            case User u -> passwordEncoder.matches(password, u.getUser_pw());
+            case Admin a -> passwordEncoder.matches(password, a.getAdmin_pw());
             default -> false;
         };
     }
-
     // 사용자 또는 관리자에게 토큰 설정
     private void setTokenForUser(Object user, String jwtToken) {
         if (user instanceof User) {
@@ -134,22 +123,33 @@ public class AuthService {
             ((Admin) user).setJwtToken(jwtToken);
         }
     }
-
-    // 사용자 또는 관리자 정보 저장
-    private void saveUser(Object user) {
+    // 사용자 정보 저장
+    public void saveUser(Object user) {
+        // 비밀번호 해싱
+        hashUserPassword(user);
+        // 저장
         if (user instanceof User) {
             userRepository.save((User) user);
         } else if (user instanceof Admin) {
             adminRepository.save((Admin) user);
         }
     }
-
     // UserType 따라 토큰의 키 반환
     private String getTokenKey(UserType userType) {
         return switch (userType) {
             case USER -> "user_id";
             case ADMIN -> "admin_id";
         };
+    }
+    // 비밀번호 해싱 메서드
+    private void hashUserPassword(Object user) {
+        if (user instanceof User u) {
+            String hashedPassword = passwordEncoder.encode(u.getUser_pw());
+            u.setUser_pw(hashedPassword);
+        } else if (user instanceof Admin a) {
+            String hashedPassword = passwordEncoder.encode(a.getAdmin_pw());
+            a.setAdmin_pw(hashedPassword);
+        }
     }
 }
 

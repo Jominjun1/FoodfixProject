@@ -22,7 +22,7 @@ public class Admin {
     @Column(name = "jwt_token")
     private String jwtToken; // 로그인 할때 받는 토큰 저장
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL) // (관리자) 일대다 (매장) 관계
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL , fetch = FetchType.EAGER) // (관리자) 일대다 (매장) 관계
     private List<Store> stores = new ArrayList<>();
 
 }

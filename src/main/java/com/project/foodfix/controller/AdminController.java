@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/admin")
@@ -17,7 +18,6 @@ import java.util.Map;
 public class AdminController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
-
     @Autowired
     public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
         this.authService = authService;
@@ -28,7 +28,6 @@ public class AdminController {
     public ResponseEntity<String> signup(@RequestBody Admin admin) {
         return authService.signup(admin, UserType.ADMIN);
     }
-
     // 로그인 API
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> login(@RequestBody Admin loginRequest) {
@@ -37,46 +36,80 @@ public class AdminController {
     // 관리자 프로필 조회 API
     @GetMapping("/profile")
     public ResponseEntity<Object> getAdminProfile(@RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.replace("Bearer ", "");
-        // 토큰 유효성 검사
-        if (jwtTokenProvider.validateToken(token)) {
-            // 토큰에서 관리자 ID 추출
-            String adminId = jwtTokenProvider.extractUserId(token);
-            if (adminId != null) {
-                // AuthService 통해 관리자 정보 조회
-                Object admin = authService.getUser(adminId, UserType.ADMIN);
-                if (admin != null) {
-                    return ResponseEntity.ok(admin);
-                } else {
-                    System.out.println("데이터베이스에서 관리자를 못찾음");
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-                }
-            } else {
-                System.out.println("토큰에서 관리자 ID를 추출하지 못함");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-            }
-        } else {
-            System.out.println("\n" + "토큰 검증에 실패");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponseObject();
 
+        String adminId = jwtTokenProvider.extractUserId(token);
+        if (adminId == null) return unauthorizedResponseObject();
+
+        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        if (admin != null) return ResponseEntity.ok(admin);
+
+        return notFoundResponseObject();
+    }
     // 관리자 로그아웃 API
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.replace("Bearer ", "");
-        if (jwtTokenProvider.validateToken(token)) {
-            String adminId = jwtTokenProvider.extractUserId(token);
-            if (adminId != null) {
-                // AuthService 통해 관리자 로그아웃 처리
-                authService.logout(adminId, UserType.ADMIN);
-                return ResponseEntity.ok("로그아웃 성공");
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("잘못된 토큰");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 검증 실패");
-        }
-    }
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponse();
 
+        String adminId = jwtTokenProvider.extractUserId(token);
+        if (adminId == null) return unauthorizedResponse();
+
+        authService.logout(adminId, UserType.ADMIN);
+        return ResponseEntity.ok("로그아웃 성공");
+    }
+    // 관리자 수정 API
+    @PutMapping("/update")
+    public ResponseEntity<String> updateAdminInfo(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Map<String, String> updateInfo) {
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponse();
+
+        String adminId = jwtTokenProvider.extractUserId(token);
+        if (adminId == null) return unauthorizedResponse();
+
+        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        if (admin != null) {
+            // 수정할 정보 업데이트
+            if (updateInfo.containsKey("admin_address")) {
+                admin.setAdmin_address(updateInfo.get("admin_address"));
+            }
+            if (updateInfo.containsKey("admin_name")) {
+                admin.setAdmin_name(updateInfo.get("admin_name"));
+            }
+            if (updateInfo.containsKey("admin_phone")) {
+                admin.setAdmin_phone(updateInfo.get("admin_phone"));
+            }
+            if (updateInfo.containsKey("admin_pw")) {
+                admin.setAdmin_pw(updateInfo.get("admin_pw"));
+            }
+            // 수정된 정보 저장
+            authService.saveUser(admin);
+            return ResponseEntity.ok("관리자 정보 수정 성공");
+        }
+        return notFoundResponse();
+    }
+    // 토큰 추출 메서드
+    private String extractToken(String authorizationHeader) {
+        return Optional.ofNullable(authorizationHeader)
+                .map(header -> header.replace("Bearer ", ""))
+                .filter(jwtTokenProvider::validateToken)
+                .orElse(null);
+    }
+    // 권한 없음 응답 ( Object )
+    private ResponseEntity<Object> unauthorizedResponseObject() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 검증 실패");
+    }
+    // 찾을 수 없음 응답 ( Object )
+    private ResponseEntity<Object> notFoundResponseObject() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자를 찾을 수 없습니다.");
+    }
+    // 권한 없음 응답
+    private ResponseEntity<String> unauthorizedResponse() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 검증 실패");
+    }
+    // 찾을 수 없음 응답
+    private ResponseEntity<String> notFoundResponse() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자를 찾을 수 없습니다.");
+    }
 }

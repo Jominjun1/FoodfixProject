@@ -9,10 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class MenuService {
-
     private final MenuRepository menuRepository;
     private final StoreRepository storeRepository;
-
     @Autowired
     public MenuService(MenuRepository menuRepository, StoreRepository storeRepository) {
         this.menuRepository = menuRepository;
@@ -21,7 +19,6 @@ public class MenuService {
     // 해당 매장에서 메뉴 생성
     public void createMenus(Long store_id, List<Menu> menus) {
         Store store = storeRepository.findById(store_id).orElse(null);
-
         if (store != null) {
             for (Menu menu : menus) {
                 // 매장에 메뉴 리스트 저장

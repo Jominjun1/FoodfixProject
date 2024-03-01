@@ -28,6 +28,7 @@ public class Store {
     private Integer res_max; // 예약 최대 가능팀 ( res_status 0이면 해당 값도 0 )
     private LocalTime openTime; // 오픈 시간
     private LocalTime closeTime; // 마감 시간
+    private LocalTime reservationCancel; // 예약 취소 가능 시간
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore

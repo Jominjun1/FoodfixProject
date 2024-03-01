@@ -23,7 +23,6 @@ public class ReservationController {
     public void createReservation(@RequestParam String userId, @RequestParam Long storeId, @RequestParam String userSelectedReservationDateTime) {
         // 프론트엔드에서 받아온 문자열 형태의 날짜를 LocalDateTime으로 변환
         LocalDateTime reservationDateTime = LocalDateTime.parse(userSelectedReservationDateTime, DateTimeFormatter.ISO_DATE_TIME);
-
         // 서비스 메서드 호출
         reservationService.createReservation(userId, storeId, reservationDateTime);
     }
