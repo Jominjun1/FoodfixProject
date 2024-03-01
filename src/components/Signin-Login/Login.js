@@ -18,10 +18,9 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('/admin/login', formData); 
-            const token = response.data.token; // 받은 토큰
+            const token = response.data.token; 
             console.log("로그인에 성공했습니다.");
 
-            // 받은 정보를 로컬 스토리지에 저장합니다.
             sessionStorage.setItem('token', token);
             
             navigate('/');
