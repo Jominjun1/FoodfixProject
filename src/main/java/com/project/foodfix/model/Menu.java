@@ -18,7 +18,7 @@ public class Menu {
     private String menu_name; // 메뉴 이름
     private String explanation; //메뉴 설명
     private String menu_image; // 메뉴 이미지 경로
-    private double menu_price; // 메뉴 가격
+    private Double menu_price; // 메뉴 가격
 
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false, updatable = false) // (매장) 일대다 (메뉴) 관계
