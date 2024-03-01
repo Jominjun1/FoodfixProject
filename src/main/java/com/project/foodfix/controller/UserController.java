@@ -106,6 +106,21 @@ public class UserController {
         }
         return notFoundResponse();
     }
+    // 사용자 회원 탈퇴 API
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteUser(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponse();
+
+        String userId = jwtTokenProvider.extractUserId(token);
+        if (userId == null) return unauthorizedResponse();
+
+        // AuthService 통해 사용자 로그아웃 및 회원 탈퇴 처리
+        authService.logout(userId, UserType.USER);
+        authService.deleteUser(userId, UserType.USER);
+
+        return ResponseEntity.ok("사용자 회원 탈퇴 성공");
+    }
     // 토큰 추출 메서드
     private String extractToken(String authorizationHeader) {
         return Optional.ofNullable(authorizationHeader)

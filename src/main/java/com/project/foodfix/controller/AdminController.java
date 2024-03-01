@@ -89,6 +89,21 @@ public class AdminController {
         }
         return notFoundResponse();
     }
+    // 관리자 회원 탈퇴 API
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteAdmin(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponse();
+
+        String adminId = jwtTokenProvider.extractUserId(token);
+        if (adminId == null) return unauthorizedResponse();
+
+        // AuthService 통해 관리자 로그아웃 및 회원 탈퇴 처리
+        authService.logout(adminId, UserType.ADMIN);
+        authService.deleteUser(adminId, UserType.ADMIN);
+
+        return ResponseEntity.ok("관리자 회원 탈퇴 성공");
+    }
     // 토큰 추출 메서드
     private String extractToken(String authorizationHeader) {
         return Optional.ofNullable(authorizationHeader)
