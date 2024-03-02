@@ -14,7 +14,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.SEQUENCE) // 일련번호 사용
     private Long orderId;
 
-    private int orderStatus;     // 주문 상태 0: 주문접수중, 1: 주문진행 중, 2: 주문완료됨, 3: 주문취소됨
+    private String orderStatus;     // 주문 상태 0: 주문접수중, 1: 주문진행 중, 2: 주문완료됨, 3: 주문취소됨
     private LocalDateTime orderTime;  // 주문 시간
 
     // 주문한 사용자와의 관계 설정

@@ -2,11 +2,11 @@ package com.project.foodfix.controller;
 
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
-import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.User;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -17,11 +17,13 @@ import java.util.*;
 public class UserController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = passwordEncoder;
     }
     // 사용자 프로필 조회 API
     @GetMapping("/profile")
@@ -92,13 +94,14 @@ public class UserController {
                 user.setUser_address(updateInfo.get("user_address"));
             }
             if (updateInfo.containsKey("user_name")) {
-                user.setUser_pw(updateInfo.get("user_name"));
+                user.setUser_name(updateInfo.get("user_name"));
             }
             if (updateInfo.containsKey("user_phone")) {
-                user.setUser_name(updateInfo.get("user_phone"));
+                user.setUser_phone(updateInfo.get("user_phone"));
             }
             if (updateInfo.containsKey("user_pw")) {
-                user.setUser_phone(updateInfo.get("user_pw"));
+                String hashedPassword = passwordEncoder.encode(updateInfo.get("user_pw"));
+                user.setUser_pw(hashedPassword);
             }
             // 수정된 정보 저장
             authService.saveUser(user);

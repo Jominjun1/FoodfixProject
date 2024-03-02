@@ -8,6 +8,7 @@ import com.project.foodfix.model.Store;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +21,12 @@ import java.util.*;
 public class AdminController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.passwordEncoder = passwordEncoder;
     }
     // 관리자 프로필 조회 API
     @GetMapping("/profile")
@@ -40,7 +43,7 @@ public class AdminController {
         return notFoundResponseObject();
     }
     // 매장 조회 API
-    @GetMapping("/stores")
+    @GetMapping("/allstores")
     public ResponseEntity<Object> getAllStores(@RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
@@ -60,7 +63,7 @@ public class AdminController {
         return notFoundResponseObject();
     }
     // 메뉴 조회 API
-    @GetMapping("/stores/{storeId}/menus")
+    @GetMapping("/store/allmenus/{storeId}")
     public ResponseEntity<String> getMenusOfStore(@PathVariable Long storeId, @RequestHeader("Authorization") String authorizationHeader) {
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -89,7 +92,7 @@ public class AdminController {
         return authService.login(loginRequest.getAdmin_id(), loginRequest.getAdmin_pw(), UserType.ADMIN);
     }
     // 매장 추가 API
-    @PostMapping("/stores")
+    @PostMapping("/newstore")
     public ResponseEntity<String> createStore(@RequestBody Store store, @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
@@ -111,7 +114,7 @@ public class AdminController {
         return notFoundResponse();
     }
     // 메뉴 추가 API
-    @PostMapping("/stores/{storeId}/menus")
+    @PostMapping("/store/newmenu/{storeId}")
     public ResponseEntity<String> addMenuToStore(@PathVariable Long storeId, @RequestBody Menu menu, @RequestHeader("Authorization") String authorizationHeader) {
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -167,7 +170,8 @@ public class AdminController {
                 admin.setAdmin_phone(updateInfo.get("admin_phone"));
             }
             if (updateInfo.containsKey("admin_pw")) {
-                admin.setAdmin_pw(updateInfo.get("admin_pw"));
+                String hashedPassword = passwordEncoder.encode(updateInfo.get("admin_pw"));
+                admin.setAdmin_pw(hashedPassword);
             }
             // 수정된 정보 저장
             authService.saveUser(admin);
@@ -176,7 +180,7 @@ public class AdminController {
         return notFoundResponse();
     }
     // 매장 수정 API
-    @PutMapping("/stores/{storeId}")
+    @PutMapping("/store/{storeId}")
     public ResponseEntity<String> updateStoreInfo(@PathVariable Long storeId, @RequestBody Map<String, String> updateInfo, @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
@@ -232,7 +236,7 @@ public class AdminController {
         return notFoundResponse();
     }
     // 메뉴 수정 API
-    @PutMapping("/stores/{storeId}/menus/{menuId}")
+    @PutMapping("/updatemenu/{storeId}/{menuId}")
     public ResponseEntity<String> updateMenuOfStore(@PathVariable Long storeId,  @PathVariable Long menuId, @RequestBody Menu updatedMenu, @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
@@ -271,7 +275,6 @@ public class AdminController {
         return notFoundResponse();
     }
 
-
     // 관리자 회원 탈퇴 API
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteAdmin(@RequestHeader("Authorization") String authorizationHeader) {
@@ -288,7 +291,7 @@ public class AdminController {
         return ResponseEntity.ok("관리자 회원 탈퇴 성공");
     }
     // 매장 삭제 API
-    @DeleteMapping("/stores/{storeId}")
+    @DeleteMapping("/delstore/{storeId}")
     public ResponseEntity<String> deleteStore(@PathVariable Long storeId, @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
@@ -313,7 +316,7 @@ public class AdminController {
         return notFoundResponse();
     }
     // 메뉴 삭제 API
-    @DeleteMapping("/stores/{storeId}/menus/{menuId}")
+    @DeleteMapping("/delmenu/{storeId}/{menuId}")
     public ResponseEntity<String> deleteMenuOfStore(@PathVariable Long storeId, @PathVariable Long menuId, @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);

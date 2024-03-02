@@ -14,7 +14,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.SEQUENCE) // 일련번호 사용
     private Long reservation_id;
 
-    private int reservationStatus; // 0: 예약중, 1: 예약 완료, 2: 취소
+    private String reservationStatus; // 0: 예약중, 1: 예약 완료, 2: 취소
     private LocalDateTime reservationTime;
 
     @ManyToOne
