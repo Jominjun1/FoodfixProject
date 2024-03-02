@@ -5,6 +5,8 @@ import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.Menu;
 import com.project.foodfix.model.Store;
+import com.project.foodfix.repository.MenuRepository;
+import com.project.foodfix.repository.StoreRepository;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -22,11 +24,15 @@ public class AdminController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final StoreRepository storeRepository;
+    private final MenuRepository menuRepository;
     @Autowired
-    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
+    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder, StoreRepository storeRepository, MenuRepository menuRepository) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordEncoder = passwordEncoder;
+        this.storeRepository = storeRepository;
+        this.menuRepository = menuRepository;
     }
     // 관리자 프로필 조회 API
     @GetMapping("/profile")
@@ -285,10 +291,19 @@ public class AdminController {
         if (adminId == null) return unauthorizedResponse();
 
         // AuthService 통해 관리자 로그아웃 및 회원 탈퇴 처리
-        authService.logout(adminId, UserType.ADMIN);
-        authService.deleteUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        if (admin != null) {
+            // Delete associated stores and menus
+            for (Store store : admin.getStores()) {
+                deleteStoreAndMenus(store.getStore_id());
+            }
 
-        return ResponseEntity.ok("관리자 회원 탈퇴 성공");
+            authService.logout(adminId, UserType.ADMIN);
+            authService.deleteUser(adminId, UserType.ADMIN);
+            return ResponseEntity.ok("관리자 회원 탈퇴 성공");
+        }
+
+        return notFoundResponse();
     }
     // 매장 삭제 API
     @DeleteMapping("/delstore/{storeId}")
@@ -304,15 +319,9 @@ public class AdminController {
         // 관리자가 소유한 매장 목록에서 특정 매장 삭제
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
         if (admin != null) {
-            Optional<Store> optionalStore = admin.getStores().stream().filter(store -> store.getStore_id().equals(storeId)).findFirst();
-            if (optionalStore.isPresent()) {
-                // 매장 삭제
-                admin.getStores().remove(optionalStore.get());
-                authService.saveUser(admin);
-                return ResponseEntity.ok("매장 삭제 성공");
-            }
+            deleteStoreAndMenus(storeId);
+            return ResponseEntity.ok("매장 삭제 성공");
         }
-
         return notFoundResponse();
     }
     // 메뉴 삭제 API
@@ -341,6 +350,19 @@ public class AdminController {
         }
 
         return notFoundResponse();
+    }
+    // 회원 탈퇴시 가진 연관된 정보 삭제 메소드
+    private void deleteStoreAndMenus(Long storeId) {
+        Optional<Store> optionalStore = storeRepository.findById(storeId);
+        if (optionalStore.isPresent()) {
+            Store store = optionalStore.get();
+            for (Menu menu : store.getMenus()) {
+                // 메뉴 삭제
+                menuRepository.deleteById(menu.getMenu_id());
+            }
+            // 매장 삭제
+            storeRepository.deleteById(storeId);
+        }
     }
     // 토큰 추출 메서드
     private String extractToken(String authorizationHeader) {

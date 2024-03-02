@@ -56,7 +56,7 @@ public class AuthService {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "비밀번호가 일치하지 않습니다"));
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "사용자를 찾을 수 없습니다"));
         }
     }
     // 로그아웃 기능
@@ -66,10 +66,11 @@ public class AuthService {
         optionalUser.ifPresent(user -> {
             if (user instanceof User) {
                 ((User) user).setJwtToken(null);
+                saveUser(user);
             } else if (user instanceof Admin) {
                 ((Admin) user).setJwtToken(null);
+                saveUser(user);
             }
-            saveUser(user);
         });
     }
     // 정보 조회 기능
@@ -79,12 +80,17 @@ public class AuthService {
     }
     // 사용자 정보 저장 기능
     public void saveUser(Object user) {
-        // 비밀번호 해싱
-        hashUserPassword(user);
+        // 비밀번호가 이미 해싱되었는지 확인
+        boolean isPasswordHashed = (user instanceof User) ?
+                ((User) user).getUser_pw().startsWith("$2a$") : ((Admin) user).getAdmin_pw().startsWith("$2a$");
+        if (!isPasswordHashed) {
+            // 비밀번호 해싱
+            hashUserPassword(user);
+        }
         // 저장
         if (user instanceof User) {
             userRepository.save((User) user);
-        } else if (user instanceof Admin) {
+        } else {
             adminRepository.save((Admin) user);
         }
     }
