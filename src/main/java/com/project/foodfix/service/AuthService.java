@@ -14,6 +14,7 @@ import java.util.*;
 public class AuthService {
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
+
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
@@ -94,6 +95,50 @@ public class AuthService {
             adminRepository.save((Admin) user);
         }
     }
+    // 매장에 메뉴 저장 기능
+    public void saveMenu(Menu newMenu, String adminId) {
+        Optional<Admin> optionalAdmin = adminRepository.findById(adminId);
+        if (optionalAdmin.isPresent()) {
+            Admin admin = optionalAdmin.get();
+            Store store = admin.getStore();
+
+            if (store != null) {
+                newMenu.setStore(store);
+                store.getMenus().add(newMenu);
+
+                saveUser(admin);  // 업데이트된 메뉴 정보를 가진 관리자 저장
+                ResponseEntity.ok("메뉴 추가 성공");
+            } else {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 관리자가 소유한 매장이 없습니다.");
+            }
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 관리자를 찾을 수 없습니다.");
+        }
+    }
+
+    // 매장의 메뉴 삭제 기능
+    public void deleteMenu(Long menuId, String adminId) {
+        Optional<Admin> optionalAdmin = adminRepository.findById(adminId);
+        if (optionalAdmin.isPresent()) {
+            Admin admin = optionalAdmin.get();
+            Store store = admin.getStore();
+
+            if (store != null) {
+                boolean isMenuRemoved = store.getMenus().removeIf(menu -> menu.getMenu_id().equals(menuId));
+                if (isMenuRemoved) {
+                    saveUser(admin);  // 삭제된 메뉴 정보를 가진 관리자 저장
+                    ResponseEntity.ok("메뉴 삭제 성공");
+                } else {
+                    ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 메뉴를 찾을 수 없습니다.");
+                }
+            } else {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 관리자가 소유한 매장이 없습니다.");
+            }
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 관리자를 찾을 수 없습니다.");
+        }
+    }
+
     // 사용자 회원 탈퇴 기능
     public void deleteUser(String userId, UserType userType) {
         Optional<?> optionalUser = getUserById(userId, userType);
@@ -167,5 +212,6 @@ public class AuthService {
                 throw new IllegalArgumentException("잘못된 사용자 유형");
         }
     }
+
 }
 

@@ -5,8 +5,6 @@ import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.Menu;
 import com.project.foodfix.model.Store;
-import com.project.foodfix.repository.MenuRepository;
-import com.project.foodfix.repository.StoreRepository;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -24,15 +22,12 @@ public class AdminController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
-    private final StoreRepository storeRepository;
-    private final MenuRepository menuRepository;
+
     @Autowired
-    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder, StoreRepository storeRepository, MenuRepository menuRepository) {
+    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordEncoder = passwordEncoder;
-        this.storeRepository = storeRepository;
-        this.menuRepository = menuRepository;
     }
     // 관리자 프로필 조회 API
     @GetMapping("/profile")
@@ -50,7 +45,7 @@ public class AdminController {
     }
     // 매장 조회 API
     @GetMapping("/allstores")
-    public ResponseEntity<Object> getAllStores(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<Object> getAllStores(@RequestHeader("Authorization") String authorizationHeader){
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponseObject();
@@ -59,33 +54,34 @@ public class AdminController {
         String adminId = jwtTokenProvider.extractUserId(token);
         if (adminId == null) return unauthorizedResponseObject();
 
-        // 관리자가 소유한 매장 목록 조회
+        // 관리자가 소유한 매장 조회
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
         if (admin != null) {
-            List<Store> stores = admin.getStores();
-            return ResponseEntity.ok(stores);
+            return ResponseEntity.ok(admin.getStore());
         }
 
         return notFoundResponseObject();
     }
     // 메뉴 조회 API
-    @GetMapping("/store/allmenus/{storeId}")
-    public ResponseEntity<String> getMenusOfStore(@PathVariable Long storeId, @RequestHeader("Authorization") String authorizationHeader) {
+    @GetMapping("/allmenus")
+    public ResponseEntity<Object> getAllMenus(@RequestHeader("Authorization") String authorizationHeader) {
+        // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
-        if (token == null) return unauthorizedResponse();
+        if (token == null) return unauthorizedResponseObject();
 
+        // 관리자 ID 추출
         String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        if (adminId == null) return unauthorizedResponseObject();
 
+        // 관리자가 소유한 매장 조회
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null) {
-            Optional<Store> optionalStore = admin.getStores().stream().filter(store -> store.getStore_id().equals(storeId)).findFirst();
-            if (optionalStore.isPresent()) {
-                List<Menu> menus = optionalStore.get().getMenus();
-                return ResponseEntity.ok(menus.toString());
-            }
+        if (admin != null && admin.getStore() != null) {
+            // 매장에 속한 모든 메뉴 조회
+            List<Menu> menus = admin.getStore().getMenus();
+            return ResponseEntity.ok(menus);
         }
-        return notFoundResponse();
+
+        return notFoundResponseObject();
     }
     // 관리자 회원가입 API
     @PostMapping("/signup")
@@ -112,32 +108,31 @@ public class AdminController {
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
         if (admin != null) {
             store.setAdmin(admin);
-            admin.getStores().add(store);
+            admin.setStore(store);
             authService.saveUser(admin);
             return ResponseEntity.ok("매장 등록 성공");
         }
-
         return notFoundResponse();
     }
     // 메뉴 추가 API
-    @PostMapping("/store/newmenu/{storeId}")
-    public ResponseEntity<String> addMenuToStore(@PathVariable Long storeId, @RequestBody Menu menu, @RequestHeader("Authorization") String authorizationHeader) {
+    @PostMapping("/newmenu")
+    public ResponseEntity<String> createMenu(@RequestBody Menu newMenu, @RequestHeader("Authorization") String authorizationHeader) {
+        // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
 
+        // 관리자 ID 추출
         String adminId = jwtTokenProvider.extractUserId(token);
         if (adminId == null) return unauthorizedResponse();
 
+        // 관리자가 소유한 매장 조회
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null) {
-            Optional<Store> optionalStore = admin.getStores().stream().filter(store -> store.getStore_id().equals(storeId)).findFirst();
-            if (optionalStore.isPresent()) {
-                Store store = optionalStore.get();
-                menu.setStore(store);
-                store.getMenus().add(menu);
-                authService.saveUser(admin);
-                return ResponseEntity.ok("메뉴 추가 성공");
-            }
+        if (admin != null && admin.getStore() != null) {
+            // 메뉴를 소유한 매장에 연결
+            newMenu.setStore(admin.getStore());
+            // 메뉴 저장
+            authService.saveMenu(newMenu, adminId);
+            return ResponseEntity.ok("메뉴 등록 성공");
         }
 
         return notFoundResponse();
@@ -186,8 +181,8 @@ public class AdminController {
         return notFoundResponse();
     }
     // 매장 수정 API
-    @PutMapping("/store/{storeId}")
-    public ResponseEntity<String> updateStoreInfo(@PathVariable Long storeId, @RequestBody Map<String, String> updateInfo, @RequestHeader("Authorization") String authorizationHeader) {
+    @PutMapping("/updatestore")
+    public ResponseEntity<String> updateStoreInfo(@RequestBody Map<String, String> updateInfo, @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -196,54 +191,51 @@ public class AdminController {
         String adminId = jwtTokenProvider.extractUserId(token);
         if (adminId == null) return unauthorizedResponse();
 
-        // 관리자가 소유한 매장 목록에서 특정 매장 조회
+        // 관리자가 소유한 매장 조회
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null) {
-            Optional<Store> optionalStore = admin.getStores().stream().filter(store -> store.getStore_id().equals(storeId)).findFirst();
-            if (optionalStore.isPresent()) {
-                // 매장 정보 업데이트
-                Store store = optionalStore.get();
-                if (updateInfo.containsKey("store_name")) {
-                    store.setStore_name(updateInfo.get("store_name"));
-                }
-                if (updateInfo.containsKey("store_address")) {
-                    store.setStore_address(updateInfo.get("store_address"));
-                }
-                if (updateInfo.containsKey("store_category")) {
-                    store.setStore_category(updateInfo.get("store_category"));
-                }
-                if (updateInfo.containsKey("store_phone")) {
-                    store.setStore_phone(updateInfo.get("store_phone"));
-                }
-                if (updateInfo.containsKey("minimumTime")) {
-                    store.setMinimumTime(Integer.valueOf(updateInfo.get("minimumTime")));
-                }
-                if (updateInfo.containsKey("res_status")) {
-                    store.setRes_status(updateInfo.get("res_status"));
-                }
-                if (updateInfo.containsKey("res_max")) {
-                    store.setRes_max(Integer.valueOf(updateInfo.get("res_max")));
-                }
-                if (updateInfo.containsKey("openTime")) {
-                    store.setOpenTime(LocalTime.parse(updateInfo.get("openTime")));
-                }
-                if (updateInfo.containsKey("closeTime")) {
-                    store.setCloseTime(LocalTime.parse(updateInfo.get("closeTime")));
-                }
-                if (updateInfo.containsKey("reservationCancel")) {
-                    store.setReservationCancel(LocalTime.parse(updateInfo.get("reservationCancel")));
-                }
-                // 업데이트된 정보 저장
-                authService.saveUser(admin);
-                return ResponseEntity.ok("매장 정보 수정 성공");
+        if (admin != null && admin.getStore() != null) {
+            // 매장 정보 업데이트
+            Store store = admin.getStore();
+            if (updateInfo.containsKey("store_name")) {
+                store.setStore_name(updateInfo.get("store_name"));
             }
+            if (updateInfo.containsKey("store_address")) {
+                store.setStore_address(updateInfo.get("store_address"));
+            }
+            if (updateInfo.containsKey("store_category")) {
+                store.setStore_category(updateInfo.get("store_category"));
+            }
+            if (updateInfo.containsKey("store_phone")) {
+                store.setStore_phone(updateInfo.get("store_phone"));
+            }
+            if (updateInfo.containsKey("minimumTime")) {
+                store.setMinimumTime(Integer.valueOf(updateInfo.get("minimumTime")));
+            }
+            if (updateInfo.containsKey("res_status")) {
+                store.setRes_status(updateInfo.get("res_status"));
+            }
+            if (updateInfo.containsKey("res_max")) {
+                store.setRes_max(Integer.valueOf(updateInfo.get("res_max")));
+            }
+            if (updateInfo.containsKey("openTime")) {
+                store.setOpenTime(LocalTime.parse(updateInfo.get("openTime")));
+            }
+            if (updateInfo.containsKey("closeTime")) {
+                store.setCloseTime(LocalTime.parse(updateInfo.get("closeTime")));
+            }
+            if (updateInfo.containsKey("reservationCancel")) {
+                store.setReservationCancel(LocalTime.parse(updateInfo.get("reservationCancel")));
+            }
+            // 업데이트된 정보 저장
+            authService.saveUser(admin);
+            return ResponseEntity.ok("매장 정보 수정 성공");
         }
 
         return notFoundResponse();
     }
     // 메뉴 수정 API
-    @PutMapping("/updatemenu/{storeId}/{menuId}")
-    public ResponseEntity<String> updateMenuOfStore(@PathVariable Long storeId,  @PathVariable Long menuId, @RequestBody Menu updatedMenu, @RequestHeader("Authorization") String authorizationHeader) {
+    @PutMapping("/updatemenu")
+    public ResponseEntity<String> updateMenuInfo(@RequestBody Menu updatedMenu, @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -252,35 +244,31 @@ public class AdminController {
         String adminId = jwtTokenProvider.extractUserId(token);
         if (adminId == null) return unauthorizedResponse();
 
+        // 관리자가 소유한 매장 조회
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null) {
-            Optional<Store> optionalStore = admin.getStores().stream().filter(store -> store.getStore_id().equals(storeId)).findFirst();
-            if (optionalStore.isPresent()) {
-                Optional<Menu> optionalMenu = optionalStore.get().getMenus().stream().filter(menu -> menu.getMenu_id().equals(menuId)).findFirst();
-                if (optionalMenu.isPresent()) {
-                    Menu existingMenu = optionalMenu.get();
-                    // 원하는 속성만 업데이트
-                    if (updatedMenu.getMenu_name() != null) {
-                        existingMenu.setMenu_name(updatedMenu.getMenu_name());
-                    }
-                    if (updatedMenu.getExplanation() != null) {
-                        existingMenu.setExplanation(updatedMenu.getExplanation());
-                    }
-                    if (updatedMenu.getMenu_image() != null) {
-                        existingMenu.setMenu_image(updatedMenu.getMenu_image());
-                    }
-                    if (updatedMenu.getMenu_price() != null) {
-                        existingMenu.setMenu_price(updatedMenu.getMenu_price());
-                    }
-                    authService.saveUser(admin);
-                    return ResponseEntity.ok("메뉴 수정 성공");
-                }
+        if (admin != null && admin.getStore() != null) {
+            // 매장에 속한 메뉴 중 수정할 메뉴 찾기
+            List<Menu> menus = admin.getStore().getMenus();
+            Menu newMenu = menus.stream()
+                    .filter(menu -> menu.getMenu_id().equals(updatedMenu.getMenu_id()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (newMenu != null) {
+                // 메뉴 정보 업데이트
+                newMenu.setMenu_name(updatedMenu.getMenu_name());
+                newMenu.setExplanation(updatedMenu.getExplanation());
+                newMenu.setMenu_image(updatedMenu.getMenu_image());
+                newMenu.setMenu_price(updatedMenu.getMenu_price());
+
+                // 업데이트된 정보 저장
+                authService.saveMenu(newMenu, adminId);
+                return ResponseEntity.ok("메뉴 정보 수정 성공");
             }
         }
 
         return notFoundResponse();
     }
-
     // 관리자 회원 탈퇴 API
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteAdmin(@RequestHeader("Authorization") String authorizationHeader) {
@@ -293,21 +281,15 @@ public class AdminController {
         // AuthService 통해 관리자 로그아웃 및 회원 탈퇴 처리
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
         if (admin != null) {
-            // Delete associated stores and menus
-            for (Store store : admin.getStores()) {
-                deleteStoreAndMenus(store.getStore_id());
-            }
-
             authService.logout(adminId, UserType.ADMIN);
             authService.deleteUser(adminId, UserType.ADMIN);
             return ResponseEntity.ok("관리자 회원 탈퇴 성공");
         }
-
         return notFoundResponse();
     }
     // 매장 삭제 API
-    @DeleteMapping("/delstore/{storeId}")
-    public ResponseEntity<String> deleteStore(@PathVariable Long storeId, @RequestHeader("Authorization") String authorizationHeader) {
+    @DeleteMapping("/deletestore")
+    public ResponseEntity<String> deleteStore(@RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -316,54 +298,54 @@ public class AdminController {
         String adminId = jwtTokenProvider.extractUserId(token);
         if (adminId == null) return unauthorizedResponse();
 
-        // 관리자가 소유한 매장 목록에서 특정 매장 삭제
+        // 관리자가 소유한 매장 삭제
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null) {
-            deleteStoreAndMenus(storeId);
-            return ResponseEntity.ok("매장 삭제 성공");
-        }
-        return notFoundResponse();
-    }
-    // 메뉴 삭제 API
-    @DeleteMapping("/delmenu/{storeId}/{menuId}")
-    public ResponseEntity<String> deleteMenuOfStore(@PathVariable Long storeId, @PathVariable Long menuId, @RequestHeader("Authorization") String authorizationHeader) {
-        // 인증 처리 및 토큰 추출
-        String token = extractToken(authorizationHeader);
-        if (token == null) return unauthorizedResponse();
+        if (admin != null && admin.getStore() != null) {
+            // 매장에 속한 메뉴 삭제
+            List<Menu> menus = admin.getStore().getMenus();
+            menus.forEach(menu -> authService.deleteMenu(menu.getMenu_id(), adminId));
 
-        // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
-
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null) {
-            Optional<Store> optionalStore = admin.getStores().stream().filter(store -> store.getStore_id().equals(storeId)).findFirst();
-            if (optionalStore.isPresent()) {
-                Optional<Menu> optionalMenu = optionalStore.get().getMenus().stream().filter(menu -> menu.getMenu_id().equals(menuId)).findFirst();
-                if (optionalMenu.isPresent()) {
-                    // 메뉴 삭제 로직 추가
-                    optionalStore.get().getMenus().remove(optionalMenu.get());
-                    authService.saveUser(admin);
-                    return ResponseEntity.ok("메뉴 삭제 성공");
-                }
-            }
-        }
-
-        return notFoundResponse();
-    }
-    // 회원 탈퇴시 가진 연관된 정보 삭제 메소드
-    private void deleteStoreAndMenus(Long storeId) {
-        Optional<Store> optionalStore = storeRepository.findById(storeId);
-        if (optionalStore.isPresent()) {
-            Store store = optionalStore.get();
-            for (Menu menu : store.getMenus()) {
-                // 메뉴 삭제
-                menuRepository.deleteById(menu.getMenu_id());
-            }
             // 매장 삭제
-            storeRepository.deleteById(storeId);
+            admin.setStore(null);
+            authService.saveUser(admin);
+
+            return ResponseEntity.ok("매장 및 매장에 속한 메뉴 삭제 성공");
         }
+
+        return notFoundResponse();
     }
+
+    // 메뉴 삭제 API
+    @DeleteMapping("/deletemenu/{menuId}")
+    public ResponseEntity<String> deleteMenu(@PathVariable Long menuId, @RequestHeader("Authorization") String authorizationHeader) {
+        // 인증 처리 및 토큰 추출
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponse();
+
+        // 관리자 ID 추출
+        String adminId = jwtTokenProvider.extractUserId(token);
+        if (adminId == null) return unauthorizedResponse();
+
+        // 관리자가 소유한 매장 조회
+        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        if (admin != null && admin.getStore() != null) {
+            // 매장에 속한 메뉴 중 삭제할 메뉴 찾기
+            List<Menu> menus = admin.getStore().getMenus();
+            Menu menuToDelete = menus.stream()
+                    .filter(menu -> menu.getMenu_id().equals(menuId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (menuToDelete != null) {
+                // 메뉴 삭제
+                authService.deleteMenu(menuId, adminId);
+                return ResponseEntity.ok("메뉴 삭제 성공");
+            }
+        }
+
+        return notFoundResponse();
+    }
+
     // 토큰 추출 메서드
     private String extractToken(String authorizationHeader) {
         return Optional.ofNullable(authorizationHeader)

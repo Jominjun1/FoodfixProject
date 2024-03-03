@@ -1,7 +1,6 @@
 // Store.java
 package com.project.foodfix.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,9 +29,8 @@ public class Store {
     private LocalTime closeTime; // 마감 시간
     private LocalTime reservationCancel; // 예약 취소 가능 시간
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonIgnore
-    @JoinColumn(name = "admin_id", nullable = false, updatable = false) // (관리자) 일대다 (매장) 관계
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "admin_id", nullable = false, unique = true) // (관리자) 일대일 (매장) 관계
     private Admin admin;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL , fetch = FetchType.EAGER) // (매장) 일대다 (메뉴) 관계

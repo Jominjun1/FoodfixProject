@@ -2,7 +2,6 @@ package com.project.foodfix.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.*;
 
 @Getter
 @Setter
@@ -22,7 +21,8 @@ public class Admin {
     @Column(name = "jwt_token")
     private String jwtToken; // 로그인 할때 받는 토큰 저장
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL , fetch = FetchType.EAGER) // (관리자) 일대다 (매장) 관계
-    private List<Store> stores = new ArrayList<>();
+    @OneToOne(mappedBy = "admin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false, unique = true) // (관리자) 일대일 (매장) 관계
+    private Store store;
 
 }
