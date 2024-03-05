@@ -14,7 +14,6 @@ import java.util.*;
 public class AuthService {
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
-
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 

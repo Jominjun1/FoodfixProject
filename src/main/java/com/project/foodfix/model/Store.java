@@ -1,6 +1,6 @@
-// Store.java
 package com.project.foodfix.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +23,8 @@ public class Store {
     private String store_category; // 매장 카테고리
     private String store_phone; // 매장 전화 번호
     private String res_status; // 예약 여부 ( 0 : 예약 불가능, 1 : 예약 가능)
+    private String store_image; // 매장 이미지 경로
+    private String store_intro; // 매장 설명
     private Integer minimumTime; // 포장 최소 준비 시간 (분)
     private Integer res_max; // 예약 최대 가능팀 ( res_status 0이면 해당 값도 0 )
     private LocalTime openTime; // 오픈 시간
@@ -30,7 +32,8 @@ public class Store {
     private LocalTime reservationCancel; // 예약 취소 가능 시간
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "admin_id", nullable = false, unique = true) // (관리자) 일대일 (매장) 관계
+    @JoinColumn(name = "admin_id", nullable = false, unique = true)
+    @JsonBackReference
     private Admin admin;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL , fetch = FetchType.EAGER) // (매장) 일대다 (메뉴) 관계

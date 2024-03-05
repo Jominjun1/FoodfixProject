@@ -2,10 +2,6 @@ package com.project.foodfix.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @Entity
@@ -23,5 +19,4 @@ public class User {
 
     @Column(name = "jwt_token")
     private String jwtToken; // 로그인 할 때 받는 토큰 저장
-
 }

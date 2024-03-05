@@ -31,7 +31,4 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "menu_id", nullable = false, updatable = false)
     private Menu menu;
-
-    // 결제 정보, 금액, 할인 정보 등을 추가할 수 있음
-    // ...
 }
