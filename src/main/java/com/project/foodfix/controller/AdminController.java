@@ -8,7 +8,6 @@ import com.project.foodfix.model.Store;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +20,12 @@ import java.util.*;
 public class AdminController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
+    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.passwordEncoder = passwordEncoder;
     }
 
     // 관리자 엔드 포인트
@@ -89,8 +87,7 @@ public class AdminController {
                 admin.setAdmin_phone(updateInfo.get("admin_phone"));
             }
             if (updateInfo.containsKey("admin_pw")) {
-                String hashedPassword = passwordEncoder.encode(updateInfo.get("admin_pw"));
-                admin.setAdmin_pw(hashedPassword);
+                admin.setAdmin_pw(updateInfo.get("admin_pw"));
             }
             // 수정된 정보 저장
             authService.saveUser(admin);

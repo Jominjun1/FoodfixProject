@@ -6,7 +6,6 @@ import com.project.foodfix.model.*;
 import com.project.foodfix.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -15,14 +14,13 @@ public class AuthService {
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.passwordEncoder = passwordEncoder;
     }
     // 회원가입 기능
     public ResponseEntity<String> signup(Object user, UserType userType) {
@@ -80,13 +78,6 @@ public class AuthService {
     }
     // 사용자 정보 저장 기능
     public void saveUser(Object user) {
-        // 비밀번호가 이미 해싱되었는지 확인
-        boolean isPasswordHashed = (user instanceof User) ?
-                ((User) user).getUser_pw().startsWith("$2a$") : ((Admin) user).getAdmin_pw().startsWith("$2a$");
-        if (!isPasswordHashed) {
-            // 비밀번호 해싱
-            hashUserPassword(user);
-        }
         // 저장
         if (user instanceof User) {
             userRepository.save((User) user);
@@ -162,8 +153,8 @@ public class AuthService {
     // 비밀번호 유효성 검사 메서드
     private boolean isValidPassword(Object user, String password) {
         return switch (user) {
-            case User u -> passwordEncoder.matches(password, u.getUser_pw());
-            case Admin a -> passwordEncoder.matches(password, a.getAdmin_pw());
+            case User u -> u.getUser_pw().equals(password);
+            case Admin a -> a.getAdmin_pw().equals(password);
             default -> false;
         };
     }
@@ -181,16 +172,6 @@ public class AuthService {
             case USER -> "user_id";
             case ADMIN -> "admin_id";
         };
-    }
-    // 비밀번호 해싱 메서드
-    private void hashUserPassword(Object user) {
-        if (user instanceof User u) {
-            String hashedPassword = passwordEncoder.encode(u.getUser_pw());
-            u.setUser_pw(hashedPassword);
-        } else if (user instanceof Admin a) {
-            String hashedPassword = passwordEncoder.encode(a.getAdmin_pw());
-            a.setAdmin_pw(hashedPassword);
-        }
     }
     // 사용자 ID 중복 확인 메서드
     private boolean isUserIdAvailable(Object user, UserType userType) {

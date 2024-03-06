@@ -18,13 +18,12 @@ import java.util.*;
 public class UserController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
-    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
+    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.passwordEncoder = passwordEncoder;
     }
     // 사용자 프로필 조회 API
     @GetMapping("/profile")
@@ -101,8 +100,7 @@ public class UserController {
                 user.setUser_phone(updateInfo.get("user_phone"));
             }
             if (updateInfo.containsKey("user_pw")) {
-                String hashedPassword = passwordEncoder.encode(updateInfo.get("user_pw"));
-                user.setUser_pw(hashedPassword);
+                user.setUser_pw(updateInfo.get("user_pw"));
             }
             // 수정된 정보 저장
             authService.saveUser(user);
