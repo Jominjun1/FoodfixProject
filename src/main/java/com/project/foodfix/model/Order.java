@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name = "orders")
@@ -31,4 +32,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "menu_id", nullable = false, updatable = false)
     private Menu menu;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews = new ArrayList<>();
 }
