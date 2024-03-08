@@ -32,11 +32,8 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        //로그인 후 기능 테스트 위한 설정
         findViewById<Button>(R.id.kakaoButton).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+
         }
 
         //로그인 기능

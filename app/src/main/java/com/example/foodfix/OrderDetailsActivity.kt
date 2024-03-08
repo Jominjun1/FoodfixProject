@@ -17,8 +17,6 @@ class OrderDetailsActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.showlisttext).text = "주문 내역"
 
         findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
             finish()
         }
     }

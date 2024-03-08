@@ -2,10 +2,12 @@ package com.example.foodfix
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,16 +38,16 @@ class SignUpActivity : AppCompatActivity() {
             val userPhone = findViewById<EditText>(R.id.signPhone).text.toString()
             val userAddress = findViewById<EditText>(R.id.signAddress).text.toString()
             val userNickname = findViewById<EditText>(R.id.signNickname).text.toString()
-            val userGender = "남성" // 성별 입력 처리 로직 추가 필요
+            val userGender = "0" // 성별 입력 처리 로직 추가 필요
 
-            /*val username = "antest"
-            val userId = "antest"
-            val userPw = "antest!@"
-            val userPwCheck = "antest!@"
-            val userPhone = "010-0000-1111"
+            /*val username = "androidname"
+            val userId = "android"
+            val userPw = "android!@"
+            val userPwCheck = "android!@"
+            val userPhone = "010-7777-8888"
             val userAddress = "ananananana"
-            val userNickname = "android"
-            val userGender = "남성" // 성별 입력 처리 로직 추가 필요*/
+            val userNickname = "androidNick"
+            val userGender = "0" // 성별 입력 처리 로직 추가 필요 0 = 남자, 1 = 여자*/
 
             val user = User(userPhone, userId, username, userPw, userAddress, userNickname, userGender)
 
@@ -60,27 +62,34 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this@SignUpActivity, "비밀번호가 다릅니다", Toast.LENGTH_LONG).show()
             }
             else {
-                userService.registerUser(user).enqueue(object : Callback<UserResponse> {
-                    override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                        if (response.body()?.message == "회원가입 성공") {
-                            Toast.makeText(this@SignUpActivity, "성공: ${response.body()?.message}", Toast.LENGTH_LONG).show()
-                            // 성공 처리, 예를 들어 로그인 화면으로 이동
-                            val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
-                            startActivity(intent)
-                            finish()
+            userService.registerUser(user).enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if (response.isSuccessful) {
+                        // 성공적인 응답 처리
+                        response.body()?.let { responseBody ->
+                            val responseString = responseBody.string() // 응답을 문자열로 변환
+                            if (responseString.contains("회원가입 성공")) {
+                                Toast.makeText(this@SignUpActivity, "성공: $responseString", Toast.LENGTH_LONG).show()
+                                val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                // 예상치 못한 성공 메시지 처리
+                                Toast.makeText(this@SignUpActivity, "응답: $responseString", Toast.LENGTH_LONG).show()
+                            }
                         }
-                        else if(response.body()?.message == "이미 존재하는 ID 입니다."){
-                            Toast.makeText(this@SignUpActivity, "이미  존재하는 ID입니다. ${response.code()}", Toast.LENGTH_LONG).show()
-                        }
-                        else{
-                            Toast.makeText(this@SignUpActivity, "오류 ${response.code()}", Toast.LENGTH_LONG).show()
+                    } else {
+                        // 에러 응답 처리
+                        val errorResponseString = response.errorBody()?.string() ?: "알 수 없는 오류 발생"
+                        Toast.makeText(this@SignUpActivity, "오류: $errorResponseString", Toast.LENGTH_LONG).show()
+                    }
+                }
 
-                        }
-                    }
-                    override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                        Toast.makeText(this@SignUpActivity, "실패: ${t.message}", Toast.LENGTH_LONG).show()
-                    }
-                })
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e("SignUpActivity", "네트워크 요청 실패: ${t.message}")
+                    Toast.makeText(this@SignUpActivity, "실패: ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
             }
         }
 
@@ -90,10 +99,6 @@ class SignUpActivity : AppCompatActivity() {
         }
 
     }
-    interface UserService {
-        @POST("user/signup")
-        fun registerUser(@Body user: User): Call<UserResponse>
-}
 }
 data class User(
     val user_phone: String,
@@ -102,7 +107,7 @@ data class User(
     val user_pw: String,
     val user_address: String,
     val nickname: String,
-    val male: String
+    val gender: String
 )
 
 data class UserResponse(

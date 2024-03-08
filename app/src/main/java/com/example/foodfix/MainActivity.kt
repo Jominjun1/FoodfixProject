@@ -73,8 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.Orderdetailsbutton).setOnClickListener {
             val intent = Intent(this, OrderDetailsActivity::class.java)
-            startActivity(intent)
-            finish()
+            resultLauncher.launch(intent)
         }
 
         findViewById<Button>(R.id.Favoritesbutton).setOnClickListener {
