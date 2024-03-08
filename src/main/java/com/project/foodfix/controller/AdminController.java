@@ -5,6 +5,7 @@ import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.Menu;
 import com.project.foodfix.model.Store;
+import com.project.foodfix.repository.StoreRepository;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
@@ -21,11 +22,12 @@ public class AdminController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
-
+    private final StoreRepository storeRepository;
     @Autowired
-    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.storeRepository = storeRepository;
     }
 
     // 관리자 엔드 포인트
@@ -115,9 +117,9 @@ public class AdminController {
     }
 
     // 매장 엔드 포인트
-    // 매장 및 메뉴 조회 API
+    // 매장 조회 API
     @GetMapping("/allstores")
-    public ResponseEntity<Object> getAllStoresWithMenus(@RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity<Object> getAllStores(@RequestHeader("Authorization") String authorizationHeader){
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponseObject();
@@ -128,16 +130,8 @@ public class AdminController {
 
         // 관리자가 소유한 매장 조회
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null && admin.getStore() != null) {
-            // 매장에 속한 모든 메뉴 조회
-            List<Menu> menus = admin.getStore().getMenus();
-
-            // 매장 및 메뉴 정보를 Map에 담아 반환
-            Map<String, Object> response = new HashMap<>();
-            response.put("store", admin.getStore());
-            response.put("menus", menus);
-
-            return ResponseEntity.ok(response);
+        if (admin != null) {
+            return ResponseEntity.ok(admin.getStore());
         }
 
         return notFoundResponseObject();
@@ -251,6 +245,20 @@ public class AdminController {
     }
     
     // 메뉴 엔드 포인트
+    // 메뉴 조회 API
+    @GetMapping("/menus/{store_id}")
+    public ResponseEntity<Object> getMenusByStoreId(@PathVariable Long store_id) {
+        // 특정 매장의 메뉴 조회
+        Optional<Store> optionalStore = storeRepository.findById(store_id);
+
+        if (optionalStore.isPresent()) {
+            Store store = optionalStore.get();
+            List<Menu> menus = store.getMenus();
+            return ResponseEntity.ok(menus);
+        } else {
+            return notFoundResponseObject();
+        }
+    }
     // 메뉴 추가 API
     @PostMapping("/newmenu")
     public ResponseEntity<String> createMenu(@RequestBody Menu newMenu, @RequestHeader("Authorization") String authorizationHeader) {
