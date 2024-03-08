@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -17,9 +19,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MypageActivity : AppCompatActivity() {
+
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage)
+
+        resultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            // 여기서는 별도의 결과 처리가 필요 없습니다.
+        }
 
         supportActionBar?.hide()
 
@@ -61,8 +71,7 @@ class MypageActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.mypage2orderHistory).setOnClickListener {
             val intent = Intent(this, OrderDetailsActivity::class.java)
-            startActivity(intent)
-            finish()
+            resultLauncher.launch(intent)
         }
 
         findViewById<Button>(R.id.mypage2myReview).setOnClickListener {
@@ -115,9 +124,5 @@ class MypageActivity : AppCompatActivity() {
             })
         }
     }
-    /*data class UserProfileResponse(
-        val nickname: String
-        // 필요한 경우 다른 사용자 정보도 포함시킬 수 있습니다.
-    )*/
 }
 
