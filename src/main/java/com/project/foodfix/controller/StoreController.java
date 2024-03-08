@@ -23,21 +23,22 @@ public class StoreController {
     // 포장 검색
     @GetMapping("/packable")
     public ResponseEntity<List<PackableStoreDTO>> searchPackableStores(
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String storeName,
-            @RequestParam(required = false) String menuName) {
+            @RequestParam(required = false) String store_category,
+            @RequestParam(required = false) String store_name,
+            @RequestParam(required = false) String menu_name) {
         // 포장 가능한 매장 검색 결과 반환
-        List<PackableStoreDTO> result = storeService.searchPackableStores(category, storeName, menuName);
+        List<PackableStoreDTO> result = storeService.searchPackableStores(store_category, store_name, menu_name);
         return ResponseEntity.ok(result);
     }
 
     // 예약 검색
     @GetMapping("/reservable")
     public ResponseEntity<List<ReservableStoreDTO>> searchReservableStores(
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String storeName) {
+            @RequestParam(required = false) String store_category,
+            @RequestParam(required = false) String store_name,
+            @RequestParam(required = false) String menu_name) {
         // 예약 가능한 매장 검색 결과 반환
-        List<ReservableStoreDTO> result = storeService.searchReservableStores(category, storeName);
+        List<ReservableStoreDTO> result = storeService.searchReservableStores(store_category, store_name, menu_name);
         return ResponseEntity.ok(result);
     }
 }

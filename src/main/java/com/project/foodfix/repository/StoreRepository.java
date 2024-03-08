@@ -12,12 +12,23 @@ import java.util.List;
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
     // PackableStoreDTO 반환하는 메서드들
-    @Query("SELECT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_image, s.store_name, s.store_category, s.minimumTime) " +
-            "FROM Store s WHERE s.store_category = :store_category OR s.store_name = :store_name OR :menu_name MEMBER OF s.menus")
-    List<PackableStoreDTO> findPackableStores(@Param("store_category") String store_category, @Param("store_name") String store_name, @Param("menu_name") String menu_name);
+    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_image, s.store_name, s.store_category, s.minimumTime) " +
+            "FROM Store s " +
+            "JOIN s.menus m " +
+            "WHERE (:store_category IS NULL OR s.store_category = :store_category) " +
+            "AND (:store_name IS NULL OR s.store_name LIKE %:store_name%) " +
+            "AND (:menu_name IS NULL OR m.menu_name = :menu_name)")
+    List<PackableStoreDTO> findPackableStores(@Param("store_category") String category, @Param("store_name") String store_name, @Param("menu_name") String menu_name);
 
     // ReservableStoreDTO 반환하는 메서드들
-    @Query("SELECT new com.project.foodfix.model.DTO.ReservableStoreDTO(s.store_name, s.store_image, s.store_category) " +
-            "FROM Store s WHERE s.store_category = :store_category AND s.res_status = '1' OR s.store_name = :store_name AND s.res_status = '1'")
-    List<ReservableStoreDTO> findStoresWithReservation(@Param("store_category") String store_category, @Param("store_name") String store_name);
+    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.ReservableStoreDTO(s.store_name, s.store_image, s.store_category) " +
+            "FROM Store s " +
+            "JOIN s.menus m " +
+            "WHERE (:store_category IS NULL OR s.store_category = :store_category) " +
+            "AND (:store_name IS NULL OR s.store_name LIKE %:store_name%) " +
+            "AND (:menu_name IS NULL OR m.menu_name = :menu_name)" +
+            "AND s.res_status = '1'")
+    List<ReservableStoreDTO> findStoresWithReservation
+    (@Param("store_category") String store_category, @Param("store_name") String store_name , @Param("menu_name") String menu_name);
+
 }

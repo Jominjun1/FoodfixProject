@@ -19,14 +19,14 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<PackableStoreDTO> searchPackableStores(String category, String storeName, String menuName) {
+    public List<PackableStoreDTO> searchPackableStores(String store_category, String store_name, String menu_name) {
         // StoreRepository에서 적절한 메서드 호출하여 PackableStoreDTO 리스트 반환
-        return storeRepository.findPackableStores(category, storeName, menuName);
+        return storeRepository.findPackableStores(store_category, store_name, menu_name);
     }
 
     @Override
-    public List<ReservableStoreDTO> searchReservableStores(String category, String storeName) {
+    public List<ReservableStoreDTO> searchReservableStores(String store_category, String store_name , String menu_name) {
         // StoreRepository에서 적절한 메서드 호출하여 ReservableStoreDTO 리스트 반환
-        return storeRepository.findStoresWithReservation(category, storeName);
+        return storeRepository.findStoresWithReservation(store_category, store_name , menu_name);
     }
 }
