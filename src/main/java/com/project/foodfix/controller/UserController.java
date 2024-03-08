@@ -102,6 +102,9 @@ public class UserController {
             if (updateInfo.containsKey("user_pw")) {
                 user.setUser_pw(updateInfo.get("user_pw"));
             }
+            if (updateInfo.containsKey("nickname")) {
+                user.setNickname(updateInfo.get("nickname"));
+            }
             // 수정된 정보 저장
             authService.saveUser(user);
             return ResponseEntity.ok("유저 정보 수정 성공");

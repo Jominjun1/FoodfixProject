@@ -115,9 +115,9 @@ public class AdminController {
     }
 
     // 매장 엔드 포인트
-    // 매장 조회 API
+    // 매장 및 메뉴 조회 API
     @GetMapping("/allstores")
-    public ResponseEntity<Object> getAllStores(@RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity<Object> getAllStoresWithMenus(@RequestHeader("Authorization") String authorizationHeader){
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponseObject();
@@ -128,8 +128,16 @@ public class AdminController {
 
         // 관리자가 소유한 매장 조회
         Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null) {
-            return ResponseEntity.ok(admin.getStore());
+        if (admin != null && admin.getStore() != null) {
+            // 매장에 속한 모든 메뉴 조회
+            List<Menu> menus = admin.getStore().getMenus();
+
+            // 매장 및 메뉴 정보를 Map에 담아 반환
+            Map<String, Object> response = new HashMap<>();
+            response.put("store", admin.getStore());
+            response.put("menus", menus);
+
+            return ResponseEntity.ok(response);
         }
 
         return notFoundResponseObject();
@@ -243,28 +251,6 @@ public class AdminController {
     }
     
     // 메뉴 엔드 포인트
-    // 메뉴 조회 API
-    @GetMapping("/allmenus")
-    public ResponseEntity<Object> getAllMenus(@RequestHeader("Authorization") String authorizationHeader) {
-        // 인증 처리 및 토큰 추출
-        String token = extractToken(authorizationHeader);
-        if (token == null) return unauthorizedResponseObject();
-
-        // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponseObject();
-
-        // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
-        if (admin != null && admin.getStore() != null) {
-            // 매장에 속한 모든 메뉴 조회
-            List<Menu> menus = admin.getStore().getMenus();
-            return ResponseEntity.ok(menus);
-        }
-
-        return notFoundResponseObject();
-    }
-
     // 메뉴 추가 API
     @PostMapping("/newmenu")
     public ResponseEntity<String> createMenu(@RequestBody Menu newMenu, @RequestHeader("Authorization") String authorizationHeader) {

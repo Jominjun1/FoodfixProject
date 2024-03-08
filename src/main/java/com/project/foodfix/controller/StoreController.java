@@ -20,6 +20,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
+    // 포장 검색
     @GetMapping("/packable")
     public ResponseEntity<List<PackableStoreDTO>> searchPackableStores(
             @RequestParam(required = false) String category,
@@ -30,6 +31,7 @@ public class StoreController {
         return ResponseEntity.ok(result);
     }
 
+    // 예약 검색
     @GetMapping("/reservable")
     public ResponseEntity<List<ReservableStoreDTO>> searchReservableStores(
             @RequestParam(required = false) String category,
