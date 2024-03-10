@@ -46,6 +46,9 @@
 * 개발 도구 : Visual Code, IntelliJ IDEA, Android Studio, Postman 
 * 주요 기술 : React, Spring boot, Spring Data JPA, MySQL
 
+# **4. 프로젝트 구조**
+![푸드픽스 구조](https://github.com/Jominjun1/FoodfixProject/assets/116476333/0a9a3a5c-2de4-44f6-a214-378f708b2e07)
+
   
-# **4. 작품 소개 사진**
+# **5. 작품 소개 사진**
 >
