@@ -2,37 +2,36 @@ package com.project.foodfix.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Entity
-@Table(name = "orders")
 @Getter
 @Setter
+@Entity
+@Table(name = "order_table")
 public class Order {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) // 일련번호 사용
-    private Long orderId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "order_id")
+    private Long order_id; // 주문 번호
+    private String payment_method; // 결제 수단
+    private String user_comments; // 사용자 요구사항
+    private String order_status; // 주문 상태
+    private LocalDateTime order_time; // 주문 시간
+    private LocalDateTime pickup_time; // 픽업 시간
 
-    private String orderStatus;     // 주문 상태 0: 주문접수중, 1: 주문진행 중, 2: 주문완료됨, 3: 주문취소됨
-    private LocalDateTime orderTime;  // 주문 시간
-
-    // 주문한 사용자와의 관계 설정
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    private User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // 주문한 사용자
 
-    // 주문된 가게와의 관계 설정
     @ManyToOne
-    @JoinColumn(name = "store_id", nullable = false, updatable = false)
-    private Store store;
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store; // 주문한 매장
 
-    // 주문된 메뉴와의 관계 설정
-    @ManyToOne
-    @JoinColumn(name = "menu_id", nullable = false, updatable = false)
-    private Menu menu;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems = new ArrayList<>(); // 주문한 항목 목록
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Review> reviews = new ArrayList<>();
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Review review; // 해당 주문에 대한 리뷰 정보
 }

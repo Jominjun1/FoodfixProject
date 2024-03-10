@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+@SuppressWarnings("ALL")
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
     // PackableStoreDTO 반환하는 메서드들

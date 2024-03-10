@@ -39,10 +39,4 @@ public class Store {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL , fetch = FetchType.EAGER) // (매장) 일대다 (메뉴) 관계
     private List<Menu> menus = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)    // (매장) 일대다 (예약) 관계
-    private List<Reservation> reservations = new ArrayList<>();
-
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)  // (매장) 일대다 (포장) 관계
-    private List<Order> orders = new ArrayList<>();
-
 }
