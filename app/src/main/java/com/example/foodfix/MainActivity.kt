@@ -11,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.ActivityMainBinding
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +31,12 @@ class MainActivity : AppCompatActivity() {
         ) {
             // 여기서는 별도의 결과 처리가 필요 없습니다.
         }
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://54.180.213.178:8080")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val userService = retrofit.create(UserService::class.java)
 
         supportActionBar?.hide()
 

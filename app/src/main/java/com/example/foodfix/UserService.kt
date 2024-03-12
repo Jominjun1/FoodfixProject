@@ -16,8 +16,11 @@ interface UserService {
     fun getUserProfile(@Header("Authorization") token: String): Call<UserProfileResponse>
     @DELETE("/user/delete")
     fun deleteUser(@Header("Authorization") token: String): Call<ResponseBody>
-    @PUT("update")
-    fun updateUser(@Header("Authorization") token: String, @Body userInfo: UserProfileResponse): Call<ResponseBody>
+    @PUT("/user/update")
+    fun updateUser(@Header("Authorization") token: String, @Body userInfo: ProfileManagement.UserProfileResponse2): Call<ResponseBody>
+
+    /*@GET("/store/packable")
+    fun packableStore(): Call<List<PackableItem>>*/
 }
 data class UserProfileResponse(
     val nickname: String,
