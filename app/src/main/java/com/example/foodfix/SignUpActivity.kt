@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import okhttp3.ResponseBody
@@ -17,6 +18,8 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 class SignUpActivity : AppCompatActivity() {
+
+    private var selectedValue = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
@@ -30,6 +33,18 @@ class SignUpActivity : AppCompatActivity() {
 
         val userService = retrofit.create(UserService::class.java)
 
+        val radioGroup = findViewById<RadioGroup>(R.id.signGender)
+        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+            // 선택된 라디오 버튼에 따라 selectedValue 값을 변경합니다.
+            selectedValue = when (checkedId) {
+                R.id.maleButton -> 0
+                R.id.femaleButton -> 1
+                else -> selectedValue
+            }
+            // 선택된 값을 확인하기 위한 로그 출력
+            Log.d("Selected Value", selectedValue.toString())
+        }
+
         findViewById<Button>(R.id.signupCompletionButtton).setOnClickListener {
             val username = findViewById<EditText>(R.id.signName).text.toString()
             val userId = findViewById<EditText>(R.id.signId).text.toString()
@@ -38,7 +53,7 @@ class SignUpActivity : AppCompatActivity() {
             val userPhone = findViewById<EditText>(R.id.signPhone).text.toString()
             val userAddress = findViewById<EditText>(R.id.signAddress).text.toString()
             val userNickname = findViewById<EditText>(R.id.signNickname).text.toString()
-            val userGender = "0" // 성별 입력 처리 로직 추가 필요
+            val userGender = selectedValue.toString()
 
             /*val username = "androidname"
             val userId = "android"

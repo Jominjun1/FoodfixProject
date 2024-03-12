@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.annotations.SerializedName
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +32,7 @@ class ProfileManagement : AppCompatActivity() {
         // 사용자의 JWT 토큰을 가져옴
         val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
         val token = sharedPref.getString("jwt_token", null) ?: ""
+        val user_id = sharedPref.getString("user_id", null) ?: ""
 
         // Retrofit 인스턴스 생성 및 UserService 가져오기
         val retrofit = Retrofit.Builder()
@@ -138,7 +140,7 @@ class ProfileManagement : AppCompatActivity() {
                 builder.setPositiveButton("확인") { dialog, which ->
                     // "확인" 버튼 클릭 시 실행할 코드
 
-                    val userInfo = UserProfileResponse(nickname, phone, address) // 사용자가 입력한 정보로 객체 생성
+                    val userInfo = UserProfileResponse2(user_id, nickname, phone, address) // 사용자가 입력한 정보로 객체 생성
 
                     userService.updateUser("Bearer $token", userInfo).enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -146,6 +148,7 @@ class ProfileManagement : AppCompatActivity() {
                                 Toast.makeText(this@ProfileManagement, "사용자 정보가 성공적으로 업데이트되었습니다.", Toast.LENGTH_SHORT).show()
                                 // 성공적으로 업데이트되면 다른 액티비티로 이동하거나 UI를 업데이트합니다.
                             } else {
+                                Log.e("ProfileManagement", "정보 ${user_id} 업데이트 실패:${response.errorBody()?.string()}")
                                 Toast.makeText(this@ProfileManagement, "정보 업데이트 실패: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -226,5 +229,12 @@ class ProfileManagement : AppCompatActivity() {
             }
         })
     }
+    data class UserProfileResponse2(
+        @SerializedName("user_id") val userId: String, // 사용자 ID 필드 추가
+        val nickname: String,
+        @SerializedName("user_phone") val phone: String,
+        @SerializedName("user_address") val address: String
+        // 필요한 경우 다른 사용자 정보도 포함시킬 수 있습니다.
+    )
 
 }
