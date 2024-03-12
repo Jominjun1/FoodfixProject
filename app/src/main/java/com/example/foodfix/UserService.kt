@@ -17,7 +17,7 @@ interface UserService {
     @DELETE("/user/delete")
     fun deleteUser(@Header("Authorization") token: String): Call<ResponseBody>
     @PUT("/user/update")
-    fun updateUser(@Header("Authorization") token: String, @Body userInfo: ProfileManagement.UserProfileResponse2): Call<ResponseBody>
+    fun updateUser(@Header("Authorization") token: String, @Body userInfo:UserProfileResponse): Call<ResponseBody>
 
     /*@GET("/store/packable")
     fun packableStore(): Call<List<PackableItem>>*/
