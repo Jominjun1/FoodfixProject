@@ -140,21 +140,34 @@ class ProfileManagement : AppCompatActivity() {
                 builder.setPositiveButton("확인") { dialog, which ->
                     // "확인" 버튼 클릭 시 실행할 코드
 
-                    val userInfo = UserProfileResponse2(user_id, nickname, phone, address) // 사용자가 입력한 정보로 객체 생성
+                    val userInfo = UserProfileResponse(nickname, phone, address) // 사용자가 입력한 정보로 객체 생성
 
                     userService.updateUser("Bearer $token", userInfo).enqueue(object : Callback<ResponseBody> {
                         override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                             if (response.isSuccessful) {
-                                Toast.makeText(this@ProfileManagement, "사용자 정보가 성공적으로 업데이트되었습니다.", Toast.LENGTH_SHORT).show()
-                                // 성공적으로 업데이트되면 다른 액티비티로 이동하거나 UI를 업데이트합니다.
+                                val responseString = response.body()?.string() ?: ""
+
+                                if (responseString == "유저 정보 수정 성공") {
+                                    // 성공적으로 업데이트되면 다른 액티비티로 이동하거나 UI를 업데이트합니다.
+                                    Toast.makeText(this@ProfileManagement, "사용자 정보가 성공적으로 업데이트되었습니다.", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(this@ProfileManagement, MypageActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                } else {
+                                    // 서버로부터 예상치 못한 응답을 받았을 때의 처리
+                                    Toast.makeText(this@ProfileManagement, "예상치 못한 응답: $responseString", Toast.LENGTH_SHORT).show()
+                                }
                             } else {
-                                Log.e("ProfileManagement", "정보 ${user_id} 업데이트 실패:${response.errorBody()?.string()}")
+                                // 서버로부터의 응답이 실패했을 때의 처리
+                                Log.e("ProfileManagement", "정보 업데이트 실패: ${response.errorBody()?.string()}")
                                 Toast.makeText(this@ProfileManagement, "정보 업데이트 실패: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                             }
                         }
 
                         override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            // 네트워크 에러 또는 요청 처리 실패 시
                             Toast.makeText(this@ProfileManagement, "네트워크 오류: ${t.message}", Toast.LENGTH_SHORT).show()
+                            Log.e("ProfileManagement", "네트워크 오류: ", t)
                         }
                     })
 
@@ -229,12 +242,6 @@ class ProfileManagement : AppCompatActivity() {
             }
         })
     }
-    data class UserProfileResponse2(
-        @SerializedName("user_id") val userId: String, // 사용자 ID 필드 추가
-        val nickname: String,
-        @SerializedName("user_phone") val phone: String,
-        @SerializedName("user_address") val address: String
-        // 필요한 경우 다른 사용자 정보도 포함시킬 수 있습니다.
-    )
+
 
 }
