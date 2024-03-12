@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">foodpicks</string>
+    <string name="rating_bar">사용자 평점</string>
 </resources>
