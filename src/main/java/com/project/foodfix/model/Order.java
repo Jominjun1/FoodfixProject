@@ -17,7 +17,7 @@ public class Order {
     private Long order_id; // 주문 번호
     private String payment_method; // 결제 수단
     private String user_comments; // 사용자 요구사항
-    private String order_status; // 주문 상태
+    private String order_status; // 주문 상태 (0 : 주문 대기, 1 : 주문 성공, 2 : 주문 완료 , 3 : 주문 취소)
     private LocalDateTime order_time; // 주문 시간
     private LocalDateTime pickup_time; // 픽업 시간
 

@@ -12,8 +12,8 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
-    // PackableStoreDTO 반환하는 메서드들
-    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_image, s.store_name, s.store_category, s.minimumTime) " +
+    // 포장 가능 매장 반환
+    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_image, s.store_name, s.store_category, s.minimumTime , s.openTime, s.closeTime) " +
             "FROM Store s " +
             "JOIN s.menus m " +
             "WHERE (:store_category IS NULL OR s.store_category = :store_category) " +
@@ -21,8 +21,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "AND (:menu_name IS NULL OR m.menu_name = :menu_name)")
     List<PackableStoreDTO> findPackableStores(@Param("store_category") String category, @Param("store_name") String store_name, @Param("menu_name") String menu_name);
 
-    // ReservableStoreDTO 반환하는 메서드들
-    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.ReservableStoreDTO(s.store_name, s.store_image, s.store_category) " +
+    // 예약 가능 매장 반환
+    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.ReservableStoreDTO(s.store_name, s.store_image, s.store_category , s.openTime, s.closeTime) " +
             "FROM Store s " +
             "JOIN s.menus m " +
             "WHERE (:store_category IS NULL OR s.store_category = :store_category) " +

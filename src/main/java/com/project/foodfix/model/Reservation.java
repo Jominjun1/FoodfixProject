@@ -17,7 +17,7 @@ public class Reservation {
     private LocalDateTime reservation_time; // 예약 시간
     private Integer num_people; // 예약 인원
     private String user_comments; // 사용자 요구사항
-    private String reservation_status; // 예약 상태 (예약 대기, 예약 완료, 예약 취소 등)
+    private String reservation_status; // 예약 상태 (0 : 예약 대기, 1 : 예약 성공, 2 : 예약 취소 3 : 예약 완료)
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
