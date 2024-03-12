@@ -32,7 +32,7 @@ class ProfileManagement : AppCompatActivity() {
         // 사용자의 JWT 토큰을 가져옴
         val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
         val token = sharedPref.getString("jwt_token", null) ?: ""
-        val user_id = sharedPref.getString("user_id", null) ?: ""
+        val user_pw = sharedPref.getString("user_pw", null) ?: ""
 
         // Retrofit 인스턴스 생성 및 UserService 가져오기
         val retrofit = Retrofit.Builder()
@@ -107,6 +107,46 @@ class ProfileManagement : AppCompatActivity() {
                 val changepassword = dialogView.findViewById<EditText>(R.id.changepassword).text.toString()
                 val checkchangepassword = dialogView.findViewById<EditText>(R.id.checkchangepassword).text.toString()
                 // 확인 버튼 클릭 시 할 일을 작성합니다.
+                if (currentpassword == user_pw) {
+                    if (changepassword == checkchangepassword) {
+                        val userInfo = UserPw(changepassword)
+                        userService.updatePw("Bearer $token", userInfo).enqueue(object : Callback<ResponseBody>{
+                            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>){
+                                if (response.isSuccessful){
+                                    val responseString = response.body()?.string() ?: ""
+                                    if (responseString == "유저 정보 수정 성공") {
+                                        // 성공적으로 업데이트되면 다른 액티비티로 이동하거나 UI를 업데이트합니다.
+                                        Toast.makeText(this@ProfileManagement, "사용자 정보가 성공적으로 업데이트되었습니다.", Toast.LENGTH_SHORT).show()
+                                        with (sharedPref.edit()) {
+                                            putString("user_pw", changepassword)
+                                            apply()
+                                        }
+                                        val intent = Intent(this@ProfileManagement, MypageActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    } else {
+                                        // 서버로부터 예상치 못한 응답을 받았을 때의 처리
+                                        Toast.makeText(this@ProfileManagement, "예상치 못한 응답: $responseString", Toast.LENGTH_SHORT).show()
+                                    }
+                                }else {
+                                    // 서버로부터의 응답이 실패했을 때의 처리
+                                    Log.e("ProfileManagement", "정보 업데이트 실패: ${response.errorBody()?.string()}")
+                                    Toast.makeText(this@ProfileManagement, "정보 업데이트 실패: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                // 네트워크 에러 또는 요청 처리 실패 시
+                                Toast.makeText(this@ProfileManagement, "네트워크 오류: ${t.message}", Toast.LENGTH_SHORT).show()
+                                Log.e("ProfileManagement", "네트워크 오류: ", t)
+                            }
+                        })
+                    }else{
+                        Toast.makeText(this@ProfileManagement, "바꿀 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else{
+                    Toast.makeText(this@ProfileManagement, "현재 비밀번호가 다릅니다", Toast.LENGTH_SHORT).show()
+                }
                 dialog.dismiss() // 다이얼로그 닫기
             }
 
