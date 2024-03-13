@@ -58,8 +58,8 @@ public class AuthService {
         }
     }
     // 로그아웃 기능
-    public void logout(String userId, UserType userType) {
-        Optional<?> optionalUser = getUserById(userId, userType);
+    public void logout(String user_id, UserType userType) {
+        Optional<?> optionalUser = getUserById(user_id, userType);
 
         optionalUser.ifPresent(user -> {
             if (user instanceof User) {
@@ -72,8 +72,8 @@ public class AuthService {
         });
     }
     // 정보 조회 기능
-    public Object getUser(String userId, UserType userType) {
-        Optional<?> optionalUser = getUserById(userId, userType);
+    public Object getUser(String user_id, UserType userType) {
+        Optional<?> optionalUser = getUserById(user_id, userType);
         return optionalUser.orElse(null);
     }
     // 사용자 정보 저장 기능
@@ -107,14 +107,14 @@ public class AuthService {
     }
 
     // 매장의 메뉴 삭제 기능
-    public void deleteMenu(Long menuId, String adminId) {
-        Optional<Admin> optionalAdmin = adminRepository.findById(adminId);
+    public void deleteMenu(Long menu_id, String admin_id) {
+        Optional<Admin> optionalAdmin = adminRepository.findById(admin_id);
         if (optionalAdmin.isPresent()) {
             Admin admin = optionalAdmin.get();
             Store store = admin.getStore();
 
             if (store != null) {
-                boolean isMenuRemoved = store.getMenus().removeIf(menu -> menu.getMenu_id().equals(menuId));
+                boolean isMenuRemoved = store.getMenus().removeIf(menu -> menu.getMenu_id().equals(menu_id));
                 if (isMenuRemoved) {
                     saveUser(admin);  // 삭제된 메뉴 정보를 가진 관리자 저장
                     ResponseEntity.ok("메뉴 삭제 성공");
@@ -130,13 +130,13 @@ public class AuthService {
     }
 
     // 사용자 회원 탈퇴 기능
-    public void deleteUser(String userId, UserType userType) {
-        Optional<?> optionalUser = getUserById(userId, userType);
+    public void deleteUser(String user_id, UserType userType) {
+        Optional<?> optionalUser = getUserById(user_id, userType);
         if (optionalUser.isPresent()) {
             if (userType == UserType.USER) {
-                userRepository.deleteById(userId);
+                userRepository.deleteById(user_id);
             } else if (userType == UserType.ADMIN) {
-                adminRepository.deleteById(userId);
+                adminRepository.deleteById(user_id);
             }
             ResponseEntity.ok("회원 탈퇴 성공");
         } else {

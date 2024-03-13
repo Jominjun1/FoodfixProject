@@ -37,10 +37,10 @@ public class AdminController {
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponseObject();
 
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponseObject();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponseObject();
 
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null) return ResponseEntity.ok(admin);
 
         return notFoundResponseObject();
@@ -61,10 +61,10 @@ public class AdminController {
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
 
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
-        authService.logout(adminId, UserType.ADMIN);
+        authService.logout(admin_id, UserType.ADMIN);
         return ResponseEntity.ok("로그아웃 성공");
     }
     // 관리자 수정 API
@@ -73,10 +73,10 @@ public class AdminController {
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
 
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null) {
             // 수정할 정보 업데이트
             if (updateInfo.containsKey("admin_address")) {
@@ -103,14 +103,14 @@ public class AdminController {
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
 
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
         // AuthService 통해 관리자 로그아웃 및 회원 탈퇴 처리
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null) {
-            authService.logout(adminId, UserType.ADMIN);
-            authService.deleteUser(adminId, UserType.ADMIN);
+            authService.logout(admin_id, UserType.ADMIN);
+            authService.deleteUser(admin_id, UserType.ADMIN);
             return ResponseEntity.ok("관리자 회원 탈퇴 성공");
         }
         return notFoundResponse();
@@ -125,11 +125,11 @@ public class AdminController {
         if (token == null) return unauthorizedResponseObject();
 
         // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponseObject();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponseObject();
 
         // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null) {
             return ResponseEntity.ok(admin.getStore());
         }
@@ -144,11 +144,11 @@ public class AdminController {
         if (token == null) return unauthorizedResponse();
 
         // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
         // 관리자가 소유한 매장 목록에 새로운 매장 추가
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null) {
             store.setAdmin(admin);
             admin.setStore(store);
@@ -165,11 +165,11 @@ public class AdminController {
         if (token == null) return unauthorizedResponse();
 
         // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
         // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null && admin.getStore() != null) {
             // 매장 정보 업데이트
             Store store = admin.getStore();
@@ -224,15 +224,15 @@ public class AdminController {
         if (token == null) return unauthorizedResponse();
 
         // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
         // 관리자가 소유한 매장 삭제
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null && admin.getStore() != null) {
             // 매장에 속한 메뉴 삭제
             List<Menu> menus = admin.getStore().getMenus();
-            menus.forEach(menu -> authService.deleteMenu(menu.getMenu_id(), adminId));
+            menus.forEach(menu -> authService.deleteMenu(menu.getMenu_id(), admin_id));
 
             // 매장 삭제
             admin.setStore(null);
@@ -267,16 +267,16 @@ public class AdminController {
         if (token == null) return unauthorizedResponse();
 
         // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
         // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null && admin.getStore() != null) {
             // 메뉴를 소유한 매장에 연결
             newMenu.setStore(admin.getStore());
             // 메뉴 저장
-            authService.saveMenu(newMenu, adminId);
+            authService.saveMenu(newMenu, admin_id);
             return ResponseEntity.ok("메뉴 등록 성공");
         }
 
@@ -290,11 +290,11 @@ public class AdminController {
         if (token == null) return unauthorizedResponse();
 
         // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
         // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null && admin.getStore() != null) {
             // 매장에 속한 메뉴 중 수정할 메뉴 찾기
             List<Menu> menus = admin.getStore().getMenus();
@@ -311,7 +311,7 @@ public class AdminController {
                 newMenu.setMenu_price(updatedMenu.getMenu_price());
 
                 // 업데이트된 정보 저장
-                authService.saveMenu(newMenu, adminId);
+                authService.saveMenu(newMenu, admin_id);
                 return ResponseEntity.ok("메뉴 정보 수정 성공");
             }
         }
@@ -326,11 +326,11 @@ public class AdminController {
         if (token == null) return unauthorizedResponse();
 
         // 관리자 ID 추출
-        String adminId = jwtTokenProvider.extractUserId(token);
-        if (adminId == null) return unauthorizedResponse();
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponse();
 
         // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null && admin.getStore() != null) {
             // 매장에 속한 메뉴 중 삭제할 메뉴 찾기
             List<Menu> menus = admin.getStore().getMenus();
@@ -341,7 +341,7 @@ public class AdminController {
 
             if (menuToDelete != null) {
                 // 메뉴 삭제
-                authService.deleteMenu(menuId, adminId);
+                authService.deleteMenu(menuId, admin_id);
                 return ResponseEntity.ok("메뉴 삭제 성공");
             }
         }

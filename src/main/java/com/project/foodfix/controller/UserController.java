@@ -2,7 +2,10 @@ package com.project.foodfix.controller;
 
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
+import com.project.foodfix.model.Menu;
+import com.project.foodfix.model.Store;
 import com.project.foodfix.model.User;
+import com.project.foodfix.repository.StoreRepository;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -17,12 +20,14 @@ import java.util.*;
 public class UserController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final StoreRepository storeRepository;
 
 
     @Autowired
-    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.storeRepository = storeRepository;
     }
     // 사용자 프로필 조회 API
     @GetMapping("/profile")
@@ -31,10 +36,10 @@ public class UserController {
         // 토큰 유효성 검사
         if (jwtTokenProvider.validateToken(token)) {
             // 토큰에서 사용자 ID 추출
-            String userId = jwtTokenProvider.extractUserId(token);
-            if (userId != null) {
+            String user_id = jwtTokenProvider.extractUserId(token);
+            if (user_id != null) {
                 // AuthService 통해 사용자 정보 조회
-                Object user = authService.getUser(userId, UserType.USER);
+                Object user = authService.getUser(user_id, UserType.USER);
                 if (user != null) {
                     return ResponseEntity.ok(user);
                 } else {
@@ -48,6 +53,20 @@ public class UserController {
         } else {
             System.out.println("\n" + "토큰 검증에 실패");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+    // 매장의 메뉴 조회
+    @GetMapping("/menus/{store_id}")
+    public ResponseEntity<Object> getMenusByStoreId(@PathVariable Long store_id) {
+        // 특정 매장의 메뉴 조회
+        Optional<Store> optionalStore = storeRepository.findById(store_id);
+
+        if (optionalStore.isPresent()) {
+            Store store = optionalStore.get();
+            List<Menu> menus = store.getMenus();
+            return ResponseEntity.ok(menus);
+        } else {
+            return ResponseEntity.ok("매장 정보 조회 실패");
         }
     }
     // 사용자 로그인 API
@@ -77,16 +96,21 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 검증 실패");
         }
     }
+    // 사용자 찜 목록
+    @PostMapping("/favorites")
+    public ResponseEntity<Object> getUserFavorites(@RequestHeader("Authorization") String authorizationHeader){
+        return ResponseEntity.ok("유저 정보 수정 성공");
+    }
     // 사용자 정보 수정 API
     @PutMapping("/update")
-    public ResponseEntity<String> updateAdminInfo(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Map<String, String> updateInfo) {
+    public ResponseEntity<String> updateUserInfo(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Map<String, String> updateInfo) {
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
 
-        String userId = jwtTokenProvider.extractUserId(token);
-        if (userId == null) return unauthorizedResponse();
+        String user_id = jwtTokenProvider.extractUserId(token);
+        if (user_id == null) return unauthorizedResponse();
 
-        User user = (User) authService.getUser(userId, UserType.ADMIN);
+        User user = (User) authService.getUser(user_id, UserType.USER);
         if (user != null) {
             // 수정할 정보 업데이트
             if (updateInfo.containsKey("user_address")) {
@@ -116,12 +140,12 @@ public class UserController {
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
 
-        String userId = jwtTokenProvider.extractUserId(token);
-        if (userId == null) return unauthorizedResponse();
+        String user_id = jwtTokenProvider.extractUserId(token);
+        if (user_id == null) return unauthorizedResponse();
 
         // AuthService 통해 사용자 로그아웃 및 회원 탈퇴 처리
-        authService.logout(userId, UserType.USER);
-        authService.deleteUser(userId, UserType.USER);
+        authService.logout(user_id, UserType.USER);
+        authService.deleteUser(user_id, UserType.USER);
 
         return ResponseEntity.ok("사용자 회원 탈퇴 성공");
     }
