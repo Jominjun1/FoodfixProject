@@ -10,10 +10,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-  session:
-    store-type: none
   security:
     jwt:
       token:
         secret-key: secretKey
-        expire-length: 3600000
+        expire-length: 21600000

@@ -3,7 +3,7 @@ package com.project.foodfix.controller;
 import com.project.foodfix.model.DTO.PackableStoreDTO;
 import com.project.foodfix.model.DTO.ReservableStoreDTO;
 import com.project.foodfix.service.Store.StoreService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +30,6 @@ public class StoreController {
         List<PackableStoreDTO> result = storeService.searchPackableStores(store_category, store_name, menu_name);
         return ResponseEntity.ok(result);
     }
-
     // 예약 검색
     @GetMapping("/reservable")
     public ResponseEntity<List<ReservableStoreDTO>> searchReservableStores(
@@ -41,4 +40,5 @@ public class StoreController {
         List<ReservableStoreDTO> result = storeService.searchReservableStores(store_category, store_name, menu_name);
         return ResponseEntity.ok(result);
     }
+
 }

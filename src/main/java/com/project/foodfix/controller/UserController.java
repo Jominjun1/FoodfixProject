@@ -69,6 +69,18 @@ public class UserController {
             return ResponseEntity.ok("매장 정보 조회 실패");
         }
     }
+    // 예약 내역 조회
+    @GetMapping("/reservations")
+    public ResponseEntity<Object> getUserReservations(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        String user_id = jwtTokenProvider.extractUserId(token);
+
+        User user = (User) authService.getUser(user_id, UserType.USER);
+        if (user != null) {
+            return ResponseEntity.ok(user.getReservations());
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
     // 사용자 로그인 API
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> login(@RequestBody User loginRequest) {
@@ -95,11 +107,6 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 검증 실패");
         }
-    }
-    // 사용자 찜 목록
-    @PostMapping("/favorites")
-    public ResponseEntity<Object> getUserFavorites(@RequestHeader("Authorization") String authorizationHeader){
-        return ResponseEntity.ok("유저 정보 수정 성공");
     }
     // 사용자 정보 수정 API
     @PutMapping("/update")
