@@ -33,6 +33,12 @@ class CardviewAdapter(val items: MutableList<CardModel>) :
         this.listener = listener
     }
 
+    fun updateItems(newItems: List<CardModel>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
     // 화면에 표시 될 뷰를 저장하는 역할
     // 뷰를 재활용 하기 위해 각 요소를 저장해두고 사용한다.
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

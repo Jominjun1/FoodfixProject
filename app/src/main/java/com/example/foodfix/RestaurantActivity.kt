@@ -76,7 +76,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 
 
-        val restaurantName = intent.getStringExtra("restaurant_name")
+        val restaurantName = intent.getStringExtra("title")
         findViewById<TextView>(R.id.restaurant_title).text = restaurantName
 
         findViewById<Button>(R.id.restaurant_detailBackButton).setOnClickListener {

@@ -162,12 +162,12 @@
                 android:id="@+id/orderButton"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="주문" />
+                android:text="포장    주문" />
             <Button
                 android:id="@+id/reservationButton"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="예약" />
+                android:text="식당    예약" />
             <Button
                 android:id="@+id/mapbutton"
                 android:layout_width="80dp"
@@ -182,7 +182,7 @@
                 android:id="@+id/Favoritesbutton"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="즐겨     찾기" />
+                android:text="즐겨    찾기" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
