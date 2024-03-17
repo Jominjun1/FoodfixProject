@@ -49,17 +49,18 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button"
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/korean"
                     android:layout_width="wrap_content"
                     android:layout_height="70dp"
-                    android:text="Button" />
+                    android:layout_gravity="center_vertical"
+                    android:text="한식" />
+
                 <Button
-                    android:id="@+id/button2"
-                    android:layout_gravity="center_vertical"
+                    android:id="@+id/chicken"
                     android:layout_width="wrap_content"
                     android:layout_height="70dp"
-                    android:text="Button" />
+                    android:layout_gravity="center_vertical"
+                    android:text="치킨" />
                 <Button
                     android:id="@+id/button3"
                     android:layout_gravity="center_vertical"
@@ -101,6 +102,38 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menu_scroll">
+
+            <TextView
+                android:id="@+id/storeCate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="28dp"
+                android:text="카테고리"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="28dp"
+                android:text="포장/예약"
+                app:layout_constraintStart_toEndOf="@+id/storeCate"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="검색"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/Filter"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

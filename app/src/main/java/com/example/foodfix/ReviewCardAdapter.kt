@@ -8,8 +8,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ReviwCardAdapter(val items: MutableList<ReviewCardModel>) :
-    RecyclerView.Adapter<ReviwCardAdapter.ViewHolder>() {
+class ReviwCardAdapter(val items: MutableList<ReviewCardModel>) : RecyclerView.Adapter<ReviwCardAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviwCardAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.review_cardview, parent, false)
         return ViewHolder(v)
@@ -47,10 +46,10 @@ class ReviwCardAdapter(val items: MutableList<ReviewCardModel>) :
         }*/
 
         fun bindItems(reviewCardModel: ReviewCardModel) {
-            val username = itemView.findViewById<TextView>(R.id.username)
-            val reviewDate = itemView.findViewById<TextView>(R.id.reviewDate)
+            val username = itemView.findViewById<TextView>(R.id.storename)
+            val reviewDate = itemView.findViewById<TextView>(R.id.reservationDate)
             val reviewImage = itemView.findViewById<ImageView>(R.id.reviewimage)
-            val reviewDtail = itemView.findViewById<TextView>(R.id.reviewdetail)
+            val reviewDtail = itemView.findViewById<TextView>(R.id.reservationdetail)
             val rating = itemView.findViewById<RatingBar>(R.id.reviewRating)
 
 

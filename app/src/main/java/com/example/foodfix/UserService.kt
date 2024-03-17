@@ -14,6 +14,9 @@ interface UserService {
     fun logoutUser(@Header("Authorization") token: String): Call<ResponseBody>
     @GET("/user/profile")
     fun getUserProfile(@Header("Authorization") token: String): Call<UserProfileResponse>
+    @GET("/user/reservations")
+    fun getUserReservation(@Header("Authorization") token: String): Call<ReservationCardModel>
+
     @DELETE("/user/delete")
     fun deleteUser(@Header("Authorization") token: String): Call<ResponseBody>
     @PUT("/user/update")
@@ -21,8 +24,7 @@ interface UserService {
     @PUT("/user/update")
     fun updatePw(@Header("Authorization") token: String, @Body userInfo:UserPw): Call<ResponseBody>
 
-    /*@GET("/store/packable")
-    fun packableStore(): Call<List<PackableItem>>*/
+
 }
 data class UserProfileResponse(
     val nickname: String,
