@@ -1,6 +1,7 @@
 package com.example.foodfix
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -100,6 +101,7 @@ class ProfileManagement : AppCompatActivity() {
             builder.setView(dialogView)
             builder.setTitle("비밀번호 변경")
 
+
             // "확인" 버튼
             builder.setPositiveButton("확인") { dialog, which ->
                 // 에딕텍스트에서 텍스트를 가져옵니다.
@@ -121,9 +123,7 @@ class ProfileManagement : AppCompatActivity() {
                                             putString("user_pw", changepassword)
                                             apply()
                                         }
-                                        val intent = Intent(this@ProfileManagement, MypageActivity::class.java)
-                                        startActivity(intent)
-                                        finish()
+                                        dialog.dismiss() // 다이얼로그 닫기
                                     } else {
                                         // 서버로부터 예상치 못한 응답을 받았을 때의 처리
                                         Toast.makeText(this@ProfileManagement, "예상치 못한 응답: $responseString", Toast.LENGTH_SHORT).show()
@@ -147,15 +147,12 @@ class ProfileManagement : AppCompatActivity() {
                 else{
                     Toast.makeText(this@ProfileManagement, "현재 비밀번호가 다릅니다", Toast.LENGTH_SHORT).show()
                 }
-                dialog.dismiss() // 다이얼로그 닫기
             }
-
             // "취소" 버튼
             builder.setNegativeButton("취소") { dialog, which ->
                 // 취소 버튼 클릭 시 할 일을 작성합니다.
                 dialog.dismiss() // 다이얼로그 닫기
             }
-
             // 다이얼로그를 표시합니다.
             val dialog = builder.create()
             dialog.show()
@@ -179,7 +176,6 @@ class ProfileManagement : AppCompatActivity() {
                 // "확인" 버튼
                 builder.setPositiveButton("확인") { dialog, which ->
                     // "확인" 버튼 클릭 시 실행할 코드
-
                     val userInfo = UserProfileResponse(nickname, phone, address) // 사용자가 입력한 정보로 객체 생성
 
                     userService.updateUser("Bearer $token", userInfo).enqueue(object : Callback<ResponseBody> {

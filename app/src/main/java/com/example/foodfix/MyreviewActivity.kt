@@ -21,7 +21,7 @@ class MyreviewActivity : AppCompatActivity() {
 
         val itemList = mutableListOf<ReviewCardModel>()
         itemList.add(ReviewCardModel("testname", "testDetail", 3.0f, "testdate", R.drawable.ic_launcher_foreground))
-        itemList.add(ReviewCardModel("testname2","testDatil", 4.0f, "test2date", R.drawable.ic_launcher_foreground))
+        itemList.add(ReviewCardModel("testname2","testDetail2", 4.0f, "test2date", R.drawable.ic_launcher_foreground))
 
 
         val adapter = ReviwCardAdapter(itemList)
