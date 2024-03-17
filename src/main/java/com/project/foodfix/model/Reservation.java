@@ -1,5 +1,7 @@
 package com.project.foodfix.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +26,7 @@ public class Reservation {
     private String reservation_status; // 예약 상태 (0 : 예약 대기, 1 : 예약 성공, 2 : 예약 취소 3 : 예약 완료)
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false)
     private User user; // 예약한 사용자
 
@@ -31,7 +34,7 @@ public class Reservation {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store; // 예약한 매장
 
+    @JsonIgnore
     @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
     private Review review; // 해당 예약에 대한 리뷰 정보
-
 }

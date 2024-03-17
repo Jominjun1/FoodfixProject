@@ -14,13 +14,16 @@ public class AuthService {
     private final UserRepository userRepository;
     private final AdminRepository adminRepository;
     private final JwtTokenProvider jwtTokenProvider;
-
+    private final StoreRepository storeRepository;
+    private final MenuRepository menuRepository;
 
     @Autowired
-    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider) {
+    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.storeRepository = storeRepository;
+        this.menuRepository = menuRepository;
     }
     // 회원가입 기능
     public ResponseEntity<String> signup(Object user, UserType userType) {
@@ -106,29 +109,6 @@ public class AuthService {
         }
     }
 
-    // 매장의 메뉴 삭제 기능
-    public void deleteMenu(Long menu_id, String admin_id) {
-        Optional<Admin> optionalAdmin = adminRepository.findById(admin_id);
-        if (optionalAdmin.isPresent()) {
-            Admin admin = optionalAdmin.get();
-            Store store = admin.getStore();
-
-            if (store != null) {
-                boolean isMenuRemoved = store.getMenus().removeIf(menu -> menu.getMenu_id().equals(menu_id));
-                if (isMenuRemoved) {
-                    saveUser(admin);  // 삭제된 메뉴 정보를 가진 관리자 저장
-                    ResponseEntity.ok("메뉴 삭제 성공");
-                } else {
-                    ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 메뉴를 찾을 수 없습니다.");
-                }
-            } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 관리자가 소유한 매장이 없습니다.");
-            }
-        } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 관리자를 찾을 수 없습니다.");
-        }
-    }
-
     // 사용자 회원 탈퇴 기능
     public void deleteUser(String user_id, UserType userType) {
         Optional<?> optionalUser = getUserById(user_id, userType);
@@ -141,6 +121,28 @@ public class AuthService {
             ResponseEntity.ok("회원 탈퇴 성공");
         } else {
             ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 정보를 찾을 수 없습니다.");
+        }
+    }
+    // 매장 삭제
+    public void deleteStore(Long store_id) {
+        try {
+            // 매장과 연관된 메뉴들 삭제
+            menuRepository.deleteByStoreId(store_id);
+            // 매장 삭제
+            storeRepository.deleteById(store_id);
+        } catch (Exception e) {
+            // 콘솔에 오류 메시지를 출력합니다.
+            System.err.println("오류 발생: " + e.getMessage());
+        }
+    }
+    // 메뉴 삭제
+    public void deleteMenu(Long menu_id){
+        try{
+            // 메뉴 삭제
+            menuRepository.deleteByMenuId(menu_id);
+        } catch (Exception e){
+            // 콘솔에 오류 메시지를 출력합니다.
+            System.err.println("오류 발생: " + e.getMessage());
         }
     }
     // 사용자 또는 관리자 ID에 따라 사용자 정보 조회
@@ -192,6 +194,10 @@ public class AuthService {
                 throw new IllegalArgumentException("잘못된 사용자 유형");
         }
     }
-
+    // 메뉴 찾기 기능
+    public Menu findMenuById(Long menu_id) {
+        Optional<Menu> optionalMenu = menuRepository.findById(menu_id);
+        return optionalMenu.orElse(null);
+    }
 }
 

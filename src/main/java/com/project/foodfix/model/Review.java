@@ -1,5 +1,6 @@
 package com.project.foodfix.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -19,10 +20,7 @@ public class Review {
     private Integer rating; // 평점
     private LocalDate reviewDate; // 리뷰 작성 일자
 
-    @OneToOne
-    @JoinColumn(name = "order_id", nullable = false, unique = true)
-    private Order order; // 리뷰가 속한 주문
-
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "reservation_id", nullable = false, unique = true)
     private Reservation reservation; // 리뷰가 속한 예약

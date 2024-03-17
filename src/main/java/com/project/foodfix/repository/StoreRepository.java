@@ -3,7 +3,9 @@ package com.project.foodfix.repository;
 import com.project.foodfix.model.DTO.PackableStoreDTO;
 import com.project.foodfix.model.DTO.ReservableStoreDTO;
 import com.project.foodfix.model.Store;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -12,6 +14,8 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
+    @Transactional
+    @Modifying
     // 포장 가능 매장 반환
     @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_image, s.store_name, s.store_category, s.minimumTime , s.openTime, s.closeTime) " +
             "FROM Store s " +
@@ -21,6 +25,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "AND (:menu_name IS NULL OR m.menu_name = :menu_name)")
     List<PackableStoreDTO> findPackableStores(@Param("store_category") String category, @Param("store_name") String store_name, @Param("menu_name") String menu_name);
 
+    @Transactional
+    @Modifying
     // 예약 가능 매장 반환
     @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.ReservableStoreDTO(s.store_name, s.store_image, s.store_category , s.openTime, s.closeTime) " +
             "FROM Store s " +
@@ -32,4 +38,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<ReservableStoreDTO> findStoresWithReservation
     (@Param("store_category") String store_category, @Param("store_name") String store_name , @Param("menu_name") String menu_name);
 
+    @Modifying
+    @Query("DELETE FROM Store s WHERE s.store_id = :store_id")
+    void deleteById(Long store_id);
 }
