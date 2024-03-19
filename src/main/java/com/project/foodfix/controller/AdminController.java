@@ -3,11 +3,12 @@ package com.project.foodfix.controller;
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.Admin;
+import com.project.foodfix.model.DTO.ReservationDTO;
 import com.project.foodfix.model.Menu;
+import com.project.foodfix.model.Reservation;
 import com.project.foodfix.model.Store;
-import com.project.foodfix.model.User;
-import com.project.foodfix.repository.StoreRepository;
 import com.project.foodfix.service.AuthService;
+import com.project.foodfix.service.Store.StoreService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
@@ -21,14 +22,15 @@ import java.util.*;
 @Controller
 public class AdminController {
     private final AuthService authService;
+    private final StoreService storeService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
+    public AdminController(AuthService authService, StoreService storeService, JwtTokenProvider jwtTokenProvider) {
         this.authService = authService;
+        this.storeService = storeService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
-
     // 관리자 엔드 포인트
     // 관리자 정보 조회 API
     @GetMapping("/profile")
@@ -43,24 +45,6 @@ public class AdminController {
         if (admin != null) return ResponseEntity.ok(admin);
 
         return notFoundResponseObject();
-    }
-    // 매장에 예약 신청 내역 조회
-    @GetMapping("/GetReservation")
-    public ResponseEntity<Object> getUserReservations(@RequestHeader("Authorization") String authorizationHeader) {
-        // 인증 처리 및 토큰 추출
-        String token = extractToken(authorizationHeader);
-        if (token == null) return unauthorizedResponseObject();
-
-        // 관리자 ID 추출
-        String admin_id = jwtTokenProvider.extractUserId(token);
-        if (admin_id == null) return unauthorizedResponseObject();
-
-        // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
-        if (admin != null) {
-            return ResponseEntity.ok(admin.getStore().getReservations());
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
     // 관리자 회원가입 API
     @PostMapping("/signup")
@@ -152,6 +136,29 @@ public class AdminController {
         }
 
         return notFoundResponseObject();
+    }
+    // 매장에 예약 신청 내역 조회
+    @GetMapping("/GetReservation")
+    public ResponseEntity<Object> getUserReservations(@RequestHeader("Authorization") String authorizationHeader) {
+        // 인증 처리 및 토큰 추출
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponseObject();
+
+        // 관리자 ID 추출
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponseObject();
+
+        // 관리자가 소유한 매장 조회
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
+        if (admin != null) {
+            // 매장 ID 추출
+            Long store_id = admin.getStore().getStore_id();
+
+            // 해당 매장의 예약 내역 조회
+            List<ReservationDTO> reservations = storeService.getReservationsByStoreId(store_id);
+            return ResponseEntity.ok(reservations);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
     // 매장 추가 API
     @PostMapping("/newstore")

@@ -66,6 +66,21 @@ public class StoreServiceImpl implements StoreService {
         return Collections.singletonList(returnReservationDTO(savedReservation));
     }
 
+    public List<ReservationDTO> getReservationsByStoreId(Long store_id) {
+        // 매장 ID를 이용하여 해당 매장의 예약 내역을 조회
+        List<Reservation> reservations = reservationRepository.findByStoreId(store_id);
+
+        // 조회된 예약 내역을 시간순으로 정렬
+        reservations.sort(Comparator.comparing(Reservation::getReservation_time).reversed());
+
+        // 조회된 예약 내역을 ReservationDTO 리스트로 변환하여 반환
+        List<ReservationDTO> reservationDTOs = new ArrayList<>();
+        for (Reservation reservation : reservations) {
+            reservationDTOs.add(returnReservationDTO(reservation));
+        }
+        return reservationDTOs;
+    }
+
     // Reservation 엔터티를 ReservationDTO로 변환
     private ReservationDTO returnReservationDTO(Reservation reservation) {
         ReservationDTO reservationDTO = new ReservationDTO();

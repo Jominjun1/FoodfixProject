@@ -23,5 +23,4 @@ public class ReservableStoreDTO {
         this.openTime = openTime;
         this.closeTime = closeTime;
     }
-
 }
