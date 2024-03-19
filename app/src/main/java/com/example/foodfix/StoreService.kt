@@ -23,6 +23,7 @@ interface StoreService {
 }
 
 data class StoreDTO(
+    val store_id: Long,
     val store_name: String,
     val storeImage: String,
     val storeCategory: String,

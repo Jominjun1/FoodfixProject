@@ -1,5 +1,6 @@
 package com.example.foodfix
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -59,13 +60,15 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        // 사용자의 JWT 토큰을 가져옴
+        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+
         val itemList = mutableListOf<CardModel>()
         itemList.add(CardModel("솔솥밥", "4.2", R.drawable.ic_launcher_foreground))
         itemList.add(CardModel("사생활", "4.2", R.drawable.ic_launcher_foreground))
         itemList.add(CardModel("행운동 조개", "4.2", R.drawable.ic_launcher_foreground))
         itemList.add(CardModel("부촌 육회", "4.2", R.drawable.ic_launcher_foreground))
         itemList.add(CardModel("시금치 통닭", "4.2", R.drawable.ic_launcher_foreground))
-
 
 
         val adapter = CardviewAdapter(itemList)
@@ -109,17 +112,23 @@ class MainActivity : AppCompatActivity() {
             val storeName: String? = null // 사용자가 입력한 매장 이름
             val menuName: String? = null // 사용자가 입력한 메뉴 이름
 
+
             /*val category = "한식"
             val storeName: String? = null // 사용자가 입력한 매장 이름
             val menuName: String? = null // 사용자가 입력한 메뉴 이름*/
 
             if(filter == "예약"){
-                storeService.searchReservableStores(category, storeName, menuName).enqueue(object :
-                    Callback<List<StoreDTO>> {
+                storeService.searchReservableStores(category, storeName, menuName).enqueue(object : Callback<List<StoreDTO>> {
                     override fun onResponse(call: Call<List<StoreDTO>>, response: Response<List<StoreDTO>>) {
                         if (response.isSuccessful) {
                             val reservableStores = response.body() ?: emptyList()
                             val cardItems = reservableStores.map { dto ->
+                                //식당 아이디 저장
+                                val store_id = dto.store_id
+                                with (sharedPref.edit()) {
+                                    putLong("store_id", store_id)
+                                    apply()
+                                }
                                 // 서버로부터 받은 정보를 CardModel로 변환합니다.
                                 CardModel(
                                     title = dto.store_name ?: "기본 매장 이름",
@@ -139,8 +148,10 @@ class MainActivity : AppCompatActivity() {
                                     val clickedItem = itemList[position]
                                     Log.d("MainActivity", "Clicked item: ${clickedItem.title}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
-                                    val intent = Intent(this@MainActivity, RestaurantActivity::class.java).apply {
+                                    val intent = Intent(this@MainActivity, RestuarantReservation::class.java).apply {
                                         putExtra("title", clickedItem.title)
+                                        val storeId = sharedPref.getLong("store_id", -1L) // 기본값으로 -1을 사용
+                                        intent.putExtra("store_id", storeId.toString()) // Long을 String으로 변환하여 putExtra 사용
                                     }
                                     startActivity(intent)
                                 }
@@ -163,6 +174,12 @@ class MainActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             val packableStores = response.body() ?: emptyList()
                             val cardItems = packableStores.map { dto ->
+                                //식당 아이디 저장
+                                val store_id = dto.store_id
+                                with (sharedPref.edit()) {
+                                    putLong("store_id", store_id)
+                                    apply()
+                                }
                                 // 서버로부터 받은 정보를 CardModel로 변환합니다.
                                 CardModel(
                                     title = dto.store_name ?: "기본 매장 이름",
@@ -184,6 +201,8 @@ class MainActivity : AppCompatActivity() {
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantActivity::class.java).apply {
                                         putExtra("title", clickedItem.title)
+                                        val storeId = sharedPref.getLong("store_id", -1L) // 기본값으로 -1을 사용
+                                        intent.putExtra("store_id", storeId.toString()) // Long을 String으로 변환하여 putExtra 사용
                                     }
                                     startActivity(intent)
                                 }

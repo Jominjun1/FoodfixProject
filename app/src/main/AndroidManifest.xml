@@ -35,6 +35,7 @@
         <activity android:name=".MyreviewActivity"/>
         <activity android:name=".RestaurantReviews"/>
         <activity android:name=".FavoritesActivity"/>
+        <activity android:name=".RestuarantReservation"/>
     </application>
 
 </manifest>
