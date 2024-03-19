@@ -14,8 +14,10 @@ public class PackableStoreDTO {
     private Integer minimumTime;
     private LocalTime openTime;
     private LocalTime closeTime;
+    private Long store_id; // 매장 ID
 
-    public PackableStoreDTO(String store_image, String store_name, String store_category, Integer minimumTime ,LocalTime openTime, LocalTime closeTime) {
+    public PackableStoreDTO(Long store_id , String store_image, String store_name, String store_category, Integer minimumTime ,LocalTime openTime, LocalTime closeTime) {
+        this.store_id=store_id;
         this.store_image = store_image;
         this.store_name = store_name;
         this.store_category = store_category;

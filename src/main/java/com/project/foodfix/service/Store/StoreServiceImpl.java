@@ -34,9 +34,9 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<ReservableStoreDTO> searchReservableStores(String store_category, String store_name , String menu_name) {
-        //  ReservableStoreDTO 리스트 반환
-        return storeRepository.findStoresWithReservation(store_category, store_name , menu_name);
+    public List<ReservableStoreDTO> searchReservableStores(String store_category, String store_name, String menu_name) {
+        // ReservableStoreDTO 리스트 반환
+        return storeRepository.findStoresWithReservation(store_category, store_name, menu_name);
     }
     @Override
     public List<ReservationDTO> reservationStore(ReservationDTO reservationDTO) {

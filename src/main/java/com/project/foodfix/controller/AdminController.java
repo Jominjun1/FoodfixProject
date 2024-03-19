@@ -22,13 +22,10 @@ public class AdminController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final StoreRepository storeRepository;
-
     @Autowired
-    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository) {
+    public AdminController(AuthService authService, JwtTokenProvider jwtTokenProvider) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.storeRepository = storeRepository;
     }
 
     // 관리자 엔드 포인트
@@ -261,7 +258,6 @@ public class AdminController {
             List<Menu> menus = admin.getStore().getMenus();
             return ResponseEntity.ok(menus);
         }
-
         return notFoundResponseObject();
     }
     // 메뉴 추가 API

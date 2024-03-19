@@ -16,14 +16,16 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
+    private final ReservationRepository reservationRepository;
 
     @Autowired
-    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository) {
+    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, ReservationRepository reservationRepository) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.storeRepository = storeRepository;
         this.menuRepository = menuRepository;
+        this.reservationRepository = reservationRepository;
     }
     // 회원가입 기능
     public ResponseEntity<String> signup(Object user, UserType userType) {
@@ -126,6 +128,7 @@ public class AuthService {
     // 매장 삭제
     public void deleteStore(Long store_id) {
         try {
+            reservationRepository.deleteByReservationStoreId(store_id);
             // 매장과 연관된 메뉴들 삭제
             menuRepository.deleteByStoreId(store_id);
             // 매장 삭제
