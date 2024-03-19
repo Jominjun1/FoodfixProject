@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/currentpassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:ems="10"
+        android:hint="현재 비밀번호 입력"
+        android:inputType="textPassword"/>
+
+    <EditText
+        android:id="@+id/changepassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:ems="10"
+        android:hint="변경할 비밀번호 입력"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/checkchangepassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        android:ems="10"
+        android:hint="변경할 비밀번호 재입력"
+        android:inputType="textPassword" />
+
+</LinearLayout>
