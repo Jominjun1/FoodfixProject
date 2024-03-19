@@ -5,6 +5,7 @@ import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.Menu;
 import com.project.foodfix.model.Store;
+import com.project.foodfix.model.User;
 import com.project.foodfix.repository.StoreRepository;
 import com.project.foodfix.service.AuthService;
 import org.springframework.beans.factory.annotation.*;
@@ -42,6 +43,24 @@ public class AdminController {
         if (admin != null) return ResponseEntity.ok(admin);
 
         return notFoundResponseObject();
+    }
+    // 매장에 예약 신청 내역 조회
+    @GetMapping("/GetReservation")
+    public ResponseEntity<Object> getUserReservations(@RequestHeader("Authorization") String authorizationHeader) {
+        // 인증 처리 및 토큰 추출
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponseObject();
+
+        // 관리자 ID 추출
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponseObject();
+
+        // 관리자가 소유한 매장 조회
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
+        if (admin != null) {
+            return ResponseEntity.ok(admin.getStore().getReservations());
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
     // 관리자 회원가입 API
     @PostMapping("/signup")

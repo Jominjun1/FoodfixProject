@@ -38,6 +38,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<ReservableStoreDTO> findStoresWithReservation
     (@Param("store_category") String store_category, @Param("store_name") String store_name , @Param("menu_name") String menu_name);
 
+    @Transactional
     @Modifying
     @Query("DELETE FROM Store s WHERE s.store_id = :store_id")
     void deleteById(Long store_id);

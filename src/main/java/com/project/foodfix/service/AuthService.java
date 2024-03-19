@@ -128,7 +128,7 @@ public class AuthService {
     // 매장 삭제
     public void deleteStore(Long store_id) {
         try {
-            reservationRepository.deleteByReservationStoreId(store_id);
+            reservationRepository.deleteByStoreId(store_id);
             // 매장과 연관된 메뉴들 삭제
             menuRepository.deleteByStoreId(store_id);
             // 매장 삭제

@@ -1,6 +1,7 @@
 package com.project.foodfix.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,5 +39,9 @@ public class Store {
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL , fetch = FetchType.EAGER) // (매장) 일대다 (메뉴) 관계
     private List<Menu> menus = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Reservation> reservations = new ArrayList<>();
 
 }

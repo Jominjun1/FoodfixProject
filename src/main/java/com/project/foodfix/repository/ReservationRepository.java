@@ -1,9 +1,11 @@
 package com.project.foodfix.repository;
 
 import com.project.foodfix.model.Reservation;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -15,7 +17,9 @@ public interface ReservationRepository extends JpaRepository<Reservation ,Long> 
     // 예약 주문 내역 조회
     List<Reservation> findAllByOrderByReservationTimeDesc();
 
+    @Transactional
     @Modifying
-    @Query("DELETE FROM Reservation r WHERE r.reservation_id = :reservation_id")
-    void deleteByReservationStoreId(Long reservation_id);
+    @Query("DELETE FROM Reservation r WHERE r.store.store_id = :store_id")
+    void deleteByStoreId(@Param("store_id") Long store_id);
+
 }
