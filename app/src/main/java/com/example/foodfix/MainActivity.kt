@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity() {
         itemList.add(CardModel("시금치 통닭", "4.2", R.drawable.ic_launcher_foreground))
 
 
-
         val adapter = CardviewAdapter(itemList)
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
@@ -119,8 +118,7 @@ class MainActivity : AppCompatActivity() {
             val menuName: String? = null // 사용자가 입력한 메뉴 이름*/
 
             if(filter == "예약"){
-                storeService.searchReservableStores(category, storeName, menuName).enqueue(object :
-                    Callback<List<StoreDTO>> {
+                storeService.searchReservableStores(category, storeName, menuName).enqueue(object : Callback<List<StoreDTO>> {
                     override fun onResponse(call: Call<List<StoreDTO>>, response: Response<List<StoreDTO>>) {
                         if (response.isSuccessful) {
                             val reservableStores = response.body() ?: emptyList()
@@ -128,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                                 //식당 아이디 저장
                                 val store_id = dto.store_id
                                 with (sharedPref.edit()) {
-                                    putString("store_id", store_id)
+                                    putLong("store_id", store_id)
                                     apply()
                                 }
                                 // 서버로부터 받은 정보를 CardModel로 변환합니다.
@@ -152,7 +150,8 @@ class MainActivity : AppCompatActivity() {
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestuarantReservation::class.java).apply {
                                         putExtra("title", clickedItem.title)
-                                        putExtra("store_id", sharedPref.getString("store_id", null) ?: "")
+                                        val storeId = sharedPref.getLong("store_id", -1L) // 기본값으로 -1을 사용
+                                        intent.putExtra("store_id", storeId.toString()) // Long을 String으로 변환하여 putExtra 사용
                                     }
                                     startActivity(intent)
                                 }
@@ -178,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                                 //식당 아이디 저장
                                 val store_id = dto.store_id
                                 with (sharedPref.edit()) {
-                                    putString("store_id", store_id)
+                                    putLong("store_id", store_id)
                                     apply()
                                 }
                                 // 서버로부터 받은 정보를 CardModel로 변환합니다.
@@ -202,7 +201,8 @@ class MainActivity : AppCompatActivity() {
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantActivity::class.java).apply {
                                         putExtra("title", clickedItem.title)
-                                        putExtra("store_id", sharedPref.getString("store_id", null) ?: "")
+                                        val storeId = sharedPref.getLong("store_id", -1L) // 기본값으로 -1을 사용
+                                        intent.putExtra("store_id", storeId.toString()) // Long을 String으로 변환하여 putExtra 사용
                                     }
                                     startActivity(intent)
                                 }

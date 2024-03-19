@@ -16,7 +16,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/storename"
+            android:id="@+id/storeId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -38,7 +38,7 @@
             android:stepSize="0.5"
             android:contentDescription="@string/rating_bar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storename" />
+            app:layout_constraintTop_toBottomOf="@+id/storeId" />
 
         <TextView
             android:id="@+id/reservationDate"
@@ -48,7 +48,7 @@
             android:layout_marginTop="8dp"
             android:text="날짜"
             app:layout_constraintStart_toEndOf="@+id/reviewRating"
-            app:layout_constraintTop_toBottomOf="@+id/storename" />
+            app:layout_constraintTop_toBottomOf="@+id/storeId" />
 
         <ImageView
             android:id="@+id/reviewimage"
