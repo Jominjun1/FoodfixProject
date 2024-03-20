@@ -33,7 +33,7 @@ public class ImageService {
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
 
         // UUID를 사용하여 파일명의 충돌을 방지합니다.
-        fileName = UUID.randomUUID().toString() + "-" + fileName;
+        fileName = UUID.randomUUID() + "-" + fileName;
 
         // 파일이 저장될 경로를 설정합니다.
         Path uploadDir = Paths.get(imagePath);
