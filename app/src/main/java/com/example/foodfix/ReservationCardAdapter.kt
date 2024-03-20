@@ -3,6 +3,7 @@ package com.example.foodfix
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,26 +15,30 @@ class ReservationCardAdapter(val revervationitems: MutableList<ReservationCardMo
 
     override fun onBindViewHolder(holder: ReservationCardAdapter.ViewHolder, position: Int) {
         holder.bindItems(revervationitems[position])
+        holder.cancelButton.setOnClickListener {
+            listener?.onCancelClick(position)
+        }
     }
 
     override fun getItemCount(): Int {
         return revervationitems.count()
     }
 
-    //카드 클릭 이벤트
-    /*private var listener: OnItemClickListener? = null
-
+    // 클릭 이벤트를 처리하기 위한 인터페이스 정의
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onCancelClick(position: Int)
     }
+
+    var listener: OnItemClickListener? = null
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
-    }*/
+    }
 
     // 화면에 표시 될 뷰를 저장하는 역할
     // 뷰를 재활용 하기 위해 각 요소를 저장해두고 사용한다.
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val cancelButton: ImageButton = itemView.findViewById(R.id.cancelButton)
         /*init {
             itemView.setOnClickListener {
                 val position = adapterPosition

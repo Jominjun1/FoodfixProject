@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/rastaurnatReservationBackButton"
+            android:id="@+id/restaurnatReservationBackButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -84,8 +84,7 @@
                     android:layout_width="60sp"
                     android:layout_height="60sp"
                     android:text="-"
-                    android:background="@drawable/circle_button"
-                    android:textSize="30sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/numpeople"
@@ -93,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:padding="16dp"
                     android:text="1"
+                    android:inputType="number"
                     android:textSize="30sp" />
 
                 <Button
@@ -100,8 +100,7 @@
                     android:layout_width="60sp"
                     android:layout_height="60sp"
                     android:text="+"
-                    android:background="@drawable/circle_button"
-                    android:textSize="30sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <TextView
@@ -148,7 +147,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:background="#FFFFFFFF"
                         android:text="11:00"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
