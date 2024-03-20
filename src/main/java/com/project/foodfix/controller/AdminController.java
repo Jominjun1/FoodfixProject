@@ -5,15 +5,17 @@ import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.DTO.ReservationDTO;
 import com.project.foodfix.model.Menu;
-import com.project.foodfix.model.Reservation;
 import com.project.foodfix.model.Store;
 import com.project.foodfix.service.AuthService;
+import com.project.foodfix.service.ImageService;
 import com.project.foodfix.service.Store.StoreService;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -23,12 +25,14 @@ import java.util.*;
 public class AdminController {
     private final AuthService authService;
     private final StoreService storeService;
+    private final ImageService imageService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public AdminController(AuthService authService, StoreService storeService, JwtTokenProvider jwtTokenProvider) {
+    public AdminController(AuthService authService, StoreService storeService, ImageService imageService, JwtTokenProvider jwtTokenProvider) {
         this.authService = authService;
         this.storeService = storeService;
+        this.imageService = imageService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
     // 관리자 엔드 포인트
@@ -160,9 +164,11 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
-    // 매장 추가 API
+    // 매장 추가
     @PostMapping("/newstore")
-    public ResponseEntity<String> createStore(@RequestBody Store store, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<String> createStore(@RequestParam("imageFile") MultipartFile imageFile,
+                                              @RequestBody Store store,
+                                              @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -174,16 +180,26 @@ public class AdminController {
         // 관리자가 소유한 매장 목록에 새로운 매장 추가
         Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
         if (admin != null) {
-            store.setAdmin(admin);
-            admin.setStore(store);
-            authService.saveUser(admin);
-            return ResponseEntity.ok("매장 등록 성공");
+            try {
+                // 매장 이미지를 저장하고 저장된 이미지의 경로를 가져옵니다.
+                String imagePath = imageService.saveStoreImage(imageFile);
+                // 저장된 이미지 경로를 store 객체에 설정합니다.
+                store.setStore_image(imagePath);
+                store.setAdmin(admin);
+                admin.setStore(store);
+                authService.saveUser(admin);
+                return ResponseEntity.ok("매장 등록 성공");
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("매장 이미지 업로드 실패");
+            }
         }
         return notFoundResponse();
     }
     // 매장 수정 API
     @PutMapping("/updatestore")
-    public ResponseEntity<String> updateStoreInfo(@RequestBody Map<String, String> updateInfo, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<String> updateStoreInfo(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                                                  @RequestBody Map<String, String> updateInfo,
+                                                  @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -209,10 +225,15 @@ public class AdminController {
             if (updateInfo.containsKey("store_phone")) {
                 store.setStore_phone(updateInfo.get("store_phone"));
             }
-            if (updateInfo.containsKey("store_image")){
-                store.setStore_image(updateInfo.get("store_image"));
+            if (imageFile != null && !imageFile.isEmpty()) {
+                try {
+                    String imageUrl = imageService.saveStoreImage(imageFile); // 이미지 저장
+                    store.setStore_image(imageUrl); // 매장 이미지 경로 설정
+                } catch (IOException e) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 업로드 오류 발생");
+                }
             }
-            if (updateInfo.containsKey("store_intro")){
+            if (updateInfo.containsKey("store_intro")) {
                 store.setStore_intro(updateInfo.get("store_intro"));
             }
             if (updateInfo.containsKey("minimumTime")) {
@@ -240,6 +261,7 @@ public class AdminController {
 
         return notFoundResponse();
     }
+
     // 매장 삭제
     @DeleteMapping("/deletestore")
     public ResponseEntity<String> deleteStore(@RequestHeader("Authorization") String authorizationHeader) {
@@ -288,7 +310,9 @@ public class AdminController {
     }
     // 메뉴 추가 API
     @PostMapping("/newmenu")
-    public ResponseEntity<String> createMenu(@RequestBody Menu newMenu, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<String> createMenu(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                                             @RequestBody Menu newMenu,
+                                             @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -302,6 +326,17 @@ public class AdminController {
         if (admin != null && admin.getStore() != null) {
             // 메뉴를 소유한 매장에 연결
             newMenu.setStore(admin.getStore());
+
+            // 이미지 파일이 전송되었을 경우 이미지 저장 및 메뉴 객체에 이미지 경로 설정
+            if (imageFile != null && !imageFile.isEmpty()) {
+                try {
+                    String imageUrl = imageService.saveMenuImage(imageFile); // 이미지 저장
+                    newMenu.setMenu_image(imageUrl); // 메뉴 이미지 경로 설정
+                } catch (IOException e) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 업로드 오류 발생");
+                }
+            }
+
             // 메뉴 저장
             authService.saveMenu(newMenu, admin_id);
             return ResponseEntity.ok("메뉴 등록 성공");
@@ -311,7 +346,9 @@ public class AdminController {
     }
     // 메뉴 수정 API
     @PutMapping("/updatemenu")
-    public ResponseEntity<String> updateMenuInfo(@RequestBody Menu updatedMenu, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<String> updateMenuInfo(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                                                 @RequestBody Menu updatedMenu,
+                                                 @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
@@ -325,20 +362,29 @@ public class AdminController {
         if (admin != null && admin.getStore() != null) {
             // 매장에 속한 메뉴 중 수정할 메뉴 찾기
             List<Menu> menus = admin.getStore().getMenus();
-            Menu newMenu = menus.stream()
+            Menu existingMenu = menus.stream()
                     .filter(menu -> menu.getMenu_id().equals(updatedMenu.getMenu_id()))
                     .findFirst()
                     .orElse(null);
 
-            if (newMenu != null) {
+            if (existingMenu != null) {
                 // 메뉴 정보 업데이트
-                newMenu.setMenu_name(updatedMenu.getMenu_name());
-                newMenu.setExplanation(updatedMenu.getExplanation());
-                newMenu.setMenu_image(updatedMenu.getMenu_image());
-                newMenu.setMenu_price(updatedMenu.getMenu_price());
+                existingMenu.setMenu_name(updatedMenu.getMenu_name());
+                existingMenu.setExplanation(updatedMenu.getExplanation());
+                existingMenu.setMenu_price(updatedMenu.getMenu_price());
+
+                // 이미지 파일이 전송되었을 경우 이미지 저장 및 메뉴 객체에 이미지 경로 설정
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    try {
+                        String imageUrl = imageService.saveMenuImage(imageFile); // 이미지 저장
+                        existingMenu.setMenu_image(imageUrl); // 메뉴 이미지 경로 설정
+                    } catch (IOException e) {
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 업로드 오류 발생");
+                    }
+                }
 
                 // 업데이트된 정보 저장
-                authService.saveMenu(newMenu, admin_id);
+                authService.saveMenu(existingMenu, admin_id);
                 return ResponseEntity.ok("메뉴 정보 수정 성공");
             }
         }

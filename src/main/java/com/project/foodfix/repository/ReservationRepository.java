@@ -13,11 +13,6 @@ import java.util.List;
 @Repository
 @SuppressWarnings("ALL")
 public interface ReservationRepository extends JpaRepository<Reservation ,Long> {
-    @Transactional
-    @Modifying
-    @Query("SELECT r FROM Reservation r ORDER BY r.reservation_time DESC")
-    // 예약 주문 내역 조회
-    List<Reservation> findAllByOrderByReservationTimeDesc();
 
     @Transactional
     @Modifying

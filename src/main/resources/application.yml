@@ -15,3 +15,10 @@ spring:
       token:
         secret-key: secretKey
         expire-length: 21600000
+  upload:
+    store:
+      image:
+        path: /path/to/store/images
+    menu:
+      image:
+        path: /path/to/menu/images
