@@ -57,6 +57,13 @@ class ReservationstatusActivity : AppCompatActivity() {
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
+        adapter.setOnItemClickListener(object : ReservationCardAdapter.OnItemClickListener {
+            override fun onCancelClick(position: Int) {
+                // 여기에서 취소 버튼이 클릭된 아이템의 처리 로직을 구현하세요.
+                Toast.makeText(this@ReservationstatusActivity, "Cancel clicked at position $position", Toast.LENGTH_SHORT).show()
+            }
+        })
+
         userService.getUserReservations("Bearer $token").enqueue(object : Callback<List<ReservationCardModel>> {
             override fun onResponse(call: Call<List<ReservationCardModel>>, response: Response<List<ReservationCardModel>>) {
                 if (response.isSuccessful) {
