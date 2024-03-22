@@ -1,6 +1,7 @@
 package com.project.foodfix.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,6 +9,7 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "admin")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "admin_id")
 public class Admin {
 
     @Id
@@ -24,7 +26,6 @@ public class Admin {
 
     @OneToOne(mappedBy = "admin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", nullable = false, unique = true)
-    @JsonManagedReference
     private Store store;
 
 }

@@ -23,5 +23,4 @@ public interface ReservationRepository extends JpaRepository<Reservation ,Long> 
     @Modifying
     @Query("DELETE FROM Reservation r WHERE r.store.store_id = :store_id")
     void deleteByStoreId(@Param("store_id") Long store_id);
-
 }

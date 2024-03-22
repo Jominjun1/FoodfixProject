@@ -16,9 +16,10 @@ spring:
         secret-key: secretKey
         expire-length: 21600000
   upload:
-    store:
-      image:
-        path: /path/to/store/images
-    menu:
-      image:
-        path: /path/to/menu/images
+    photo:
+      images: src/main/resources/static/images
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB

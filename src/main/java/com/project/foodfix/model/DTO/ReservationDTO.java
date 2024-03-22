@@ -19,4 +19,9 @@ public class ReservationDTO {
     // 매장측 정보
     private String store_phone; // 매장 전화번호
     private Long store_id; // 매장 ID
+
+    // 예약 정보
+    private Long reservation_id; // 예약 ID
+    private String reservation_status; // 예약 상태
+
 }

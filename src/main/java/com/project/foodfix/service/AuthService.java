@@ -7,6 +7,9 @@ import com.project.foodfix.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -16,16 +19,20 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
+    private final PhotoRepository photoRepository;
     private final ReservationRepository reservationRepository;
+    private final ImageService imageService;
 
     @Autowired
-    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, ReservationRepository reservationRepository) {
+    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, PhotoRepository photoRepository, ReservationRepository reservationRepository, ImageService imageService) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.storeRepository = storeRepository;
         this.menuRepository = menuRepository;
+        this.photoRepository = photoRepository;
         this.reservationRepository = reservationRepository;
+        this.imageService = imageService;
     }
     // 회원가입 기능
     public ResponseEntity<String> signup(Object user, UserType userType) {
@@ -35,7 +42,7 @@ public class AuthService {
             saveUser(user);
             return ResponseEntity.ok("회원가입 성공");
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 ID 입니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 ID");
         }
     }
     // 로그인 기능
@@ -56,10 +63,10 @@ public class AuthService {
 
                 return ResponseEntity.ok(response);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "비밀번호가 일치하지 않습니다"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "비밀번호가 일치하지 않음"));
             }
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "사용자를 찾을 수 없습니다"));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "사용자를 찾을 수 없음"));
         }
     }
     // 로그아웃 기능
@@ -91,7 +98,7 @@ public class AuthService {
         }
     }
     // 매장에 메뉴 저장 기능
-    public void saveMenu(Menu newMenu, String adminId) {
+    public void saveMenu(Menu newMenu, MultipartFile imageFile, String adminId) {
         Optional<Admin> optionalAdmin = adminRepository.findById(adminId);
         if (optionalAdmin.isPresent()) {
             Admin admin = optionalAdmin.get();
@@ -99,18 +106,31 @@ public class AuthService {
 
             if (store != null) {
                 newMenu.setStore(store);
+                try {
+                    // 이미지 저장
+                    Photo photo = null;
+                    if (imageFile != null && !imageFile.isEmpty()) {
+                        // 이미지가 존재하는 경우에만 저장
+                        photo = imageService.saveImage(imageFile);
+                    }
+                    // 이미지 정보가 있을 때만 설정
+                    if (photo != null) {
+                        newMenu.setMenuPhoto(photo);
+                    }
+                } catch (IOException e) {
+                    ResponseEntity.ok("이미지 저장 오류");
+                }
                 store.getMenus().add(newMenu);
 
                 saveUser(admin);  // 업데이트된 메뉴 정보를 가진 관리자 저장
                 ResponseEntity.ok("메뉴 추가 성공");
             } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 관리자가 소유한 매장이 없습니다.");
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자가 소유한 매장 없음");
             }
         } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 관리자를 찾을 수 없습니다.");
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자를 찾을 수 없음");
         }
     }
-
     // 사용자 회원 탈퇴 기능
     public void deleteUser(String user_id, UserType userType) {
         Optional<?> optionalUser = getUserById(user_id, userType);
@@ -122,12 +142,27 @@ public class AuthService {
             }
             ResponseEntity.ok("회원 탈퇴 성공");
         } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 정보를 찾을 수 없습니다.");
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("정보를 찾을 수 없음");
         }
     }
     // 매장 삭제
     public void deleteStore(Long store_id) {
         try {
+            // 매장과 관련된 사진 삭제
+            Optional<Store> storeOptional = storeRepository.findById(store_id);
+            if (storeOptional.isPresent()) {
+                Store store = storeOptional.get();
+                if (store.getPhoto() != null) {
+                    photoRepository.deleteById(store.getPhoto().getPhoto_id());
+                }
+            }
+            // 매장과 연관된 메뉴들의 사진 삭제
+            List<Menu> menus = menuRepository.deleteByStoreId(store_id);
+            for (Menu menu : menus) {
+                if (menu.getMenuPhoto() != null) {
+                    photoRepository.deleteById(menu.getMenuPhoto().getPhoto_id());
+                }
+            }
             reservationRepository.deleteByStoreId(store_id);
             // 매장과 연관된 메뉴들 삭제
             menuRepository.deleteByStoreId(store_id);
@@ -141,6 +176,10 @@ public class AuthService {
     // 메뉴 삭제
     public void deleteMenu(Long menu_id){
         try{
+            Menu menu = menuRepository.findById(menu_id).orElse(null);
+            if (menu != null && menu.getMenuPhoto() != null) {
+                photoRepository.delete(menu.getMenuPhoto());
+            }
             // 메뉴 삭제
             menuRepository.deleteByMenuId(menu_id);
         } catch (Exception e){
@@ -201,6 +240,24 @@ public class AuthService {
     public Menu findMenuById(Long menu_id) {
         Optional<Menu> optionalMenu = menuRepository.findById(menu_id);
         return optionalMenu.orElse(null);
+    }
+
+    // 메뉴 삭제시 메뉴 사진도 삭제
+    public void deletePhoto(Long menu_id) {
+        // 메뉴를 찾습니다.
+        Optional<Menu> optionalMenu = menuRepository.findById(menu_id);
+        if (optionalMenu.isPresent()) {
+            Menu menu = optionalMenu.get();
+
+            // 메뉴에 연결된 사진을 가져옵니다.
+            Photo photo = menu.getMenuPhoto();
+            if (photo != null) {
+                // 사진을 삭제합니다.
+                photoRepository.delete(photo);
+            }
+            // 메뉴를 삭제합니다.
+            menuRepository.delete(menu);
+        }
     }
 }
 

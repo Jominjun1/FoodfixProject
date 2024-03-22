@@ -86,6 +86,8 @@ public class StoreServiceImpl implements StoreService {
         ReservationDTO reservationDTO = new ReservationDTO();
 
         // 예약 정보 설정
+        reservationDTO.setReservation_id(reservation.getReservation_id());
+        reservationDTO.setReservation_status(reservation.getReservation_status());
         reservationDTO.setReservation_date(reservation.getReservation_date());
         reservationDTO.setReservation_time(reservation.getReservation_time());
         reservationDTO.setPeople_cnt(reservation.getNum_people());

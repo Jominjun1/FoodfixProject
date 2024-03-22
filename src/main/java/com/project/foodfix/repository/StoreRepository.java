@@ -14,10 +14,10 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
+    // 포장 가능 매장 반환
     @Transactional
     @Modifying
-    // 포장 가능 매장 반환
-    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_id ,s.store_image, s.store_name, s.store_category, s.minimumTime , s.openTime, s.closeTime) " +
+    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_id, s.photo.imagePath, s.store_name, s.store_category, s.minimumTime, s.openTime, s.closeTime) " +
             "FROM Store s " +
             "JOIN s.menus m " +
             "WHERE (:store_category IS NULL OR s.store_category = :store_category) " +
@@ -25,19 +25,17 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "AND (:menu_name IS NULL OR m.menu_name = :menu_name)")
     List<PackableStoreDTO> findPackableStores(@Param("store_category") String category, @Param("store_name") String store_name, @Param("menu_name") String menu_name);
 
+    // 예약 가능 매장 반환
     @Transactional
     @Modifying
-    // 예약 가능 매장 반환
-    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.ReservableStoreDTO(s.store_id, s.store_name, s.store_image, s.store_category , s.openTime, s.closeTime) " +
+    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.ReservableStoreDTO(s.store_id, s.photo.imagePath, s.store_name, s.store_category, s.openTime, s.closeTime) " +
             "FROM Store s " +
             "JOIN s.menus m " +
             "WHERE (:store_category IS NULL OR s.store_category = :store_category) " +
             "AND (:store_name IS NULL OR s.store_name LIKE %:store_name%) " +
             "AND (:menu_name IS NULL OR m.menu_name = :menu_name)" +
             "AND s.res_status = '1'")
-    List<ReservableStoreDTO> findStoresWithReservation
-    (@Param("store_category") String store_category, @Param("store_name") String store_name , @Param("menu_name") String menu_name);
-
+    List<ReservableStoreDTO> findStoresWithReservation(@Param("store_category") String store_category, @Param("store_name") String store_name, @Param("menu_name") String menu_name);
     @Transactional
     @Modifying
     @Query("DELETE FROM Store s WHERE s.store_id = :store_id")
