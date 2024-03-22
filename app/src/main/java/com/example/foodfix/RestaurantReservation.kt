@@ -16,8 +16,10 @@ class RestaurantReservation : AppCompatActivity() {
 
         // 사용자의 JWT 토큰을 가져옴
         val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
-        val store_id = sharedPref.getLong("store_id", 0L)
-        val store_name = sharedPref.getString("store_name", "")
+
+        // 식당 정보
+        val store_id = intent.getLongExtra("store_id", 0L)
+        val store_name = intent.getStringExtra("store_name")
 
         findViewById<TextView>(R.id.restaurantName).text = store_name
 

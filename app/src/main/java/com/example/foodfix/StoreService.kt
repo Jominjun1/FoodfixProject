@@ -22,11 +22,4 @@ interface StoreService {
     ): Call<List<StoreDTO>>
 }
 
-data class StoreDTO(
-    val store_id: Long,
-    val store_name: String,
-    val storeImage: String,
-    val storeCategory: String,
-    val openTime: LocalTime,
-    val closeTime: LocalTime
-)
+
