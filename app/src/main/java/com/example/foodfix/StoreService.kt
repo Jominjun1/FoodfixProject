@@ -6,7 +6,6 @@ import retrofit2.http.Query
 import java.time.LocalTime
 
 interface StoreService {
-
     @GET("/store/reservable")
     fun searchReservableStores(
         @Query("store_category") storeCategory: String?,

@@ -69,9 +69,9 @@ class RestaurantActivity : AppCompatActivity() {
 
        findViewById<TextView>(R.id.restaurant_name).text = store_name
 
-        val itemList = mutableListOf<CardModel>()
+        val itemList = mutableListOf<MenuModel>()
 
-        val adapter = CardviewAdapter(itemList)
+        val adapter = MenuAdapter(itemList)
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
@@ -79,18 +79,21 @@ class RestaurantActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<MenuModel>>, response: Response<List<MenuModel>>) {
                 if (response.isSuccessful) {
                     val menuList = response.body() ?: emptyList()
-                    val cardItem = menuList.map { MenuModel ->
-                        CardModel(
-                            title = MenuModel.menu_name,
-                            detail = MenuModel.menu_price.toString(),
-                            image = R.drawable.ic_launcher_foreground // 이미지 URL 또는 리소스 ID
+                    val cardItem = menuList.map { dto ->
+                        MenuModel(
+                            menu_id = dto.menu_id,
+                            menu_name = dto.menu_name,
+                            explanation = dto.explanation,
+                            menu_image = R.drawable.ic_launcher_foreground.toString(),
+                            menu_price = dto.menu_price
                         )
                     }
                     itemList.clear()
-                    itemList.addAll(itemList)
+                    itemList.addAll(cardItem)
                     adapter.notifyDataSetChanged()
                 } else {
                     // 실패 처리
+                    Log.d("RestaurantActivity", "Response: ${response.body()}")
                     Toast.makeText(this@RestaurantActivity, "메뉴 정보를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -103,17 +106,17 @@ class RestaurantActivity : AppCompatActivity() {
         })
 
         // 각 카드 뷰의 클릭 이벤트 처리
-        adapter.setOnItemClickListener(object : CardviewAdapter.OnItemClickListener {
+        adapter.setOnItemClickListener(object : MenuAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 // 클릭한 아이템의 정보를 로그로 출력하여 확인
                 val clickedItem = itemList[position]
-                Log.d("MainActivity", "Clicked item: ${clickedItem.title}")
+                Log.d("MainActivity", "Clicked item: ${clickedItem.menu_name}")
 
                 // 클릭한 아이템에 대한 처리 작업을 여기에 추가
                 // 예를 들어, 다른 화면으로 이동하거나 데이터를 전달할 수 있습니다.
                 val intent = Intent(this@RestaurantActivity, MenuActivity::class.java)
-                intent.putExtra("menu_name", clickedItem.title)
-                intent.putExtra("menu_price", clickedItem.detail)
+                intent.putExtra("menu_name", clickedItem.menu_name)
+                intent.putExtra("menu_price", clickedItem.menu_price)
                 resultLauncher.launch(intent)
             }
         })

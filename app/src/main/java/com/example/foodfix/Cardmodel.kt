@@ -35,8 +35,8 @@ data class StoreDTO(
 data class MenuModel(
     val menu_id: Long,
     val menu_name: String,
-    val explanation: String,
-    val menu_image: String,
+    val explanation: String?,
+    val menu_image: String?,
     val menu_price: Double
     // 서버에서 받는 메뉴 관련 다른 필드도 추가할 수 있습니다.
 )

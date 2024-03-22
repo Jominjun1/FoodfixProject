@@ -18,7 +18,7 @@ class MenuActivity : AppCompatActivity() {
             finish()
         }
 
-        val menuPrice = intent.getStringExtra("menu_price")?.toIntOrNull() ?: 1
+        val menuPrice = intent.getDoubleExtra("menu_price", 1.0)
         val totalPriceTextView = findViewById<TextView>(R.id.menuPrice)
 
         findViewById<TextView>(R.id.menuName).text = intent.getStringExtra("menu_name")
@@ -51,7 +51,7 @@ class MenuActivity : AppCompatActivity() {
 
 
     // 가격 업데이트를 위한 함수
-    private fun updateTotalPrice(numMenu: Int, menuPrice: Int, totalPriceTextView: TextView) {
+    private fun updateTotalPrice(numMenu: Int, menuPrice: Double, totalPriceTextView: TextView) {
         val totalPrice = numMenu * menuPrice
         totalPriceTextView.text = "$totalPrice"
     }
