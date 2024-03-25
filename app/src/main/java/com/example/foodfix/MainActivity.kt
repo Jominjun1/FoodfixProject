@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         // 사용자의 JWT 토큰을 가져옴
-        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        //val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
 
         val itemList = mutableListOf<StoreDTO>()
         val adapter = StoreAdapter(itemList)
@@ -100,11 +100,11 @@ class MainActivity : AppCompatActivity() {
                             val reservableStores = response.body() ?: emptyList()
                             val cardItems = reservableStores.map { dto ->
 
+                                Log.d("StoreImagePath","${dto.photo?.imagePath}")
                                 // 서버로부터 받은 정보를 StoreDTO 변환합니다.
                                 StoreDTO (
                                     store_id = dto.store_id,
                                     store_name = dto.store_name,
-                                    storeImage = R.drawable.ic_launcher_foreground.toString(),
                                     store_address = dto.store_address,
                                     storeCategory = dto.storeCategory,
                                     store_phone = dto.store_phone,
@@ -112,7 +112,8 @@ class MainActivity : AppCompatActivity() {
                                     store_intro = dto.store_intro,
                                     openTime = dto.openTime,
                                     closeTime = dto.closeTime,
-                                    reservationCancel = dto.reservationCancel
+                                    reservationCancel = dto.reservationCancel,
+                                    photo = dto.photo
                                 )
                             }
                             // RecyclerView 어댑터에 데이터 설정
@@ -158,11 +159,11 @@ class MainActivity : AppCompatActivity() {
                             val packableStores = response.body() ?: emptyList()
                             val cardItems = packableStores.map { dto ->
 
+                                Log.d("StoreImagePath","${dto.photo?.imagePath}")
                                 // 서버로부터 받은 정보를 StoreDTO로 변환합니다.
                                 StoreDTO (
                                     store_id = dto.store_id,
                                     store_name = dto.store_name,
-                                    storeImage = R.drawable.ic_launcher_foreground.toString(),
                                     store_address = dto.store_address,
                                     storeCategory = dto.storeCategory,
                                     store_phone = dto.store_phone,
@@ -170,7 +171,8 @@ class MainActivity : AppCompatActivity() {
                                     store_intro = dto.store_intro,
                                     openTime = dto.openTime,
                                     closeTime = dto.closeTime,
-                                    reservationCancel = dto.reservationCancel
+                                    reservationCancel = dto.reservationCancel,
+                                    photo = dto.photo
                                 )
                             }
                             // RecyclerView 어댑터에 데이터 설정
