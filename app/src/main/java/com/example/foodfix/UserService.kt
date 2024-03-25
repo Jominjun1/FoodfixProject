@@ -15,8 +15,9 @@ interface UserService {
     @GET("/user/profile")
     fun getUserProfile(@Header("Authorization") token: String): Call<UserProfileResponse>
     @GET("/user/reservations")
-    fun getUserReservation(@Header("Authorization") token: String): Call<ReservationCardModel>
-
+    fun getUserReservations(@Header("Authorization") token: String): Call<List<ReservationCardModel>>
+    @GET("/user/menus/{store_id}")
+    fun getMenusByStoreId(@Path("store_id") storeId: Long): Call<List<MenuModel>>
     @DELETE("/user/delete")
     fun deleteUser(@Header("Authorization") token: String): Call<ResponseBody>
     @PUT("/user/update")
@@ -35,3 +36,6 @@ data class UserProfileResponse(
 data class UserPw(
     val user_pw: String
 )
+
+
+

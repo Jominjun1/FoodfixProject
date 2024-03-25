@@ -1,12 +1,14 @@
 package com.example.foodfix
 
+import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 import java.time.LocalTime
 
 interface StoreService {
-
     @GET("/store/reservable")
     fun searchReservableStores(
         @Query("store_category") storeCategory: String?,
@@ -20,12 +22,9 @@ interface StoreService {
         @Query("store_name") storeName: String?,
         @Query("menu_name") menuName: String?
     ): Call<List<StoreDTO>>
+
+    @POST("/reservation/create")
+    fun createReservation(@Body reservationDTO: ReservationDTO): Call<ResponseBody>
 }
 
-data class StoreDTO(
-    val store_name: String,
-    val storeImage: String,
-    val storeCategory: String,
-    val openTime: LocalTime,
-    val closeTime: LocalTime
-)
+

@@ -73,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
                                 val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
                                 with (sharedPref.edit()) {
                                     putString("jwt_token", token) // 'jwt_token' 키에 토큰 저장
+                                    putString("user_id", user_id)
                                     putString("user_pw", user_pw)
                                     apply()
                                 }

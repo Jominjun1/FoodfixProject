@@ -1,12 +1,11 @@
 package com.example.foodfix
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -14,6 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.RestaurantDetailBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 class RestaurantActivity : AppCompatActivity() {
@@ -47,37 +52,75 @@ class RestaurantActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        val itemList = mutableListOf<CardModel>()
-        itemList.add(CardModel("메뉴1", "10000", R.drawable.ic_launcher_foreground))
-        itemList.add(CardModel("메뉴2", "20000", R.drawable.ic_launcher_foreground))
-        itemList.add(CardModel("메뉴3", "30000", R.drawable.ic_launcher_foreground))
-        itemList.add(CardModel("메뉴4", "40000", R.drawable.ic_launcher_foreground))
-        itemList.add(CardModel("메뉴5", "50000", R.drawable.ic_launcher_foreground))
+        // Retrofit 인스턴스 생성
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://54.180.213.178:8080") // 서버의 기본 URL
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-        val adapter = CardviewAdapter(itemList)
+        val userService = retrofit.create(UserService::class.java)
+
+        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+
+
+        // 식당 정보
+        val store_id = intent.getLongExtra("store_id", 0L)
+        val store_name = intent.getStringExtra("store_name")
+
+       findViewById<TextView>(R.id.restaurant_name).text = store_name
+
+        val itemList = mutableListOf<MenuModel>()
+
+        val adapter = MenuAdapter(itemList)
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
+        userService.getMenusByStoreId(store_id).enqueue(object : Callback<List<MenuModel>> {
+            override fun onResponse(call: Call<List<MenuModel>>, response: Response<List<MenuModel>>) {
+                if (response.isSuccessful) {
+                    val menuList = response.body() ?: emptyList()
+                    val cardItem = menuList.map { dto ->
+                        MenuModel(
+                            menu_id = dto.menu_id,
+                            menu_name = dto.menu_name,
+                            explanation = dto.explanation,
+                            menu_image = R.drawable.ic_launcher_foreground.toString(),
+                            menu_price = dto.menu_price
+                        )
+                    }
+                    itemList.clear()
+                    itemList.addAll(cardItem)
+                    adapter.notifyDataSetChanged()
+                } else {
+                    // 실패 처리
+                    Log.d("RestaurantActivity", "Response: ${response.body()}")
+                    Toast.makeText(this@RestaurantActivity, "메뉴 정보를 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<MenuModel>>, t: Throwable) {
+                // 네트워크 오류 처리
+                Log.e("RestaurantActivity", "Network Error: ${t.localizedMessage}")
+                Toast.makeText(this@RestaurantActivity, "네트워크 오류가 발생했습니다: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
+        })
+
         // 각 카드 뷰의 클릭 이벤트 처리
-        adapter.setOnItemClickListener(object : CardviewAdapter.OnItemClickListener {
+        adapter.setOnItemClickListener(object : MenuAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 // 클릭한 아이템의 정보를 로그로 출력하여 확인
                 val clickedItem = itemList[position]
-                Log.d("MainActivity", "Clicked item: ${clickedItem.title}")
+                Log.d("MainActivity", "Clicked item: ${clickedItem.menu_name}")
 
                 // 클릭한 아이템에 대한 처리 작업을 여기에 추가
                 // 예를 들어, 다른 화면으로 이동하거나 데이터를 전달할 수 있습니다.
                 val intent = Intent(this@RestaurantActivity, MenuActivity::class.java)
-                intent.putExtra("menu_name", clickedItem.title)
-                intent.putExtra("menu_price", clickedItem.detail)
+                intent.putExtra("menu_name", clickedItem.menu_name)
+                intent.putExtra("menu_price", clickedItem.menu_price)
                 resultLauncher.launch(intent)
             }
         })
 
-
-
-        val restaurantName = intent.getStringExtra("title")
-        findViewById<TextView>(R.id.restaurant_title).text = restaurantName
 
         findViewById<Button>(R.id.restaurant_detailBackButton).setOnClickListener {
             finish()
@@ -91,9 +134,6 @@ class RestaurantActivity : AppCompatActivity() {
             openReviewActivity()
         }
 
-        findViewById<Button>(R.id.reservation_button).setOnClickListener {
-
-        }
 
         findViewById<TextView>(R.id.restautant_inf).setOnClickListener {
 

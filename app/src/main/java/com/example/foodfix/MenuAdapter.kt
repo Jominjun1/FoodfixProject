@@ -7,14 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CardviewAdapter(val items: MutableList<CardModel>) :
-    RecyclerView.Adapter<CardviewAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardviewAdapter.ViewHolder {
+class MenuAdapter (val items: MutableList<MenuModel>) :
+    RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_cardview, parent, false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: CardviewAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MenuAdapter.ViewHolder, position: Int) {
         holder.bindItems(items[position])
     }
 
@@ -51,14 +51,14 @@ class CardviewAdapter(val items: MutableList<CardModel>) :
             }
         }
 
-        fun bindItems(cardModel: CardModel) {
+        fun bindItems(menuModel: MenuModel) {
             val imageArea = itemView.findViewById<ImageView>(R.id.imageArea)
             val detailArea = itemView.findViewById<TextView>(R.id.detailArea)
             val titleArea = itemView.findViewById<TextView>(R.id.titleArea)
 
-            imageArea.setImageResource(cardModel.image)
-            detailArea.text = cardModel.detail // "별점 ${cardModel.detail}" 혹은 다른 문자열 포맷을 직접 사용
-            titleArea.text = cardModel.title
+            imageArea.setImageResource(R.drawable.ic_launcher_foreground)
+            titleArea.text = menuModel.menu_name
+            detailArea.text = menuModel.menu_price.toString()
         }
     }
 }
