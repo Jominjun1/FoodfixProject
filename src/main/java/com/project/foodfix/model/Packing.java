@@ -36,10 +36,9 @@ public class Packing {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store; // 포장한 매장
 
-    @OneToMany(mappedBy = "packing", cascade = CascadeType.ALL , fetch = FetchType.EAGER) // (포장주문) 일대다 (메뉴) 관계
+    @OneToMany(mappedBy = "packing", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Menu> menus = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
-    private Review review; // 해당 포장에 대한 리뷰 정보
+    @OneToOne(mappedBy = "packing", cascade = CascadeType.ALL)
+    private Review review;
 }
