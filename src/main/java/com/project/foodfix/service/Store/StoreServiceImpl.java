@@ -81,6 +81,24 @@ public class StoreServiceImpl implements StoreService {
         return reservationDTOs;
     }
 
+    @Override
+    public boolean updateReservationOrder(Long reservationId, String reservationStatus) {
+        // 예약 내역을 조회
+        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+        if (optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
+
+            // 예약 상태를 변경
+            reservation.setReservation_status(reservationStatus);
+
+            // 변경된 예약 내역 저장
+            reservationRepository.save(reservation);
+            return true; // 예약 성공
+        } else {
+            return false; // 예약 내역 x 반환
+        }
+    }
+
     // Reservation 엔터티를 ReservationDTO로 변환
     private ReservationDTO returnReservationDTO(Reservation reservation) {
         ReservationDTO reservationDTO = new ReservationDTO();

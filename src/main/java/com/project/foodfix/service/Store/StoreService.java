@@ -17,5 +17,6 @@ public interface StoreService {
     List<ReservationDTO> reservationStore(ReservationDTO reservationDTO);
     // 예약 내역 조회 기능
     List<ReservationDTO> getReservationsByStoreId(Long store_id);
-
+    // 예약 내역 수정 기능
+    boolean updateReservationOrder(Long reservationId, String reservationStatus);
 }
