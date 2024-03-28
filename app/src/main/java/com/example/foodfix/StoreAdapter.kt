@@ -64,7 +64,7 @@ class StoreAdapter(val items: MutableList<StoreDTO>) :
                 .error(R.drawable.ic_launcher_background) // 로딩 에러 발생 시 표시될 이미지
                 .into(imageArea)
 
-            titleArea.text = storeDTO.store_name // "별점 ${cardModel.detail}" 혹은 다른 문자열 포맷을 직접 사용
+            titleArea.text = storeDTO.store_name
             detailArea.text = "Open: ${storeDTO.openTime?.toString()} - Close: ${storeDTO.closeTime?.toString()}"
         }
     }

@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                             val reservableStores = response.body() ?: emptyList()
                             val cardItems = reservableStores.map { dto ->
 
-                                Log.d("StoreImagePath","${dto.photo?.imagePath}")
+                                Log.d("StoreImagePath","${dto.photo}")
                                 // 서버로부터 받은 정보를 StoreDTO 변환합니다.
                                 StoreDTO (
                                     store_id = dto.store_id,
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
                             val packableStores = response.body() ?: emptyList()
                             val cardItems = packableStores.map { dto ->
 
-                                Log.d("StoreImagePath","${dto.photo?.imagePath}")
+                                Log.d("StoreImagePath","${dto.photo}")
                                 // 서버로부터 받은 정보를 StoreDTO로 변환합니다.
                                 StoreDTO (
                                     store_id = dto.store_id,

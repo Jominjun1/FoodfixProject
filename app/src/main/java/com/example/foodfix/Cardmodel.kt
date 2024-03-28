@@ -3,8 +3,6 @@ package com.example.foodfix
 import java.time.LocalDate
 import java.time.LocalTime
 
-
-
 data class CardModel(
     val title: String, val detail: String, val image: Int
 )
