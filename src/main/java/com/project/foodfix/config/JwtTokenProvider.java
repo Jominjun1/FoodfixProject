@@ -45,7 +45,7 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
             System.err.println("토큰이 만료되었습니다. : " + e.getMessage());
             return false;
-        } catch (UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+        } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
             System.err.println("잘못된 토큰입니다. : " + e.getMessage());
             return false;
         }

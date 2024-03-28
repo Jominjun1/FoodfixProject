@@ -8,15 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
     // 매장에 속한 모든 메뉴 삭제
     @Modifying
     @Transactional
-    @Query("DELETE FROM Menu m WHERE m.store.store_id = :store_id")
-    List<Menu> deleteByStoreId(@Param("store_id") Long store_id);
+    @Query(value = "DELETE FROM menu WHERE store_id = :store_id", nativeQuery = true)
+    void deleteMenusByStoreId(@Param("store_id") Long store_id);
 
     @Modifying
     @Transactional

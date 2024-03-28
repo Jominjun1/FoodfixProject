@@ -30,8 +30,8 @@ public class Menu {
     @JsonIgnore
     private Store store; // 매장 정보
 
-    @ManyToOne
-    @JoinColumn(name = "packing_id", nullable = false)
-    private Packing packing;
+//    @ManyToOne
+//    @JoinColumn(name = "packing_id", nullable = false)
+//    private Packing packing;
 
 }

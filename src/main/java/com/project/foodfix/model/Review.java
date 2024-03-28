@@ -32,9 +32,9 @@ public class Review {
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)
     private Store store; // 리뷰 대상 매장
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "packing_id")
-    private Packing packing;
+//
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "packing_id")
+//    private Packing packing;
 
 }

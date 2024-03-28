@@ -97,7 +97,24 @@ public class AuthService {
             adminRepository.save((Admin) user);
         }
     }
-    // 매장에 메뉴 저장 기능
+    public void saveMenu(Menu newMenu, String admin_id) {
+        Optional<Admin> optionalAdmin = adminRepository.findById(admin_id);
+        if (optionalAdmin.isPresent()) {
+            Admin admin = optionalAdmin.get();
+            Store store = admin.getStore();
+
+            if (store != null) {
+                newMenu.setStore(store);
+                saveUser(admin);
+                ResponseEntity.ok("메뉴 추가 성공");
+            } else {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자가 소유한 매장 없음");
+            }
+        } else {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자를 찾을 수 없음");
+        }
+    }
+    // 메뉴 추가
     public void saveMenu(Menu newMenu, MultipartFile imageFile, String adminId) {
         Optional<Admin> optionalAdmin = adminRepository.findById(adminId);
         if (optionalAdmin.isPresent()) {
@@ -112,12 +129,11 @@ public class AuthService {
                     if (imageFile != null && !imageFile.isEmpty()) {
                         // 이미지가 존재하는 경우에만 저장
                         photo = imageService.saveImage(imageFile);
-                    }
-                    // 이미지 정보가 있을 때만 설정
-                    if (photo != null) {
+                        // 이미지 정보가 있을 때만 설정
                         newMenu.setMenuPhoto(photo);
                     }
                 } catch (IOException e) {
+                    // 이미지 저장 중 오류 발생 시 처리
                     ResponseEntity.ok("이미지 저장 오류");
                 }
                 store.getMenus().add(newMenu);
@@ -153,19 +169,14 @@ public class AuthService {
             if (storeOptional.isPresent()) {
                 Store store = storeOptional.get();
                 if (store.getPhoto() != null) {
-                    photoRepository.deleteById(store.getPhoto().getPhoto_id());
-                }
-            }
-            // 매장과 연관된 메뉴들의 사진 삭제
-            List<Menu> menus = menuRepository.deleteByStoreId(store_id);
-            for (Menu menu : menus) {
-                if (menu.getMenuPhoto() != null) {
-                    photoRepository.deleteById(menu.getMenuPhoto().getPhoto_id());
+                    Photo photo = store.getPhoto();
+                    photo.setPhoto_status("1"); // 삭제 예정으로 상태 변경
+                    photoRepository.save(photo); // 변경된 상태 저장
                 }
             }
             reservationRepository.deleteByStoreId(store_id);
             // 매장과 연관된 메뉴들 삭제
-            menuRepository.deleteByStoreId(store_id);
+            menuRepository.deleteMenusByStoreId(store_id);
             // 매장 삭제
             storeRepository.deleteById(store_id);
         } catch (Exception e) {
@@ -174,15 +185,17 @@ public class AuthService {
         }
     }
     // 메뉴 삭제
-    public void deleteMenu(Long menu_id){
-        try{
+    public void deleteMenu(Long menu_id) {
+        try {
             Menu menu = menuRepository.findById(menu_id).orElse(null);
             if (menu != null && menu.getMenuPhoto() != null) {
-                photoRepository.delete(menu.getMenuPhoto());
+                Photo photo = menu.getMenuPhoto();
+                photo.setPhoto_status("1"); // 삭제 예정으로 상태 변경
+                photoRepository.save(photo); // 변경된 상태 저장
             }
             // 메뉴 삭제
             menuRepository.deleteByMenuId(menu_id);
-        } catch (Exception e){
+        } catch (Exception e) {
             // 콘솔에 오류 메시지를 출력합니다.
             System.err.println("오류 발생: " + e.getMessage());
         }
@@ -242,22 +255,5 @@ public class AuthService {
         return optionalMenu.orElse(null);
     }
 
-    // 메뉴 삭제시 메뉴 사진도 삭제
-    public void deletePhoto(Long menu_id) {
-        // 메뉴를 찾습니다.
-        Optional<Menu> optionalMenu = menuRepository.findById(menu_id);
-        if (optionalMenu.isPresent()) {
-            Menu menu = optionalMenu.get();
-
-            // 메뉴에 연결된 사진을 가져옵니다.
-            Photo photo = menu.getMenuPhoto();
-            if (photo != null) {
-                // 사진을 삭제합니다.
-                photoRepository.delete(photo);
-            }
-            // 메뉴를 삭제합니다.
-            menuRepository.delete(menu);
-        }
-    }
 }
 
