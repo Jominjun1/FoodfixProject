@@ -83,37 +83,6 @@ public class AuthService {
             }
         });
     }
-    // 정보 조회 기능
-    public Object getUser(String user_id, UserType userType) {
-        Optional<?> optionalUser = getUserById(user_id, userType);
-        return optionalUser.orElse(null);
-    }
-    // 사용자 정보 저장 기능
-    public void saveUser(Object user) {
-        // 저장
-        if (user instanceof User) {
-            userRepository.save((User) user);
-        } else {
-            adminRepository.save((Admin) user);
-        }
-    }
-    public void saveMenu(Menu newMenu, String admin_id) {
-        Optional<Admin> optionalAdmin = adminRepository.findById(admin_id);
-        if (optionalAdmin.isPresent()) {
-            Admin admin = optionalAdmin.get();
-            Store store = admin.getStore();
-
-            if (store != null) {
-                newMenu.setStore(store);
-                saveUser(admin);
-                ResponseEntity.ok("메뉴 추가 성공");
-            } else {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자가 소유한 매장 없음");
-            }
-        } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자를 찾을 수 없음");
-        }
-    }
     // 메뉴 추가
     public void saveMenu(Menu newMenu, MultipartFile imageFile, String adminId) {
         Optional<Admin> optionalAdmin = adminRepository.findById(adminId);
@@ -125,7 +94,7 @@ public class AuthService {
                 newMenu.setStore(store);
                 try {
                     // 이미지 저장
-                    Photo photo = null;
+                    Photo photo;
                     if (imageFile != null && !imageFile.isEmpty()) {
                         // 이미지가 존재하는 경우에만 저장
                         photo = imageService.saveImage(imageFile);
@@ -137,7 +106,6 @@ public class AuthService {
                     ResponseEntity.ok("이미지 저장 오류");
                 }
                 store.getMenus().add(newMenu);
-
                 saveUser(admin);  // 업데이트된 메뉴 정보를 가진 관리자 저장
                 ResponseEntity.ok("메뉴 추가 성공");
             } else {
@@ -200,6 +168,21 @@ public class AuthService {
             System.err.println("오류 발생: " + e.getMessage());
         }
     }
+    // 이미지 수정
+    public void updateImage(Object object, MultipartFile imageFile) {
+        try {
+            Photo photo = imageService.saveImage(imageFile); // 이미지 저장
+            if (object instanceof Store store) {
+                store.setPhoto(photo);
+                storeRepository.save(store);
+            } else if (object instanceof Menu menu) {
+                menu.setMenuPhoto(photo);
+                menuRepository.save(menu);
+            }
+        } catch (IOException e) {
+            System.err.println("오류 발생: " + e.getMessage());
+        }
+    }
     // 사용자 또는 관리자 ID에 따라 사용자 정보 조회
     private Optional<?> getUserById(String id, UserType userType) {
         return switch (userType) {
@@ -254,6 +237,19 @@ public class AuthService {
         Optional<Menu> optionalMenu = menuRepository.findById(menu_id);
         return optionalMenu.orElse(null);
     }
-
+    // 정보 조회 기능
+    public Object getUser(String user_id, UserType userType) {
+        Optional<?> optionalUser = getUserById(user_id, userType);
+        return optionalUser.orElse(null);
+    }
+    // 사용자 정보 저장 기능
+    public void saveUser(Object user) {
+        // 저장
+        if (user instanceof User) {
+            userRepository.save((User) user);
+        } else {
+            adminRepository.save((Admin) user);
+        }
+    }
 }
 

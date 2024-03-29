@@ -9,6 +9,7 @@ import com.project.foodfix.model.DTO.StoreDTO;
 import com.project.foodfix.model.Menu;
 import com.project.foodfix.model.Photo;
 import com.project.foodfix.model.Store;
+import com.project.foodfix.repository.MenuRepository;
 import com.project.foodfix.service.AuthService;
 import com.project.foodfix.service.ImageService;
 import com.project.foodfix.service.Store.StoreService;
@@ -29,14 +30,16 @@ public class AdminController {
     private final AuthService authService;
     private final StoreService storeService;
     private final ImageService imageService;
+    private final MenuRepository menuRepository;
 
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    public AdminController(AuthService authService, StoreService storeService, ImageService imageService, JwtTokenProvider jwtTokenProvider) {
+    public AdminController(AuthService authService, StoreService storeService, ImageService imageService, MenuRepository menuRepository, JwtTokenProvider jwtTokenProvider) {
         this.authService = authService;
         this.storeService = storeService;
         this.imageService = imageService;
+        this.menuRepository = menuRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
     // 관리자 엔드 포인트
@@ -253,69 +256,78 @@ public class AdminController {
     }
     // 매장 수정 API
     @PutMapping(value = "/updatestore", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateStoreInfo(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-                                                  @RequestParam Map<String, String> updateInfo,
-                                                  @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<String> updateStore(@ModelAttribute Store updateStore,
+                                              @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                                              @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
 
         // 관리자 ID 추출
-        String admin_id = jwtTokenProvider.extractUserId(token);
-        if (admin_id == null) return unauthorizedResponse();
+        String adminId = jwtTokenProvider.extractUserId(token);
+        if (adminId == null) return unauthorizedResponse();
 
         // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
-        if (admin != null && admin.getStore() != null) {
-            // 매장 정보 업데이트
+        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
+        if (admin == null || admin.getStore() == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("매장을 찾을 수 없음");
+        }
+
+        try {
             Store store = admin.getStore();
-            if (updateInfo.containsKey("store_name")) {
-                store.setStore_name(updateInfo.get("store_name"));
-            }
-            if (updateInfo.containsKey("store_address")) {
-                store.setStore_address(updateInfo.get("store_address"));
-            }
-            if (updateInfo.containsKey("store_category")) {
-                store.setStore_category(updateInfo.get("store_category"));
-            }
-            if (updateInfo.containsKey("store_phone")) {
-                store.setStore_phone(updateInfo.get("store_phone"));
-            }
-            if (imageFile != null && !imageFile.isEmpty()) {
-                try {
-                    // 이미지 저장 및 이미지 경로 설정
-                    Photo photo = imageService.saveImage(imageFile);
-                    store.setPhoto(photo);
-                } catch (IOException e) {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("오류 발생");
+
+            // 이미지가 입력된 경우에만 이미지를 변경하고 이전 이미지를 삭제 예정으로 표시
+            if (imageFile != null) {
+                if (store.getPhoto() != null) {
+                    Photo existingPhoto = store.getPhoto();
+                    existingPhoto.setPhoto_status("1");
                 }
+                // 이미지 저장 및 매장에 연결
+                Photo photo = imageService.saveImage(imageFile);
+                store.setPhoto(photo);
             }
-            if (updateInfo.containsKey("store_intro")) {
-                store.setStore_intro(updateInfo.get("store_intro"));
+
+            // 매장 정보 업데이트 (입력된 값만 변경)
+            if (updateStore.getStore_name() != null) {
+                store.setStore_name(updateStore.getStore_name());
             }
-            if (updateInfo.containsKey("minimumTime")) {
-                store.setMinimumTime(Integer.valueOf(updateInfo.get("minimumTime")));
+            if (updateStore.getStore_address() != null) {
+                store.setStore_address(updateStore.getStore_address());
             }
-            if (updateInfo.containsKey("res_status")) {
-                store.setRes_status(updateInfo.get("res_status"));
+            if (updateStore.getStore_category() != null) {
+                store.setStore_category(updateStore.getStore_category());
             }
-            if (updateInfo.containsKey("res_max")) {
-                store.setRes_max(Integer.valueOf(updateInfo.get("res_max")));
+            if (updateStore.getStore_phone() != null) {
+                store.setStore_phone(updateStore.getStore_phone());
             }
-            if (updateInfo.containsKey("openTime")) {
-                store.setOpenTime(LocalTime.parse(updateInfo.get("openTime")));
+            if (updateStore.getStore_intro() != null) {
+                store.setStore_intro(updateStore.getStore_intro());
             }
-            if (updateInfo.containsKey("closeTime")) {
-                store.setCloseTime(LocalTime.parse(updateInfo.get("closeTime")));
+            if (updateStore.getMinimumTime() != null) {
+                store.setMinimumTime(updateStore.getMinimumTime());
             }
-            if (updateInfo.containsKey("reservationCancel")) {
-                store.setReservationCancel(LocalTime.parse(updateInfo.get("reservationCancel")));
+            if (updateStore.getRes_status() != null) {
+                store.setRes_status(updateStore.getRes_status());
+            }
+            if (updateStore.getRes_max() != null) {
+                store.setRes_max(updateStore.getRes_max());
+            }
+            if (updateStore.getOpenTime() != null) {
+                store.setOpenTime(updateStore.getOpenTime());
+            }
+            if (updateStore.getCloseTime() != null) {
+                store.setCloseTime(updateStore.getCloseTime());
+            }
+            if (updateStore.getReservationCancel() != null) {
+                store.setReservationCancel(updateStore.getReservationCancel());
             }
             // 업데이트된 정보 저장
             authService.saveUser(admin);
+
             return ResponseEntity.ok("매장 정보 수정 성공");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 저장 오류");
         }
-        return notFoundResponse();
     }
     // 매장 삭제
     @DeleteMapping("/deletestore")
@@ -394,52 +406,57 @@ public class AdminController {
     }
     // 메뉴 수정 API
     @PutMapping(value = "/updatemenu", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateMenuInfo(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-                                                 @RequestBody Map<String, Object> updateFields,
+    public ResponseEntity<String> updateMenuInfo(@ModelAttribute Menu updateMenu,
+                                                 @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
                                                  @RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponse();
 
         // 관리자 ID 추출
-        String admin_id = jwtTokenProvider.extractUserId(token);
-        if (admin_id == null) return unauthorizedResponse();
+        String adminId = jwtTokenProvider.extractUserId(token);
+        if (adminId == null) return unauthorizedResponse();
 
         // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
+        Admin admin = (Admin) authService.getUser(adminId, UserType.ADMIN);
         if (admin == null || admin.getStore() == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("매장을 찾을 수 없음");
         }
 
-        // 수정할 메뉴를 조회합니다.
-        Menu existingMenu = authService.findMenuById((Long) updateFields.get("menu_id"));
-        if (existingMenu == null || !existingMenu.getStore().equals(admin.getStore())) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("수정할 메뉴 혹은 권한 없음");
-        }
-
-        // 요청 본문에 포함된 필드만 업데이트합니다.
-        if (updateFields.containsKey("menu_name")) {
-            existingMenu.setMenu_name((String) updateFields.get("menu_name"));
-        }
-        if (updateFields.containsKey("menu_price")) {
-            existingMenu.setMenu_price((Double) updateFields.get("menu_price"));
-        }
-        if (imageFile != null && !imageFile.isEmpty()) {
-            try {
-                // 이미지 저장 및 이미지 경로 설정
-                Photo photo = imageService.saveImage(imageFile);
-                existingMenu.setMenuPhoto(photo);
-            } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 업로드 오류 발생");
-            }
-        }
-        // 메뉴 저장
         try {
-            authService.saveMenu(existingMenu, admin_id);
-            return ResponseEntity.ok("수정 완료");
-        } catch (Exception e) {
-            // 예외 처리 또는 로깅
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 정보 수정 중 오류 발생");
+            // 기존 메뉴 정보 가져오기
+            Menu existingMenu = authService.findMenuById(updateMenu.getMenu_id());
+
+            if (existingMenu != null) {
+                // 이미지가 입력되었을 경우에만 이미지를 변경하고 기존 이미지를 삭제 예정으로 표시
+                if (imageFile != null) {
+                    if (existingMenu.getMenuPhoto() != null) {
+                        Photo existingPhoto = existingMenu.getMenuPhoto();
+                        existingPhoto.setPhoto_status("1");
+                    }
+                    Photo photo = imageService.saveImage(imageFile);
+                    existingMenu.setMenuPhoto(photo);
+                }
+
+                // 메뉴 정보 업데이트 (입력된 값만 변경)
+                if (updateMenu.getMenu_name() != null) {
+                    existingMenu.setMenu_name(updateMenu.getMenu_name());
+                }
+                if (updateMenu.getMenu_price() != null) {
+                    existingMenu.setMenu_price(updateMenu.getMenu_price());
+                }
+                if (updateMenu.getExplanation() != null){
+                    existingMenu.setExplanation(updateMenu.getExplanation());
+                }
+                // 메뉴 정보 저장
+                menuRepository.save(existingMenu);
+
+                return ResponseEntity.ok("메뉴 수정 성공");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("메뉴를 찾을 수 없음");
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 저장 오류");
         }
     }
     // 메뉴 삭제
