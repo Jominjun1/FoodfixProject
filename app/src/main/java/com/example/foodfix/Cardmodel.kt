@@ -42,6 +42,24 @@ data class ReservationDTO(
     val store_id: Long?
 )
 
+data class PackingOrder(
+    val user_id: String,
+    val user_phone: String,
+    val user_comments: String,
+    val packing_date: String,
+    val packing_time: String,
+    val payment_type: String,
+    val store_id: Long,
+    val menuItemDTOList: List<MenuItemDTO>
+)
+
+data class MenuItemDTO(
+    val menu_id: Long,
+    val menu_price: Double,
+    val menu_name: String,
+    val quantity: Int
+)
+
 data class MenuModel(
     val menu_id: Long,
     val menu_name: String,
