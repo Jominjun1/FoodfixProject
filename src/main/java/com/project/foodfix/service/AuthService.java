@@ -168,21 +168,7 @@ public class AuthService {
             System.err.println("오류 발생: " + e.getMessage());
         }
     }
-    // 이미지 수정
-    public void updateImage(Object object, MultipartFile imageFile) {
-        try {
-            Photo photo = imageService.saveImage(imageFile); // 이미지 저장
-            if (object instanceof Store store) {
-                store.setPhoto(photo);
-                storeRepository.save(store);
-            } else if (object instanceof Menu menu) {
-                menu.setMenuPhoto(photo);
-                menuRepository.save(menu);
-            }
-        } catch (IOException e) {
-            System.err.println("오류 발생: " + e.getMessage());
-        }
-    }
+
     // 사용자 또는 관리자 ID에 따라 사용자 정보 조회
     private Optional<?> getUserById(String id, UserType userType) {
         return switch (userType) {

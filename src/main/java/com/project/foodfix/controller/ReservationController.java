@@ -31,9 +31,9 @@ public class ReservationController {
 
         // 매장 예약 결과에 따라 응답 처리
         if (reservationResult != null) {
-            return ResponseEntity.ok("매장 예약 주문 성공");
+            return ResponseEntity.ok("예약 주문 성공");
         } else {
-            return ResponseEntity.badRequest().body("매장 예약 실패");
+            return ResponseEntity.badRequest().body("예약 실패");
         }
     }
 }

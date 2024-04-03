@@ -28,7 +28,7 @@ public class ImageService {
         // 업로드된 파일의 이름을 정의합니다.
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(imageFile.getOriginalFilename()));
 
-        // UUID를 사용하여 파일명의 충돌을 방지합니다.
+        // UUID 사용하여 파일명의 충돌을 방지합니다.
         String uniqueFileName = UUID.randomUUID() + "-" + fileName;
 
         // 파일이 저장될 경로를 설정합니다.

@@ -47,4 +47,7 @@ public class Store {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Packing> packings = new ArrayList<>();
 }

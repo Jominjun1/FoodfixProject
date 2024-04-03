@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.*;
 
 @RestController
@@ -226,34 +225,7 @@ public class AdminController {
         }
         return notFoundResponse();
     }
-    // 매장에서 예약 신청 승락/거절
-    @PutMapping("/ReservationOrder")
-    public ResponseEntity<Object> getUserReservationOrders(@RequestHeader("Authorization") String authorizationHeader,
-                                                           @RequestBody Map<String, String> updateInfo) {
-        // 인증 처리 및 토큰 추출
-        String token = extractToken(authorizationHeader);
-        if (token == null) return unauthorizedResponseObject();
 
-        // 관리자 ID 추출
-        String admin_id = jwtTokenProvider.extractUserId(token);
-        if (admin_id == null) return unauthorizedResponseObject();
-
-        // 매장 내 예약 상태 수정 처리
-        if (updateInfo.containsKey("reservation_id") && updateInfo.containsKey("reservation_status")) {
-            Long reservationId = Long.parseLong(updateInfo.get("reservation_id"));
-            String reservationStatus = updateInfo.get("reservation_status");
-
-            boolean updated = storeService.updateReservationOrder(reservationId, reservationStatus);
-
-            if (updated) {
-                return ResponseEntity.ok("예약 상태 수정");
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("예약을 찾을 수 없음");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청 실패");
-        }
-    }
     // 매장 수정 API
     @PutMapping(value = "/updatestore", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> updateStore(@ModelAttribute Store updateStore,
