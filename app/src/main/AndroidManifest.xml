@@ -36,6 +36,7 @@
         <activity android:name=".RestaurantReviews"/>
         <activity android:name=".FavoritesActivity"/>
         <activity android:name=".RestaurantReservation"/>
+        <activity android:name=".TakeoutActivity"/>
     </application>
 
 </manifest>

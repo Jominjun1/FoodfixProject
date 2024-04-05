@@ -151,12 +151,16 @@ class RestaurantActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.includedMenu).setOnClickListener {
-
+            openTakeoutActivity()
         }
 
     }
     private fun openReviewActivity() {
         val intent = Intent(this, RestaurantReviews::class.java)
+        reviewActivityResultLauncher.launch(intent)
+    }
+    private fun openTakeoutActivity() {
+        val intent = Intent(this, TakeoutActivity::class.java)
         reviewActivityResultLauncher.launch(intent)
     }
 }
