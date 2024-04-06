@@ -55,9 +55,10 @@ data class PackingOrder(
 
 data class MenuItemDTO(
     val menu_id: Long,
-    val menu_price: Double,
+    var menu_price: Double,
     val menu_name: String,
-    val quantity: Int
+    var quantity: Int,
+    val initialPrice: Double
 )
 
 data class MenuModel(
