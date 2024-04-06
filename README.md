@@ -57,9 +57,9 @@
 
 * 백엔드 담당(Spring boot) : 조민준 
 
-* 프론트엔드(React) : 김규리 
+* 프론트엔드(React) : 김규리 (https://www.youtube.com/@user-oy5od5lm9j)
 
-* 프론트엔드(IOS) : 노현민 
+* 프론트엔드(IOS) : 노현민  
 
-* 프론트엔드(Android) : 최명진
+* 프론트엔드(Android) : 최명진 (https://www.youtube.com/watch?v=WSQHoTlA58Q)
   
