@@ -4,6 +4,7 @@ import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.DTO.MenuDTO;
+import com.project.foodfix.model.DTO.PackingDTO;
 import com.project.foodfix.model.DTO.ReservationDTO;
 import com.project.foodfix.model.DTO.StoreDTO;
 import com.project.foodfix.model.Menu;
@@ -41,7 +42,7 @@ public class AdminController {
         this.menuRepository = menuRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
-    // 관리자 엔드 포인트
+    //*********** 관리자 엔드 포인트 **************//
     // 관리자 정보 조회 API
     @GetMapping("/profile")
     public ResponseEntity<Object> getAdminProfile(@RequestHeader("Authorization") String authorizationHeader) {
@@ -127,7 +128,7 @@ public class AdminController {
         return notFoundResponse();
     }
 
-    // 매장 엔드 포인트
+    //********** 매장 엔드 포인트 **********//
     // 매장 조회 API
     @GetMapping("/store")
     public ResponseEntity<Object> getAllStores(@RequestHeader("Authorization") String authorizationHeader){
@@ -166,29 +167,6 @@ public class AdminController {
             }
         }
         return notFoundResponseObject();
-    }
-    // 매장에 예약 신청 내역 조회
-    @GetMapping("/GetReservation")
-    public ResponseEntity<Object> getUserReservations(@RequestHeader("Authorization") String authorizationHeader) {
-        // 인증 처리 및 토큰 추출
-        String token = extractToken(authorizationHeader);
-        if (token == null) return unauthorizedResponseObject();
-
-        // 관리자 ID 추출
-        String admin_id = jwtTokenProvider.extractUserId(token);
-        if (admin_id == null) return unauthorizedResponseObject();
-
-        // 관리자가 소유한 매장 조회
-        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
-        if (admin != null) {
-            // 매장 ID 추출
-            Long store_id = admin.getStore().getStore_id();
-
-            // 해당 매장의 예약 내역 조회
-            List<ReservationDTO> reservations = storeService.getReservationsByStoreId(store_id);
-            return ResponseEntity.ok(reservations);
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
     // 매장 추가
     @PostMapping(value = "/newstore", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -326,7 +304,7 @@ public class AdminController {
         }
         return notFoundResponse();
     }
-    // 메뉴 엔드 포인트
+    //*********** 메뉴 엔드 포인트 ***********//
     // 메뉴 조회 API
     @GetMapping("/menus")
     public ResponseEntity<Object> getMenusByStore(@RequestHeader("Authorization") String authorizationHeader) {
@@ -459,7 +437,54 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("메뉴 삭제 실패");
         }
     }
-    // 메서드 모음
+    //************** 주문 *************//
+    // 매장에 예약 신청 내역 조회
+    @GetMapping("/getReservation")
+    public ResponseEntity<Object> getUserReservations(@RequestHeader("Authorization") String authorizationHeader) {
+        // 인증 처리 및 토큰 추출
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponseObject();
+
+        // 관리자 ID 추출
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponseObject();
+
+        // 관리자가 소유한 매장 조회
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
+        if (admin != null) {
+            // 매장 ID 추출
+            Long store_id = admin.getStore().getStore_id();
+
+            // 해당 매장의 예약 내역 조회
+            List<ReservationDTO> reservations = storeService.getReservationsByStoreId(store_id);
+            return ResponseEntity.ok(reservations);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+    // 매장에 포장 신청 내역 조회
+    @GetMapping("/getPacking")
+    public ResponseEntity<Object> getUserPackings(@RequestHeader("Authorization") String authorizationHeader) {
+        // 인증 처리 및 토큰 추출
+        String token = extractToken(authorizationHeader);
+        if (token == null) return unauthorizedResponseObject();
+
+        // 관리자 ID 추출
+        String admin_id = jwtTokenProvider.extractUserId(token);
+        if (admin_id == null) return unauthorizedResponseObject();
+
+        // 관리자가 소유한 매장 조회
+        Admin admin = (Admin) authService.getUser(admin_id, UserType.ADMIN);
+        if (admin != null) {
+            // 매장 ID 추출
+            Long store_id = admin.getStore().getStore_id();
+
+            // 해당 매장의 예약 내역 조회
+            List<PackingDTO> packings = storeService.getPackingByStoreId(store_id);
+            return ResponseEntity.ok(packings);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+    //*************** 메서드 모음 ***************//
     // 토큰 추출 메서드
     private String extractToken(String authorizationHeader) {
         return Optional.ofNullable(authorizationHeader)

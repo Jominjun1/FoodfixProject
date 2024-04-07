@@ -1,5 +1,6 @@
 package com.project.foodfix.service;
 
+import com.project.foodfix.OrderType;
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.*;
@@ -21,10 +22,11 @@ public class AuthService {
     private final MenuRepository menuRepository;
     private final PhotoRepository photoRepository;
     private final ReservationRepository reservationRepository;
+    private final PackingRepository packingRepository;
     private final ImageService imageService;
 
     @Autowired
-    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, PhotoRepository photoRepository, ReservationRepository reservationRepository, ImageService imageService) {
+    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, PhotoRepository photoRepository, ReservationRepository reservationRepository, PackingRepository packingRepository, ImageService imageService) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -32,6 +34,7 @@ public class AuthService {
         this.menuRepository = menuRepository;
         this.photoRepository = photoRepository;
         this.reservationRepository = reservationRepository;
+        this.packingRepository = packingRepository;
         this.imageService = imageService;
     }
     // 회원가입 기능
@@ -142,6 +145,7 @@ public class AuthService {
                     photoRepository.save(photo); // 변경된 상태 저장
                 }
             }
+            packingRepository.deleteByStoreId(store_id);
             reservationRepository.deleteByStoreId(store_id);
             // 매장과 연관된 메뉴들 삭제
             menuRepository.deleteMenusByStoreId(store_id);
@@ -197,6 +201,12 @@ public class AuthService {
         return switch (userType) {
             case USER -> "user_id";
             case ADMIN -> "admin_id";
+        };
+    }
+    private String getOrderKey(OrderType orderType){
+        return switch(orderType){
+            case RESERVATION -> "reservation_status";
+            case PACKING -> "packing_status";
         };
     }
     // 사용자 ID 중복 확인 메서드

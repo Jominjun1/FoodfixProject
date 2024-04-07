@@ -36,4 +36,9 @@ public class ReservationController {
             return ResponseEntity.badRequest().body("예약 실패");
         }
     }
+    // 예약 주문 승락/거절
+    @PutMapping("/orderStatus")
+    public ResponseEntity<Object> updatePackingStatus(){
+        return ResponseEntity.badRequest().body("실패");
+    }
 }

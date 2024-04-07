@@ -68,6 +68,21 @@ public class StoreServiceImpl implements StoreService {
         // 저장된 예약을 PackingDTO 반환
         return Collections.singletonList(returnPackingDTO(savedPacking));
     }
+    @Override
+    public List<PackingDTO> getPackingByStoreId(Long store_id) {
+        // 매장 ID를 이용하여 해당 매장의 예약 내역을 조회
+        List<Packing> packings = packingRepository.findByStoreId(store_id);
+
+        // 조회된 예약 내역을 시간순으로 정렬
+        packings.sort(Comparator.comparing(Packing::getPacking_time).reversed());
+
+        // 조회된 예약 내역을 ReservationDTO 리스트로 변환 후 반환
+        List<PackingDTO> packingDTOS = new ArrayList<>();
+        for (Packing packing : packings) {
+            packingDTOS.add(returnPackingDTO(packing));
+        }
+        return packingDTOS;
+    }
     /////// 검색 /////////
     @Override
     public List<PackableStoreDTO> searchPackableStores(String store_category, String store_name, String menu_name) {

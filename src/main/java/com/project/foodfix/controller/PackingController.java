@@ -1,13 +1,13 @@
 package com.project.foodfix.controller;
 
+import com.project.foodfix.UserType;
+import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.DTO.PackingDTO;
 import com.project.foodfix.service.Store.StoreService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -31,5 +31,10 @@ public class PackingController {
         } else {
             return ResponseEntity.badRequest().body("포장 실패");
         }
+    }
+    // 포장 주문 승락/거절
+    @PutMapping("/orderStatus")
+    public ResponseEntity<Object> updatePackingStatus(){
+        return ResponseEntity.badRequest().body("실패");
     }
 }
