@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Mainpage.css';
 import Header from './Header';
-import { MainSection, InformationSection, ReservationSection, OrderSection } from './Contents';
+import { MainSection, RestaurantSection, MenuSection, InformationSection } from './Contents';
 import { FaRegArrowAltCircleUp } from 'react-icons/fa';
 
 const Mainpage = () => {
     const [showScroll, setShowScroll] = useState(false);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+        
         const handleScroll = () => {
             if (window.pageYOffset > 300) {
                 setShowScroll(true);
@@ -29,9 +31,9 @@ const Mainpage = () => {
         <div>
             <Header />
             <MainSection />
+            <RestaurantSection />
+            <MenuSection />
             <InformationSection />
-            <ReservationSection />
-            <OrderSection />
             {showScroll && (
                 <button className="scroll-top" onClick={scrollToTop}>
                     <FaRegArrowAltCircleUp />

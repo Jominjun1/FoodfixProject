@@ -4,7 +4,6 @@ import './EditUser.css';
 
 const EditUser = () => {
     const [userData, setUserData] = useState({
-        admin_id: '',
         admin_address: '',
         admin_phone: '',
         admin_name: '',
@@ -14,13 +13,13 @@ const EditUser = () => {
     const fetchUserData = async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const response = await axios.get('/admin/profile', {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/profile`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            const { admin_id, admin_pw, admin_address, admin_phone, admin_name } = response.data;
-            setUserData({ admin_id, admin_pw, admin_address, admin_phone, admin_name });
+            const { admin_pw, admin_address, admin_phone, admin_name } = response.data;
+            setUserData({ admin_pw, admin_address, admin_phone, admin_name });
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -38,7 +37,7 @@ const EditUser = () => {
         e.preventDefault();
         try {
             const token = sessionStorage.getItem('token');
-            await axios.put('/admin/update', userData, {
+            await axios.put(`${process.env.REACT_APP_SERVER_URL}/admin/update`, userData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

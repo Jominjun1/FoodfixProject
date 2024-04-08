@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './Content.css';
-import RestaurantInfo from './RestaurantInfo';
-import MenuManagement from './MenuManagement';
+import ResManagement from './ResManagement';
+import OrderManagement from './OrderManagement';
 import { useNavigate } from 'react-router-dom';
 
 const Content = () => {
-    const initialTab = localStorage.getItem('selectedTab') || 'restaurantInfo';
+    const initialTab = localStorage.getItem('selectedTab') || 'resManagement';
     const [selectedTab, setSelectedTab] = useState(initialTab);
 
     const handleTabSelect = (tabName) => {
@@ -27,17 +27,17 @@ const Content = () => {
 
             <div>
                 <div className="tab-buttons">
-                    <button onClick={() => handleTabSelect('restaurantInfo')} className={selectedTab === 'restaurantInfo' ? 'selected' : ''}>
-                        정보 관리
+                    <button onClick={() => handleTabSelect('resManagement')} className={selectedTab === 'resManagement' ? 'selected' : ''}>
+                        예약 관리
                     </button>
-                    <button onClick={() => handleTabSelect('menuManagement')} className={selectedTab === 'menuManagement' ? 'selected' : ''}>
-                        메뉴 관리
+                    <button onClick={() => handleTabSelect('orderManagement')} className={selectedTab === 'orderManagement' ? 'selected' : ''}>
+                        주문 관리
                     </button>
                 </div>
 
                 <div className="content-area">
-                    {selectedTab === 'restaurantInfo' && <RestaurantInfo />}
-                    {selectedTab === 'menuManagement' && <MenuManagement />}
+                    {selectedTab === 'resManagement' && <ResManagement />}
+                    {selectedTab === 'orderManagement' && <OrderManagement />}
                 </div>
             </div>
         </div>

@@ -1,0 +1,224 @@
+@font-face {
+    font-family: 'ChosunGu';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TAEBAEKmilkyway';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/TAEBAEKmilkyway.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.menu-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.menu-top-logo img {
+    cursor: pointer; /* 로고에 클릭 가능한 느낌을 주기 위해 */
+    margin-left: 10px;
+}
+
+.menu-page-title {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1; /* 타이틀이 남은 공간을 모두 차지하도록 설정 */
+    font-size: 30px;
+    font-family: 'ChosunGu';
+    font-weight: bold;
+    margin-right: 80px;
+}
+
+.menu-add-button {
+    margin-left: auto; /* 이것은 오른쪽 정렬을 위해 추가 버튼에만 적용됩니다 */
+    margin-right: 30px;
+}
+
+.add-button {
+    width: 50px;
+    height: 50px;
+    background-color: #99C76B;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    font-size: 44px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+      
+.add-button:focus {
+    outline: none;
+}
+
+.menu-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+      
+.menu-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #eceeec;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 10px; 
+}
+    
+.menu-modal-content input[type="text"] {
+    margin-bottom: 10px;
+    width: 280px; 
+    padding: 10px;
+    border: 2px solid transparent; 
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.menu-modal-content input[type="text"]:focus {
+    border-color: #c9e2aa;
+    outline: none;
+}
+    
+.menu-modal-content button {
+    margin-bottom: 10px;
+    width: 100px; 
+    padding: 10px; 
+    border: none;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+  
+.menu-modal-content button:hover {
+    background-color: #D4E9BB;
+}
+    
+.menu-modal-content input[type="file"] {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 100px;
+}
+
+.menu-image-preview {
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+      
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+      
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.menu-info-view {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.menu-info-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 60px;
+    width: 80%;
+}
+
+.menu-items {
+    background-color: #f1f1f1;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 60px;
+    height: 300px;
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+}
+
+.menu-items:hover {
+    background-color: #D4E9BB;
+}
+
+.menu-items img {
+    width: 100%;
+    max-width: 150px;
+    height: 100%;
+    max-height: 150px;
+    border-radius: 50%;
+    position: relative;
+    top: -20%; /* 이미지를 위쪽으로 절반만 이동시킴 */
+    object-fit: cover;
+    box-shadow: 0 0 10px #878787c3;
+}
+
+.menu-name,
+.menu-price,
+.menu-description {
+    position: relative;
+    top: -30px; /* 이미지를 위쪽으로 절반만 이동시킴 */
+    object-fit: cover;
+    margin-top: 5px;
+}
+
+.menu-name {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.menu-description {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.menu-buttons {
+    position: relative;
+    top: -15px; /* 이미지를 위쪽으로 절반만 이동시킴 */
+    object-fit: cover;
+}
+
+.menu-buttons button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #8fbc8fc3;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+}
+
+.menu-buttons button:hover {
+    background-color: #14521b;
+}

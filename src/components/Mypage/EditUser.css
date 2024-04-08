@@ -1,13 +1,21 @@
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .editpage-container {
     margin-left: 400px;
     margin-top: 100px;
-    background-color: #fefefe;
+    background-color: #569b5d24;
     padding: 20px;
     border-radius: 10px;
     box-sizing: border-box; 
     width: 60%;
-    height: 70%;
-    box-shadow: 0 0 8px rgba(10, 10, 10, 0.1);
+    height: 75%;
+    box-shadow: 0 0 8px #569b5d24;
+    font-family: 'NanumSquareRound';
 }
 
 .editpage-container form {
@@ -30,13 +38,14 @@
     width: 100%;
     padding: 10px 10px;
     margin-bottom: 15px;
-    border: 1px solid #e8e8e8;
-    background-color: #e8e8e8;
+    border: 1px solid #fffffff1;
+    background-color: #fffffff1;
     border-radius: 5px;
+    font-family: 'NanumSquareRound';
 }
 
 .editpage-container button {
-    background-color: #c7c7c7;
+    background-color: #8fbc8fc3;
     color: #000000;
     border: none;
     border-radius: 5px;
@@ -45,8 +54,9 @@
     margin-top: 20px;
     margin-left: 10px;
     margin-right: 10px;
+    font-family: 'NanumSquareRound';
 }
 
 .editpage-container button:hover {
-    background-color: #e8e8e8;
+    background-color: #fffffff1;
 }

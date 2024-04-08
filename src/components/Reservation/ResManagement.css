@@ -1,38 +1,7 @@
-.reservation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .top-logo {
     margin-left: 700px;
     margin-top: 40px;
     margin-bottom: 30px;
-}
-
-.date-picker-container {
-    margin-left: auto; 
-    position: relative;
-}
-
-.date-picker-modal {
-    position: absolute;
-    right: 40px;
-}
-
-.date-picker {
-    cursor: pointer;
-    padding: 8px 12px;
-    background-color: #cdcdcdb4;
-    border: 3px solid #cdcdcd;
-    border-radius: 5px;
-    margin-right: 100px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-.date-picker:hover {
-    background-color: #b0b0b0b4;
 }
 
 .res-container {
@@ -102,13 +71,13 @@
 
 .button-groups button {
     margin-top: 10px;
-    background-color: #fffffff1; 
-    border: 1px solid #fffffff1; 
+    background-color: #8fbc8fc3; 
+    border: none; 
     border-radius: 30px; 
     padding: 10px 20px; 
     font-size: 18px;
 }
 
 .button-groups button:hover {
-    background-color: #cdcdcd;
+    background-color: #fffffff1;
 }

@@ -1,71 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import './ResManagement.css';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ResManagement = () => {
     const navigate = useNavigate();
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [showDatePicker, setShowDatePicker] = useState(false);
 
     const handleHomeClick = () => {
         navigate('/');
     };
 
+    const [reservations, setReservations] = useState([]);
+
     useEffect(() => {
-        window.scrollTo(0, 0);
+        const fetchReservations = async () => {
+            try{
+                const token = sessionStorage.getItem('token');
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/GetReservation`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setReservations(response.data);
+            } catch (error) {
+                console.error('Error fetching reservations:', error);
+            }
+        };
+
+        fetchReservations();
     }, []);
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-        setShowDatePicker(false);
-    };
-
-    const person = [
-        { id: 1, name: "김ㅇㅇ", phoneNumber: "010-1234-5678", date: "nn월 nn일", time: "nn시 nn분", number: "n명" },
-        { id: 2, name: "박ㅇㅇ", phoneNumber: "010-5678-1234", date: "nn월 nn일", time: "nn시 nn분", number: "n명" },
-        { id: 3, name: "이ㅇㅇ", phoneNumber: "010-9876-5432", date: "nn월 nn일", time: "nn시 nn분", number: "n명" }
-    ];
-
     return (
-        <>
-            <div className="reservation">
-                <div className="top-logo">
-                    <img src='/images/logo.png' alt="푸드픽스 로고" onClick={handleHomeClick} />
-                </div>
-
-                <div className="date-picker-container">
-                    <div className="date-picker" onClick={() => setShowDatePicker(true)}>
-                        {selectedDate ? selectedDate.toLocaleDateString() : "Select Date"}
-                    </div>
-                    {showDatePicker && (
-                        <div className="date-picker-modal">
-                            <DatePicker
-                                selected={selectedDate}
-                                onChange={handleDateChange}
-                                dateFormat="MM/dd/yyyy"
-                                inline
-                            />
-                        </div>
-                    )}
-                </div>
+        <div>
+            <div className="top-logo">
+                <img src='/images/logo.png' alt="푸드픽스 로고" onClick={handleHomeClick} />
             </div>
-
-            {person.map(person => (
-                <div key={person.id} className="res-container">
+            
+            {reservations.map((reservation, index) => (
+                <div key={index} className="res-container">
                     <div className="res-content-background">
                         <div>
-                            <h3>{person.id}</h3>
+                            <h3>{index+1}</h3>
                             <div className='person-info'>
-                                <strong>예약자 이름 </strong> <span>{person.name}</span>
-                                <strong>예약자 전화번호 </strong> <span>{person.phoneNumber}</span>
+                                <strong>예약 번호</strong><span>{reservation.reservation_id}</span>
+                                <strong>예약 상태</strong><span>{reservation.reservation_status}</span>
+                                <strong>예약자 아이디</strong><span>{reservation.user_id}</span>
+                                <strong>예약자 전화번호</strong><span>{reservation.user_phone}</span>
                             </div>
                             <div className='res-info'>
-                                <img src='/images/calendar.png' alt='달력 일러스트' className='icon'></img> <strong>날짜 </strong> <span>{person.date}</span>
-                                <img src='/images/clock.png' alt='시계 일러스트' className='icon'></img> <strong>시간 </strong> <span>{person.time}</span>
-                                <img src='/images/person.png' alt='사람 일러스트' className='icon'></img> <strong>인원수 </strong> <span>{person.number}</span>
-                                <strong>요청사항 </strong>
+                                <img src='/images/calendar.png' alt='달력 일러스트' className='icon'></img><strong>날짜 </strong><span>{reservation.reservation_date}</span>
+                                <img src='/images/clock.png' alt='시계 일러스트' className='icon'></img><strong>시간 </strong><span>{reservation.reservation_time}</span>
+                                <img src='/images/person.png' alt='사람 일러스트' className='icon'></img><strong>인원수 </strong><span>{reservation.people_cnt}</span>
+                                <strong>요청사항 </strong><span>{reservation.user_comments}</span>
 
                                 <div className='button-groups'>
                                     <div>
@@ -80,9 +66,8 @@ const ResManagement = () => {
                     </div>
                 </div>
             ))}
-        </>
+        </div>
     );
 };
 
 export default ResManagement;
-

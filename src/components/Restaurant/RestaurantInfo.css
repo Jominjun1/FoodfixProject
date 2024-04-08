@@ -1,0 +1,176 @@
+@font-face {
+    font-family: 'ChosunGu';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TAEBAEKmilkyway';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/TAEBAEKmilkyway.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.res-register-full-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    min-height: 100vh;
+    background: linear-gradient(to right, #ecd1756b 50%, #fff 50%);
+}
+
+.register-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 1200px;
+    height: 570px;
+    background: #fff;
+    padding-bottom: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(10, 10, 10, 0.1);
+}
+
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.register-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.register-text {
+    color: rgb(0, 0, 0);
+    font-size: 36px;
+    font-family: 'ChosunGu';
+}
+
+.register-button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.total-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+}
+
+.left-container,
+.right-container {
+    flex: 1;
+    padding: 20px;
+}
+
+.left-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.info-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background-color: #f3f1f1; 
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+}
+
+.time-input,
+.res-input,
+.select-style {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background-color: #f3f1f1; 
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.time-input:focus,
+.res-input:focus,
+.info-input:focus {
+    border-color: #cab674; /* 포커스되었을 때 테두리 색상을 변경합니다 */
+    outline: none; /* 포커스된 상태에서의 외곽선을 제거합니다 */
+}
+
+.preview-image {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* 라벨과 입력 요소를 같은 줄에 표시하는 스타일 */
+.left-label-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.left-label-input-container label {
+    flex: 0 0 90px; /* 라벨의 고정된 너비 (선택사항) */
+}
+
+.left-label-input-container input {
+    flex: 1; /* 입력 요소가 남은 공간을 채우도록 설정 */
+    margin-top: 10px;
+}
+
+.time-input-container {
+    display: flex;
+}
+
+.time-input-container input {
+    flex: 1; /* 반반으로 공간을 나누기 위해 동일한 유연한 크기를 설정합니다. */
+    margin-right: 5px; /* 각 입력 요소 사이의 간격을 조정할 수 있습니다. */
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.input-row label {
+    flex: 0 0 140px; /* 라벨의 고정된 너비 (선택사항) */
+}
+
+.submit-button {
+    padding: 20px 30px;
+    background-color: #ecd1756b; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 50px;
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+}
+
+.submit-button:hover {
+    background-color: #e0ba3d6b; 
+}

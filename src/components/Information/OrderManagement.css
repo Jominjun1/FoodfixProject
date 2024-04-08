@@ -1,0 +1,89 @@
+.order {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-logo {
+    margin-left: 700px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.order-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.order-content-background {
+    width: 90%;
+    height: 260px;
+    background-color: #569b5d24;
+    border-radius: 20px;
+}
+
+.order-content-background h3 {
+    margin-left: 20px;
+}
+
+.person-info {
+    margin-left: 50px;
+    font-size: 20px;
+}
+
+.person-info span {
+    margin-left: 5px;
+    margin-right: 40px;
+    background-color: #fffffff1;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.order-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 30px;
+    margin-top: 40px;
+}
+
+.order-info strong {
+    font-size: 20px;
+}
+
+.order-info span {
+    margin-right: 20px;
+    margin-left: 10px;
+    background-color: #fffffff1;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.clock-icon {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+}
+
+.order-button-groups {
+    margin-left: auto;
+    margin-right: 70px; 
+    display: flex;
+    flex-direction: column; 
+    margin-top: -90px; 
+}
+
+.order-button-groups button {
+    margin-top: 10px;
+    background-color: #fffffff1;
+    border: 1px solid #fffffff1; 
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+
+.order-button-groups button:hover {
+    background-color: #cdcdcd;
+}

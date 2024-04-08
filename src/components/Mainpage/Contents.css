@@ -1,62 +1,161 @@
+@font-face {
+    font-family: 'seolleimcool-SemiBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/seolleimcool-SemiBold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'KCC-Hanbit';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/KCC-Hanbit.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NanumBarunpen';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumBarunpen.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .fullscreen-section {
     width: 100%;
     height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
 }
 
 .notice-section {
-    background-color: #8fbc8fc3; 
-    text-align: center;
+    position: relative; /* notice-content를 중앙 정렬하기 위해 부모 요소를 상대 위치로 설정합니다. */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .notice-content {
-    color: white;
+    position: absolute; /* notice-content를 절대 위치로 지정합니다. */
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* translate를 사용하여 요소를 가운데로 이동합니다. */
+    text-align: center; /* 텍스트를 가운데로 정렬합니다. */
 }
 
-.fade-in-text {
-    font-size: 36px;
+.restaurant-section,
+.menu-section,
+.info-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+}
+
+.main-image-container,
+.restaurant-image-container,
+.menu-image-container,
+.info-image-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.main-image,
+.restaurant-image,
+.menu-image,
+.info-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main-text{
+    position: absolute;
+    top: 230px; /* 원하는 위치로 조정 */
+    left: 180px;
+}
+
+.main-text-header {
+    color: #0c0c0cde;
+    font-size: 50px;
     font-weight: bold;
-    animation: fade-in 3s forwards; 
+    font-family: 'seolleimcool-SemiBold';
+    text-align: center;
 }
 
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+.restaurant-text {
+    text-align: right;
+    position: absolute;
+    top: 200px; /* 원하는 위치로 조정 */
+    left: 830px;
 }
 
-.faq-section,
-.res-section,
-.order-section {
-    background-color: #fdf6eca7;
-}
-
-.text-header {
-    color: #4e4e4e;
-    font-size: 36px;
+.restaurant-text-header {
+    color: #0c0c0cde;
+    font-size: 30px;
     font-weight: bold;
+    font-family: 'seolleimcool-SemiBold';
 }
 
-.text-content {
-    color: #4e4e4e;
-    font-size: 24px;
-}
-
-.custom-button {
-    margin-top: 30px;
-    padding: 15px 50px;
+.restaurant-text-content {
+    color: #222222;
     font-size: 18px;
-    border-radius: 30px;
-    background-color: #eaeaea;
+    font-family: 'seolleimcool-SemiBold';
 }
 
-.custom-button:hover {
-    background-color: #ffffff;
+.info-text {
+    text-align: right;
+    position: absolute;
+    top: 200px; /* 원하는 위치로 조정 */
+    left: 900px;
+}
+
+.info-text-header {
+    color: #0c0c0cde;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'seolleimcool-SemiBold';
+}
+
+.info-text-content {
+    color: #222222;
+    font-size: 18px;
+    font-family: 'seolleimcool-SemiBold';
+}
+
+.menu-text{
+    position: absolute;
+    top: 200px; /* 원하는 위치로 조정 */
+    left: 130px;
+}
+
+.menu-text-header {
+    color: #0c0c0cde;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'seolleimcool-SemiBold';
+}
+
+.menu-text-content {
+    color: #222222;
+    font-size: 18px;
+    font-family: 'seolleimcool-SemiBold';
+}
+
+.restaurant-custom-button,
+.menu-custom-button,
+.info-custom-button {
+    margin-top: 10px;
+    padding: 10px 10px;
+    font-size: 14px;
+    font-family: 'seolleimcool-SemiBold';
+    border-radius: 40px;
+    background-color: #52c56784;
+    border: none;
+    width: 180px;
+}
+
+.restaurant-custom-button:hover,
+.menu-custom-button:hover,
+.info-custom-button:hover {
+    background-color: #158c2b84;
 }

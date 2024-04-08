@@ -1,11 +1,12 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Signin from "./components/Signin-Login/Signin";
+import Signup from "./components/Signin-Login/Signup";
 import Login from "./components/Signin-Login/Login";
 import Mainpage from './components/Mainpage/Mainpage';
+import Restaurant from './components/Restaurant/RestaurantInfo';
+import RestaurantInquiry from './components/Restaurant/RestaurantInquiry';
+import Menu from './components/Menu/Menu';
 import Information from './components/Information/Content';
-import Reservation from './components/Reservation/ResManagement';
-import Order from './components/Order/OrderManagement';
 import Mypage from './components/Mypage/Mypage';
 
 function App() {
@@ -14,11 +15,12 @@ function App() {
       <div>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/signin" element={<Signin />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/" element={<Mainpage />} />
           <Route path='/info' element={<Information />} />
-          <Route path='/res' element={<Reservation />} />
-          <Route path ='/order' element={<Order />} />
+          <Route path='/restaurant' element={<Restaurant />} />
+          <Route path='/restaurant-info' element={<RestaurantInquiry />} />
+          <Route path ='/menu' element={<Menu />} />
           <Route path='/mypage' element={<Mypage />} />
         </Routes>
       </div>

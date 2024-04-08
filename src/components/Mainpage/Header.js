@@ -36,14 +36,14 @@ const Header = () => {
 
                 <div className="nav-buttons">
                     <button className="nav-button" onClick={() => handleScrollToSection('main')}>푸드픽스 소개</button>
-                    <button className="nav-button" onClick={() => handleScrollToSection('info')}>정보 등록 및 수정</button>
-                    <button className="nav-button" onClick={() => handleScrollToSection('res')}>예약 관리</button>
-                    <button className="nav-button" onClick={() => handleScrollToSection('order')}>주문 관리</button>
+                    <button className="nav-button" onClick={() => handleScrollToSection('restaurant')}>식당 등록 및 관리</button>
+                    <button className="nav-button" onClick={() => handleScrollToSection('menu')}>메뉴 등록 및 관리</button>
+                    <button className="nav-button" onClick={() => handleScrollToSection('info')}>예약&주문 관리</button>
                 </div>
 
                 <div className="user">
                     {!isLoggedIn && (
-                    <button className="button" onClick={handleLoginButtonClick}>로그인</button>
+                    <button className="mainpage-header-button" onClick={handleLoginButtonClick}>로그인</button>
                 )}
                 
                 {isLoggedIn && (

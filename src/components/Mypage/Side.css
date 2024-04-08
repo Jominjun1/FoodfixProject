@@ -1,6 +1,13 @@
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .side {
     width: 200px;
-    background-color: rgba(169, 169, 169, 0.219);
+    background-color: #569b5d24;
     color: white;
     display: flex;
     flex-direction: column;
@@ -10,21 +17,25 @@
 }
   
 .profile {
-    width: 120px;
-    height: 120px;
-    margin-top: 40px;
-    margin-bottom: 20px;
+    width: 150px;
+    height: 50px;
+    margin-top: 30px;
+    margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .user-info,
 .edit-user,
-.leave-user {
+.leave-user,
+.restaurant-info,
+.edit-restaurant,
+.menu-info,
+.withdrawal {
     color: rgb(255, 255, 255);
     padding: 8px 0;
     cursor: pointer;
-    background-color: #b5b5b5;
+    background-color: #8fbc8fc3;
     text-align: center;
     border-radius: 30px;
     text-decoration: none;
@@ -33,11 +44,16 @@
     font-size: 16px;
     margin-top: 10px;
     margin-left: 25px;
+    font-family: 'NanumSquareRound';
 }
 
 .user-info:hover,
 .edit-user:hover,
-.leave-user:hover {
+.leave-user:hover,
+.restaurant-info:hover,
+.edit-restaurant:hover,
+.menu-info:hover,
+.withdrawal:hover {
     color: #b5b5b5;
     background-color: white;
 }
@@ -46,7 +62,7 @@
     color: white;
     padding: 8px 0;
     cursor: pointer;
-    background-color: #b5b5b5;
+    background-color: #8fbc8fc3;
     text-align: center;
     border-radius: 30px;
     text-decoration: none;
@@ -56,6 +72,7 @@
     margin-top: auto;
     margin-bottom: 30px;
     margin-left: 25px;
+    font-family: 'NanumSquareRound';
 }
 .back:hover {
     color: #b5b5b5;
@@ -66,7 +83,7 @@
     color: rgb(255, 255, 255);
     padding: 8px 0;
     cursor: pointer;
-    background-color: #b5b5b5;
+    background-color: #8fbc8fc3;
     text-align: center;
     border-radius: 30px;
     text-decoration: none;

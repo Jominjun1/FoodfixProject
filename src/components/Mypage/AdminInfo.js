@@ -8,19 +8,18 @@ const AdminInfo = () => {
         admin_address: '',
         admin_phone: '',
         admin_name: '',
-        admin_pw: ''
     });
 
     const fetchUserData = async () => {
         try {
             const token = sessionStorage.getItem('token');
-            const response = await axios.get('/admin/profile', {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/profile`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            const { admin_id, admin_pw, admin_address, admin_phone, admin_name } = response.data;
-            setUserData({ admin_id, admin_pw, admin_address, admin_phone, admin_name });
+                Authorization: `Bearer ${token}`
+            }
+        });
+            const { admin_id, admin_address, admin_phone, admin_name } = response.data;
+            setUserData({ admin_id, admin_address, admin_phone, admin_name });
         } catch (error) {
             console.error('Error fetching user data:', error);
         }

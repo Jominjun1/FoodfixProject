@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './OrderManagement.css';
 
 const OrderManagement = () => {
@@ -9,39 +10,50 @@ const OrderManagement = () => {
         navigate('/');
     };
 
+    const [reservations, setReservations] = useState([]);
+
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []); 
 
-    const order = [
-        { id: 1, name: "김ㅇㅇ", phoneNumber: "010-1234-5678", time: "nn시 nn분", order: "파스타, 샐러드" },
-        { id: 2, name: "박ㅇㅇ", phoneNumber: "010-5678-1234", time: "nn시 nn분", order: "파스타, 샐러드" },
-        { id: 3, name: "이ㅇㅇ", phoneNumber: "010-9876-5432", time: "nn시 nn분", order: "파스타, 샐러드" }
-    ];
+        const fetchReservations = async () => {
+            try{
+                const token = sessionStorage.getItem('token');
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/GetReservation`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setReservations(response.data); 
+            } catch (error) {
+                console.error('Error fetching reservations:', error);
+            }
+        };
+
+        fetchReservations();
+    }, []);
 
     return (
-        <>
-            <div className="order">
-                <div className="top-logo">
-                    <img src='/images/logo.png' alt="푸드픽스 로고" onClick={handleHomeClick} />
-                </div>
+        <div>
+            <div className="top-logo">
+                <img src='/images/logo.png' alt="푸드픽스 로고" onClick={handleHomeClick} />
             </div>
-
-            {order.map(order => (
-                <div key={order.id} className="order-container">
-                    <div className="order-content-background">
+            
+            {reservations.map((reservation, index) => (
+                <div key={index} className="res-container">
+                    <div className="res-content-background">
                         <div>
-                            <h3>{order.id}</h3>
+                            <h3>{index+1}</h3>
                             <div className='person-info'>
-                                <strong>고객 이름 </strong> <span>{order.name}</span>
-                                <strong>고객 전화번호 </strong> <span>{order.phoneNumber}</span>
+                                <strong>고객 아이디</strong><span>{reservation.user_id}</span>
+                                <strong>고객 전화번호</strong><span>{reservation.user_phone}</span>
                             </div>
-                            <div className='order-info'>
-                                <img src='/images/clock.png' alt='시계 일러스트' className='clock-icon'></img> <strong>시간 </strong> <span>{order.time}</span>
-                                <strong>주문 목록 </strong> <span>{order.order}</span>
-                                <strong>요청사항 </strong>
+                            <div className='res-info'>
+                                <img src='/images/calendar.png' alt='달력 일러스트' className='icon'></img><strong>날짜 </strong><span>{reservation.reservation_date}</span>
+                                <img src='/images/clock.png' alt='시계 일러스트' className='icon'></img><strong>시간 </strong><span>{reservation.reservation_time}</span>
+                                <strong>주문목록 </strong><span></span>
+                                <strong>요청사항 </strong><span>{reservation.user_comments}</span>
 
-                                <div className='order-button-groups'>
+                                <div className='button-groups'>
                                     <div>
                                         <button>주문 취소하기</button>
                                     </div>
@@ -54,7 +66,7 @@ const OrderManagement = () => {
                     </div>
                 </div>
             ))}
-        </>
+        </div>
     );
 };
 

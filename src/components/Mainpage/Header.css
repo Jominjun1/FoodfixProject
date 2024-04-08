@@ -1,11 +1,24 @@
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NanumBarunpen';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumBarunpen.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .header-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: transparent; /* 배경색을 투명으로 설정 */
     z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 .section {
@@ -14,7 +27,7 @@
     align-items: center;
     height: 80px; 
     padding: 0 20px;
-    background-color: #e6e6e6;
+    background-color: transparent;
 }
 
 .logo-container {
@@ -28,18 +41,18 @@
     align-items: center; 
 }
 
-.button {
+.mainpage-header-button {
     padding: 8px 16px;
-    background-color: #cecece;
-    color: rgb(68, 68, 68);
+    background-color: transparent;
+    color: rgb(0, 0, 0);
     border: none;
-    border-radius: 20px;
     cursor: pointer;
     margin: 0 8px;
+    font-size: 18px;
 }
 
-.button:hover {
-    background-color: #a7a6a6;
+.mainpage-header-button:hover {
+    color: #8b8b8b;
 }
 
 .user-icon {
@@ -47,15 +60,16 @@
 }
 
 .nav-button {
-    padding: 8px 16px;
+    padding: 15px 16px;
     background-color: transparent; 
     border: none;
     cursor: pointer;
-    font-size: medium;
+    font-size: 20px;
+    font-family: 'NanumBarunpen';
 }
 
 .nav-button:hover {
-    color: #ffffff;
+    color: #8b8b8b;
 }
 
 .search-container {
