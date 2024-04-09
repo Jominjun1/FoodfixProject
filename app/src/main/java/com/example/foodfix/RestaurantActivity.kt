@@ -66,6 +66,7 @@ class RestaurantActivity : AppCompatActivity() {
         // 식당 정보
         val store_id = intent.getLongExtra("store_id", 0L)
         val store_name = intent.getStringExtra("store_name")
+        val store_intro = intent.getStringExtra("store_intro")
 
        findViewById<TextView>(R.id.restaurant_name).text = store_name
 
@@ -117,6 +118,7 @@ class RestaurantActivity : AppCompatActivity() {
                 val intent = Intent(this@RestaurantActivity, MenuActivity::class.java)
                 intent.putExtra("menu_name", clickedItem.menu_name)
                 intent.putExtra("menu_price", clickedItem.menu_price)
+                intent.putExtra("explanation", clickedItem.explanation)
                 resultLauncher.launch(intent)
             }
         })
@@ -139,7 +141,7 @@ class RestaurantActivity : AppCompatActivity() {
 
             val builder = AlertDialog.Builder(this)
             builder.setTitle("식당 정보")
-            builder.setMessage("연락처, 운영 시간, 공지 사항")
+            builder.setMessage(store_intro)
 
             // "확인" 버튼
             builder.setPositiveButton("확인") { dialog, which ->

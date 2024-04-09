@@ -24,6 +24,8 @@ class MenuActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.menuName).text = intent.getStringExtra("menu_name")
         totalPriceTextView.text = "$menuPrice"
 
+        findViewById<TextView>(R.id.menu_inf).text = intent.getStringExtra("explanation")
+
         val decreaseButton: ImageView = findViewById(R.id.downbutton)
         val increaseButton: ImageView = findViewById(R.id.upbutton)
         val numMenuTextView: TextView = findViewById(R.id.menuNum)

@@ -139,42 +139,41 @@ class RestaurantReservation : AppCompatActivity() {
             if (user_phone.isEmpty() || user_comments.isEmpty()) {
                 // 사용자에게 필수 정보 입력을 요청하는 Toast 메시지를 표시합니다.
                 Toast.makeText(this@RestaurantReservation, "전화번호와 요청사항을 입력해주세요.", Toast.LENGTH_LONG).show()
-                return@setOnClickListener  // 이후 코드 실행을 중단합니다.
             } else if (selectedTime.isEmpty()) {
                 // 시간 선택 여부를 검사하고, 선택하지 않았다면 안내 메시지를 표시합니다.
                 Toast.makeText(this@RestaurantReservation, "시간을 선택해주세요.", Toast.LENGTH_LONG).show()
-                return@setOnClickListener
             }
-
-            service.createReservation(reservationDTO).enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                    if (response.isSuccessful) {
-                        // 예약 성공 처리
-                        response.body()?.let { responseBody ->
-                            val responseString = responseBody.string() // 응답을 문자열로 변환
-                            if (responseString.contains("매장 예약 주문 성공")) {
-                                Toast.makeText(this@RestaurantReservation, "성공: $responseString", Toast.LENGTH_LONG).show()
-                                val intent = Intent(this@RestaurantReservation, MainActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            } else {
-                                // 예상치 못한 성공 메시지 처리
-                                Toast.makeText(this@RestaurantReservation, "응답: $responseString", Toast.LENGTH_LONG).show()
+            else {
+                service.createReservation(reservationDTO).enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
+                            // 예약 성공 처리
+                            response.body()?.let { responseBody ->
+                                val responseString = responseBody.string() // 응답을 문자열로 변환
+                                if (responseString.contains("매장 예약 주문 성공")) {
+                                    Toast.makeText(this@RestaurantReservation, "성공: $responseString", Toast.LENGTH_LONG).show()
+                                    val intent = Intent(this@RestaurantReservation, MainActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                } else {
+                                    // 예상치 못한 성공 메시지 처리
+                                    Toast.makeText(this@RestaurantReservation, "응답: $responseString", Toast.LENGTH_LONG).show()
+                                }
                             }
+                        } else {
+                            // 예약 실패 처리
+                            val errorMessage = response.errorBody()?.string()
+                            Log.e("Reservation", "예약 실패: $errorMessage")
+                            Log.e("-------------reservationDate", "${selectedDate}")
                         }
-                    } else {
-                        // 예약 실패 처리
-                        val errorMessage = response.errorBody()?.string()
-                        Log.e("Reservation", "예약 실패: $errorMessage")
-                        Log.e("-------------reservationDate", "${selectedDate}")
                     }
-                }
 
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    // 네트워크 오류 처리
-                    Log.e("Reservation", "네트워크 오류: ${t.message}")
-                }
-            })
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        // 네트워크 오류 처리
+                        Log.e("Reservation", "네트워크 오류: ${t.message}")
+                    }
+                })
+            }
         }
     }
     private fun highlightSelectedButton(selectedButton: Button) {

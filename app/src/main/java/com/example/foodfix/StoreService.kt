@@ -27,7 +27,7 @@ interface StoreService {
     fun createReservation(@Body reservationDTO: ReservationDTO): Call<ResponseBody>
 
     @POST("/packing/create")
-    fun createPackingOrder(@Body order: PackingOrder): Call<ResponseBody>
+    fun createPackingOrder(@Body packingOrder: PackingOrder): Call<ResponseBody>
 }
 
 
