@@ -33,6 +33,7 @@ class MenuActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.menu_inf).text = intent.getStringExtra("explanation")
 
         val menu_id = intent.getLongExtra("menu_id", 0L)
+        val store_id = intent.getLongExtra("store_id", 0L)
 
         val decreaseButton: ImageView = findViewById(R.id.downbutton)
         val increaseButton: ImageView = findViewById(R.id.upbutton)
@@ -85,6 +86,7 @@ class MenuActivity : AppCompatActivity() {
             editor.apply()
 
             val intent = Intent(this@MenuActivity, TakeoutActivity::class.java)
+            intent.putExtra("store_id", store_id)
             startActivity(intent)
         }
     }

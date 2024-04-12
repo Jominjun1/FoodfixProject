@@ -112,16 +112,16 @@ class TakeoutActivity : AppCompatActivity(){
             }
         })
 
-        
-        val takemenuList = mutableListOf<MenuDTO>()
+
         findViewById<Button>(R.id.takeoutButton).setOnClickListener {
             val user_phone = findViewById<TextView>(R.id.user_phone).text
             val user_comments = findViewById<TextView>(R.id.user_commend).text
 
+            val takemenuList = mutableListOf<MenuDTO>()
             for (item in itemList) {
                 val newMenu = MenuDTO(
                     menu_id = item.menu_id.toString(),
-                    menu_price = item.menu_price.toString(),
+                    menu_price = item.initialPrice.toString(),
                     menu_name = item.menu_name,
                     quantity = item.quantity.toString()
                 )
@@ -129,7 +129,7 @@ class TakeoutActivity : AppCompatActivity(){
             }
 
             val currentDate = LocalDate.now()
-            val formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일"))
+            val formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
             val currentTime = LocalTime.now()
             val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"))
@@ -140,10 +140,12 @@ class TakeoutActivity : AppCompatActivity(){
                 user_comments = user_comments.toString(),
                 packing_date = formattedDate,
                 packing_time = formattedTime,
-                payment_type = "현장 결제",
+                payment_type = "0",
                 store_id = store_id.toString(),
-                menuDTOList = takemenuList
+                menuItemDTOList = takemenuList
             )
+
+            Log.d("TakeoutActivity", "$packingOrder")
 
             // 사용자 전화번호와 코멘트가 공백인지 검사합니다.
             if (user_phone.isEmpty() || user_comments.isEmpty()) {
@@ -157,9 +159,10 @@ class TakeoutActivity : AppCompatActivity(){
                             // 포장 성공 처리
                             response.body()?.let { responseBody ->
                                 val responseString = responseBody.string() // 응답을 문자열로 변환
-                                if (responseString.contains("매장 포장 주문 성공")) {
+                                if (responseString.contains("포장 주문 성공")) {
                                     Toast.makeText(this@TakeoutActivity, "성공: $responseString", Toast.LENGTH_LONG).show()
                                     val intent = Intent(this@TakeoutActivity, MainActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                     startActivity(intent)
                                     finish()
                                 } else {
@@ -183,8 +186,25 @@ class TakeoutActivity : AppCompatActivity(){
         }
 
         findViewById<Button>(R.id.take_outBackButton).setOnClickListener {
-            /*val intent = Intent(this@TakeoutActivity, RestaurantActivity::class.java)
-            startActivity(intent)*/
+
+            // itemList를 사용하여 새로운 데이터를 만듭니다.
+            val takemenuList = mutableListOf<MenuItemDTO>()
+            for (item in itemList) {
+                val newMenu = MenuItemDTO(
+                    menu_id = item.menu_id,
+                    menu_price = item.menu_price,
+                    menu_name = item.menu_name,
+                    quantity = item.quantity,
+                    initialPrice = item.initialPrice
+                )
+                takemenuList.add(newMenu)
+            }
+
+            // SharedPreferences에 새로운 데이터를 저장합니다.
+            val strList = gson.toJson(takemenuList)
+            val editor = sharedPref.edit()
+            editor.putString("menuList", strList)
+            editor.apply()
             finish()
         }
     }

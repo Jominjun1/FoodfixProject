@@ -19,8 +19,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
-
 class RestaurantActivity : AppCompatActivity() {
 
     // ActivityResultLauncher 초기화
@@ -62,9 +60,9 @@ class RestaurantActivity : AppCompatActivity() {
 
         val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
 
-
         // 식당 정보
         val store_id = intent.getLongExtra("store_id", 1L)
+        Log.d("RestaurantActivity", "store_id $store_id")
         val store_name = intent.getStringExtra("store_name")
         val store_intro = intent.getStringExtra("store_intro")
 
@@ -116,6 +114,7 @@ class RestaurantActivity : AppCompatActivity() {
                 // 클릭한 아이템에 대한 처리 작업을 여기에 추가
                 // 예를 들어, 다른 화면으로 이동하거나 데이터를 전달할 수 있습니다.
                 val intent = Intent(this@RestaurantActivity, MenuActivity::class.java)
+                intent.putExtra("store_id", store_id)
                 intent.putExtra("menu_id", clickedItem.menu_id)
                 intent.putExtra("menu_name", clickedItem.menu_name)
                 intent.putExtra("menu_price", clickedItem.menu_price)
@@ -123,7 +122,6 @@ class RestaurantActivity : AppCompatActivity() {
                 resultLauncher.launch(intent)
             }
         })
-
 
         findViewById<Button>(R.id.restaurant_detailBackButton).setOnClickListener {
             val intent = Intent(this@RestaurantActivity, MainActivity::class.java)
@@ -136,9 +134,9 @@ class RestaurantActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.go2review).setOnClickListener {
-            openReviewActivity()
+            val intent = Intent(this, RestaurantReviews::class.java)
+            reviewActivityResultLauncher.launch(intent)
         }
-
 
         findViewById<TextView>(R.id.restautant_inf).setOnClickListener {
 
@@ -156,16 +154,17 @@ class RestaurantActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.includedMenu).setOnClickListener {
-            openTakeoutActivity()
-        }
+            val prev = sharedPref.getString("menuList", "none") // 이전에 저장된 데이터 가져오기
 
-    }
-    private fun openReviewActivity() {
-        val intent = Intent(this, RestaurantReviews::class.java)
-        reviewActivityResultLauncher.launch(intent)
-    }
-    private fun openTakeoutActivity() {
-        val intent = Intent(this, TakeoutActivity::class.java)
-        reviewActivityResultLauncher.launch(intent)
+            if (prev == "none") {
+                // 이전 데이터가 없을 때의 처리
+                Toast.makeText(this, "이전 데이터가 없습니다.", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val intent = Intent(this, TakeoutActivity::class.java)
+                intent.putExtra("store_id", store_id)
+                reviewActivityResultLauncher.launch(intent)
+            }
+        }
     }
 }

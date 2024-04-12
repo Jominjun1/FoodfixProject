@@ -49,7 +49,7 @@ data class PackingOrder(
     val packing_time: String,
     val payment_type: String,
     val store_id: String,
-    val menuDTOList: List<MenuDTO>
+    val menuItemDTOList: List<MenuDTO>
 )
 
 data class MenuDTO(

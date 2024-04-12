@@ -131,7 +131,7 @@ class MainActivity : AppCompatActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
-                                    Log.d("MainActivity", "Clicked item: ${clickedItem.store_id}")
+                                    Log.d("MainActivity", "Clicked store_id: ${clickedItem.store_id}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantReservation::class.java).apply {
                                         putExtra("store_id", clickedItem.store_id)
@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
-                                    Log.d("MainActivity", "Clicked item: ${clickedItem.store_id}")
+                                    Log.d("MainActivity", "Clicked store_id: ${clickedItem.store_id}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantActivity::class.java).apply {
                                         putExtra("store_id", clickedItem.store_id)

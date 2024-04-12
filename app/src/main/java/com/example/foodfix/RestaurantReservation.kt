@@ -150,7 +150,7 @@ class RestaurantReservation : AppCompatActivity() {
                             // 예약 성공 처리
                             response.body()?.let { responseBody ->
                                 val responseString = responseBody.string() // 응답을 문자열로 변환
-                                if (responseString.contains("매장 예약 주문 성공")) {
+                                if (responseString.contains("예약 주문 성공")) {
                                     Toast.makeText(this@RestaurantReservation, "성공: $responseString", Toast.LENGTH_LONG).show()
                                     val intent = Intent(this@RestaurantReservation, MainActivity::class.java)
                                     startActivity(intent)
