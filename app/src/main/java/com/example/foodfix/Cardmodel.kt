@@ -1,9 +1,6 @@
 package com.example.foodfix
 
-import java.time.LocalDate
 import java.time.LocalTime
-
-
 
 data class CardModel(
     val title: String, val detail: String, val image: Int
@@ -42,6 +39,32 @@ data class ReservationDTO(
     val reservation_time: String?,
     val people_cnt: Int?,
     val store_id: Long?
+)
+
+data class PackingOrder(
+    val user_id: String,
+    val user_phone: String,
+    val user_comments: String,
+    val packing_date: String,
+    val packing_time: String,
+    val payment_type: String,
+    val store_id: String,
+    val menuItemDTOList: List<MenuDTO>
+)
+
+data class MenuDTO(
+    val menu_id: String,
+    var menu_price: String,
+    val menu_name: String,
+    var quantity: String,
+)
+
+data class MenuItemDTO(
+    val menu_id: Long?,
+    var menu_price: Double,
+    val menu_name: String,
+    var quantity: Int,
+    val initialPrice: Double
 )
 
 data class MenuModel(

@@ -59,12 +59,12 @@ class StoreAdapter(val items: MutableList<StoreDTO>) :
 
             // 이미지 로딩
             Glide.with(imageArea)
-                .load("http://54.180.213.178:8080/images/${storeDTO.photo?.imagePath.toString()}") // 서버에서 받은 이미지 URL
+                .load("http://54.180.213.178:8080/images/${storeDTO.photo?.imagePath}") // 서버에서 받은 이미지 URL
                 .placeholder(R.drawable.ic_launcher_foreground) // 로딩 중에 표시될 이미지
                 .error(R.drawable.ic_launcher_background) // 로딩 에러 발생 시 표시될 이미지
                 .into(imageArea)
 
-            titleArea.text = storeDTO.store_name // "별점 ${cardModel.detail}" 혹은 다른 문자열 포맷을 직접 사용
+            titleArea.text = storeDTO.store_name
             detailArea.text = "Open: ${storeDTO.openTime?.toString()} - Close: ${storeDTO.closeTime?.toString()}"
         }
     }

@@ -55,14 +55,12 @@ class SignUpActivity : AppCompatActivity() {
             val userNickname = findViewById<EditText>(R.id.signNickname).text.toString()
             val userGender = selectedValue.toString()
 
-            /*val username = "androidname"
-            val userId = "android"
-            val userPw = "android!@"
-            val userPwCheck = "android!@"
-            val userPhone = "010-7777-8888"
-            val userAddress = "ananananana"
-            val userNickname = "androidNick"
-            val userGender = "0" // 성별 입력 처리 로직 추가 필요 0 = 남자, 1 = 여자*/
+            // 사용자 ID 검증을 위한 정규 표현식
+            val userIdPattern = "^[a-zA-Z0-9]{4,10}$".toRegex()
+            // 비밀번호 검증을 위한 정규 표현식
+            val passwordPattern = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}$".toRegex()
+            // 닉네임 검증을 위한 정규 표현식
+            val nicknamePattern = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$".toRegex()
 
             val user = User(userPhone, userId, username, userPw, userAddress, userNickname, userGender)
 
@@ -75,6 +73,17 @@ class SignUpActivity : AppCompatActivity() {
             else if(userPw != userPwCheck){
                 //비밀번호 입력 확인
                 Toast.makeText(this@SignUpActivity, "비밀번호가 다릅니다", Toast.LENGTH_LONG).show()
+            }
+            else if(!userId.matches(userIdPattern)){
+                    Toast.makeText(this, "사용자 ID는 4자리에서 10자리 사이의 대소문자 영어 또는 숫자여야 합니다.", Toast.LENGTH_LONG).show()
+            }
+            else  if (!userPw.matches(passwordPattern)) {
+                // 비밀번호가 조건에 맞지 않을 경우
+                Toast.makeText(this, "비밀번호는 대소문자 영문자, 숫자, 특수문자를 포함하는 8~16자리여야 합니다.", Toast.LENGTH_LONG).show()
+            }
+            else if (!userNickname.matches(nicknamePattern)) {
+                // 닉네임이 조건에 맞지 않을 경우
+                Toast.makeText(this, "닉네임은 한글, 영문 소문자, 숫자를 포함하는 2~10자리여야 합니다.", Toast.LENGTH_LONG).show()
             }
             else {
             userService.registerUser(user).enqueue(object : Callback<ResponseBody> {
@@ -112,7 +121,6 @@ class SignUpActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
-
     }
 }
 data class User(

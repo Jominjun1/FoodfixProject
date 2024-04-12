@@ -17,6 +17,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,8 +61,12 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        // 사용자의 JWT 토큰을 가져옴
-        //val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        // 특정 키의 값을 null로 설정하여 SharedPreferences에서 해당 데이터 비우기
+        editor.putString("menuList", null)
+        editor.apply()
 
         val itemList = mutableListOf<StoreDTO>()
         val adapter = StoreAdapter(itemList)
@@ -100,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                             val reservableStores = response.body() ?: emptyList()
                             val cardItems = reservableStores.map { dto ->
 
-                                Log.d("StoreImagePath","${dto.photo?.imagePath}")
+                                Log.d("StoreImagePath","${dto.photo}")
                                 // 서버로부터 받은 정보를 StoreDTO 변환합니다.
                                 StoreDTO (
                                     store_id = dto.store_id,
@@ -126,7 +131,7 @@ class MainActivity : AppCompatActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
-                                    Log.d("MainActivity", "Clicked item: ${clickedItem.store_name}")
+                                    Log.d("MainActivity", "Clicked store_id: ${clickedItem.store_id}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantReservation::class.java).apply {
                                         putExtra("store_id", clickedItem.store_id)
@@ -159,7 +164,7 @@ class MainActivity : AppCompatActivity() {
                             val packableStores = response.body() ?: emptyList()
                             val cardItems = packableStores.map { dto ->
 
-                                Log.d("StoreImagePath","${dto.photo?.imagePath}")
+                                Log.d("StoreImagePath","${dto.photo}")
                                 // 서버로부터 받은 정보를 StoreDTO로 변환합니다.
                                 StoreDTO (
                                     store_id = dto.store_id,
@@ -185,7 +190,7 @@ class MainActivity : AppCompatActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
-                                    Log.d("MainActivity", "Clicked item: ${clickedItem.store_name}")
+                                    Log.d("MainActivity", "Clicked store_id: ${clickedItem.store_id}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantActivity::class.java).apply {
                                         putExtra("store_id", clickedItem.store_id)

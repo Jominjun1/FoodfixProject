@@ -35,7 +35,10 @@
         <activity android:name=".MyreviewActivity"/>
         <activity android:name=".RestaurantReviews"/>
         <activity android:name=".FavoritesActivity"/>
-        <activity android:name=".RestaurantReservation"/>
+        <activity android:name=".RestaurantReservation"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".TakeoutActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>
