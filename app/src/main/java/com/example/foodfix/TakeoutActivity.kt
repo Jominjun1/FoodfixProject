@@ -11,12 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.TakeoutMenuBinding
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -36,11 +40,13 @@ class TakeoutActivity : AppCompatActivity(){
 
         // 사용자의 JWT 토큰을 가져옴
         val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val gson = GsonBuilder().create()
         val user_id = sharedPref.getString("user_id", null)
 
         // 식당 정보
         val store_id = intent.getLongExtra("store_id", 0L)
         //val store_name = intent.getStringExtra("store_name")
+
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://54.180.213.178:8080") // 서버 URL
@@ -56,13 +62,33 @@ class TakeoutActivity : AppCompatActivity(){
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
 
-        var menu_id = 1
-        var menu_price = 2000.0
-        var menu_name = "핫도그"
-        var quantity = 4
-        var initialPrice = menu_price / quantity
-        itemList.add(MenuItemDTO(menu_id.toLong(), menu_price, menu_name, quantity, initialPrice))
-        itemList.add(MenuItemDTO(2, 10000.0, "떡볶이", 2, 5000.0))
+        val jsonList =sharedPref.getString("menuList","none") // json list 가져오기
+
+        // 저장된 데이터가 비어있지 않으면
+        if (!jsonList.isNullOrEmpty()) {
+            val menuListType: Type = object : TypeToken<ArrayList<MenuDTO>>() {}.type
+            val menuList = gson.fromJson<ArrayList<MenuDTO>>(jsonList, menuListType)
+
+            val itemmenuList = mutableListOf<MenuItemDTO>()
+
+            // menuList에 저장된 데이터를 MenuItemDTO로 변환하여 itemList에 추가하기
+            for (menu in menuList) {
+                if (menu.menu_id != null && menu.menu_id.isNotEmpty()) { // menu_id가 null이 아니고 비어 있지 않은 경우에만 처리
+                    val initialPrice = menu.menu_price.toDouble() / menu.quantity.toInt()
+                    itemList.add(MenuItemDTO(menu.menu_id.toLong(), menu.menu_price.toDouble(), menu.menu_name, menu.quantity.toInt(), initialPrice))
+                } else {
+                    Log.e("TakeoutActivity", "Invalid menu ID: ${menu.menu_id}")
+                }
+            }
+
+            // itemList에 저장된 데이터를 확인하기 위해 로그 출력
+            for (item in itemmenuList) {
+                Log.d("TakeoutActivity", "Menu ID: ${item.menu_id}, Name: ${item.menu_name}, Price: ${item.menu_price}, Quantity: ${item.quantity}, Initial Price: ${item.initialPrice}")
+            }
+        } else {
+            // 저장된 데이터가 없을 때의 처리
+            Log.d("TakeoutActivity", "No data found in SharedPreferences.")
+        }
 
         val total_price = itemList.sumOf { it.menu_price }
         findViewById<TextView>(R.id.totalPrice).text = total_price.toString()
@@ -86,19 +112,20 @@ class TakeoutActivity : AppCompatActivity(){
             }
         })
 
-        val menuList = mutableListOf<MenuDTO>()
+        
+        val takemenuList = mutableListOf<MenuDTO>()
         findViewById<Button>(R.id.takeoutButton).setOnClickListener {
             val user_phone = findViewById<TextView>(R.id.user_phone).text
             val user_comments = findViewById<TextView>(R.id.user_commend).text
 
             for (item in itemList) {
                 val newMenu = MenuDTO(
-                    menu_id = item.menu_id,
-                    menu_price = item.menu_price,
+                    menu_id = item.menu_id.toString(),
+                    menu_price = item.menu_price.toString(),
                     menu_name = item.menu_name,
-                    quantity = item.quantity
+                    quantity = item.quantity.toString()
                 )
-                menuList.add(newMenu)
+                takemenuList.add(newMenu)
             }
 
             val currentDate = LocalDate.now()
@@ -114,8 +141,8 @@ class TakeoutActivity : AppCompatActivity(){
                 packing_date = formattedDate,
                 packing_time = formattedTime,
                 payment_type = "현장 결제",
-                store_id = store_id,
-                menuDTOList = menuList
+                store_id = store_id.toString(),
+                menuDTOList = takemenuList
             )
 
             // 사용자 전화번호와 코멘트가 공백인지 검사합니다.
@@ -155,7 +182,9 @@ class TakeoutActivity : AppCompatActivity(){
             }
         }
 
-        findViewById<Button>(R.id.restaurant_detailBackButton).setOnClickListener {
+        findViewById<Button>(R.id.take_outBackButton).setOnClickListener {
+            /*val intent = Intent(this@TakeoutActivity, RestaurantActivity::class.java)
+            startActivity(intent)*/
             finish()
         }
     }
@@ -166,3 +195,4 @@ class TakeoutActivity : AppCompatActivity(){
         binding.totalPrice.text = String.format("%.2f", total_price)
     }
 }
+

@@ -24,7 +24,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/restaurant_detailBackButton"
+                android:id="@+id/take_outBackButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"

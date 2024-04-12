@@ -17,6 +17,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,8 +61,12 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        // 사용자의 JWT 토큰을 가져옴
-        //val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        // 특정 키의 값을 null로 설정하여 SharedPreferences에서 해당 데이터 비우기
+        editor.putString("menuList", null)
+        editor.apply()
 
         val itemList = mutableListOf<StoreDTO>()
         val adapter = StoreAdapter(itemList)

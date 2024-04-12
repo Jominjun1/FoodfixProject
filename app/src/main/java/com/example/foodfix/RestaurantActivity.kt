@@ -64,7 +64,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 
         // 식당 정보
-        val store_id = intent.getLongExtra("store_id", 0L)
+        val store_id = intent.getLongExtra("store_id", 1L)
         val store_name = intent.getStringExtra("store_name")
         val store_intro = intent.getStringExtra("store_intro")
 
@@ -116,6 +116,7 @@ class RestaurantActivity : AppCompatActivity() {
                 // 클릭한 아이템에 대한 처리 작업을 여기에 추가
                 // 예를 들어, 다른 화면으로 이동하거나 데이터를 전달할 수 있습니다.
                 val intent = Intent(this@RestaurantActivity, MenuActivity::class.java)
+                intent.putExtra("menu_id", clickedItem.menu_id)
                 intent.putExtra("menu_name", clickedItem.menu_name)
                 intent.putExtra("menu_price", clickedItem.menu_price)
                 intent.putExtra("explanation", clickedItem.explanation)
@@ -125,6 +126,8 @@ class RestaurantActivity : AppCompatActivity() {
 
 
         findViewById<Button>(R.id.restaurant_detailBackButton).setOnClickListener {
+            val intent = Intent(this@RestaurantActivity, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
 
