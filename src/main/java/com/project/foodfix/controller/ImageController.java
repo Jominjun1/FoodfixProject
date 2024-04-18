@@ -18,11 +18,11 @@ public class ImageController {
     @GetMapping("/images/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
         try {
-            // 이미지 파일의 경로를 생성합니다.
+            // 이미지 파일의 경로를 생성
             Path imagePath = Paths.get(DIRECTORY).resolve(imageName);
             Resource resource = new UrlResource(imagePath.toUri());
 
-            // 이미지 파일이 존재하는지 확인합니다.
+            // 이미지 파일 존재 확인
             if (resource.exists() || resource.isReadable()) {
                 return ResponseEntity.ok().body(resource);
             } else {

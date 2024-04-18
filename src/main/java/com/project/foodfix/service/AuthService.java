@@ -99,17 +99,15 @@ public class AuthService {
                     // 이미지 저장
                     Photo photo;
                     if (imageFile != null && !imageFile.isEmpty()) {
-                        // 이미지가 존재하는 경우에만 저장
                         photo = imageService.saveImage(imageFile);
-                        // 이미지 정보가 있을 때만 설정
                         newMenu.setMenuPhoto(photo);
                     }
                 } catch (IOException e) {
-                    // 이미지 저장 중 오류 발생 시 처리
+                    // 오류 발생 시 처리
                     ResponseEntity.ok("이미지 저장 오류");
                 }
                 store.getMenus().add(newMenu);
-                saveUser(admin);  // 업데이트된 메뉴 정보를 가진 관리자 저장
+                saveUser(admin);
                 ResponseEntity.ok("메뉴 추가 성공");
             } else {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("관리자가 소유한 매장 없음");
@@ -142,7 +140,7 @@ public class AuthService {
                 if (store.getPhoto() != null) {
                     Photo photo = store.getPhoto();
                     photo.setPhoto_status("1"); // 삭제 예정으로 상태 변경
-                    photoRepository.save(photo); // 변경된 상태 저장
+                    photoRepository.save(photo);
                 }
             }
             packingRepository.deleteByStoreId(store_id);
@@ -152,7 +150,7 @@ public class AuthService {
             // 매장 삭제
             storeRepository.deleteById(store_id);
         } catch (Exception e) {
-            // 콘솔에 오류 메시지를 출력합니다.
+            // 오류 메시지 출력
             System.err.println("오류 발생: " + e.getMessage());
         }
     }
@@ -163,12 +161,12 @@ public class AuthService {
             if (menu != null && menu.getMenuPhoto() != null) {
                 Photo photo = menu.getMenuPhoto();
                 photo.setPhoto_status("1"); // 삭제 예정으로 상태 변경
-                photoRepository.save(photo); // 변경된 상태 저장
+                photoRepository.save(photo);
             }
             // 메뉴 삭제
             menuRepository.deleteByMenuId(menu_id);
         } catch (Exception e) {
-            // 콘솔에 오류 메시지를 출력합니다.
+            // 콘솔 오류 메시지 출력
             System.err.println("오류 발생: " + e.getMessage());
         }
     }

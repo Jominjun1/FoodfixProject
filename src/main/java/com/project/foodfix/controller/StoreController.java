@@ -1,12 +1,9 @@
 package com.project.foodfix.controller;
 
-import com.project.foodfix.UserType;
-import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.DTO.PackableStoreDTO;
 import com.project.foodfix.model.DTO.ReservableStoreDTO;
 import com.project.foodfix.service.Store.StoreService;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +26,7 @@ public class StoreController {
             @RequestParam(required = false) String store_category,
             @RequestParam(required = false) String store_name,
             @RequestParam(required = false) String menu_name) {
-        // 포장 가능한 매장 검색 결과 반환
+        //  검색 결과 반환
         List<PackableStoreDTO> result = storeService.searchPackableStores(store_category, store_name, menu_name);
         return ResponseEntity.ok(result);
     }
@@ -39,7 +36,7 @@ public class StoreController {
             @RequestParam(required = false) String store_category,
             @RequestParam(required = false) String store_name,
             @RequestParam(required = false) String menu_name) {
-        // 예약 가능한 매장 검색 결과 반환
+        //검색 결과 반환
         List<ReservableStoreDTO> result = storeService.searchReservableStores(store_category, store_name, menu_name);
         return ResponseEntity.ok(result);
     }

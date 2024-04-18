@@ -29,16 +29,10 @@ public class ReservationController {
         // 매장 예약 시도
         List<ReservationDTO> reservationResult = storeService.reservationStore(reservationDTO);
 
-        // 매장 예약 결과에 따라 응답 처리
         if (reservationResult != null) {
             return ResponseEntity.ok("예약 주문 성공");
         } else {
             return ResponseEntity.badRequest().body("예약 실패");
         }
-    }
-    // 예약 주문 승락/거절
-    @PutMapping("/orderStatus")
-    public ResponseEntity<Object> updatePackingStatus(){
-        return ResponseEntity.badRequest().body("실패");
     }
 }

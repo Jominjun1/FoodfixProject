@@ -22,7 +22,6 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final StoreRepository storeRepository;
 
-
     @Autowired
     public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository) {
         this.authService = authService;
@@ -38,7 +37,7 @@ public class UserController {
             // 토큰에서 사용자 ID 추출
             String user_id = jwtTokenProvider.extractUserId(token);
             if (user_id != null) {
-                // AuthService 통해 사용자 정보 조회
+
                 Object user = authService.getUser(user_id, UserType.USER);
                 if (user != null) {
                     return ResponseEntity.ok(user);
@@ -58,7 +57,6 @@ public class UserController {
     // 매장의 메뉴 조회
     @GetMapping("/menus/{store_id}")
     public ResponseEntity<Object> getMenusByStoreId(@PathVariable Long store_id) {
-        // 특정 매장의 메뉴 조회
         Optional<Store> optionalStore = storeRepository.findById(store_id);
 
         if (optionalStore.isPresent()) {
@@ -78,6 +76,18 @@ public class UserController {
         User user = (User) authService.getUser(user_id, UserType.USER);
         if (user != null) {
             return ResponseEntity.ok(user.getReservations());
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+    // 포장 내역 조회
+    @GetMapping("/packings")
+    public ResponseEntity<Object> getUserPackings(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        String user_id = jwtTokenProvider.extractUserId(token);
+
+        User user = (User) authService.getUser(user_id, UserType.USER);
+        if (user != null) {
+            return ResponseEntity.ok(user.getPackings());
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
