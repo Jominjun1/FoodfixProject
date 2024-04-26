@@ -479,7 +479,6 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
-
     // 매장 포장 신청 내역 조회
     @GetMapping("/getPacking")
     public ResponseEntity<Object> getUserPackings(@RequestHeader("Authorization") String authorizationHeader) {

@@ -1,6 +1,7 @@
 package com.project.foodfix.controller;
 
 
+import com.project.foodfix.config.WebSocketHandler;
 import com.project.foodfix.model.DTO.ReservationDTO;
 import com.project.foodfix.service.Store.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,12 @@ import java.util.List;
 public class ReservationController {
 
     private final StoreService storeService;
+    private final WebSocketHandler webSocketHandler;
 
     @Autowired
-    public ReservationController(StoreService storeService) {
+    public ReservationController(StoreService storeService, WebSocketHandler webSocketHandler) {
         this.storeService = storeService;
+        this.webSocketHandler = webSocketHandler;
     }
 
     // 예약 주문 생성
@@ -30,6 +33,7 @@ public class ReservationController {
         List<ReservationDTO> reservationResult = storeService.reservationStore(reservationDTO);
 
         if (reservationResult != null) {
+            webSocketHandler.sendReservationOrder(reservationDTO.getStore_id());
             return ResponseEntity.ok("예약 주문 성공");
         } else {
             return ResponseEntity.badRequest().body("예약 실패");
