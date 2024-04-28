@@ -16,6 +16,8 @@ interface UserService {
     fun getUserProfile(@Header("Authorization") token: String): Call<UserProfileResponse>
     @GET("/user/reservations")
     fun getUserReservations(@Header("Authorization") token: String): Call<List<ReservationCardModel>>
+    @GET("/user/packings")
+    fun getUserPacking(@Header("Authorization") token: String): Call<List<PackingCardModel>>
     @GET("/user/menus/{store_id}")
     fun getMenusByStoreId(@Path("store_id") storeId: Long): Call<List<MenuModel>>
     @DELETE("/user/delete")

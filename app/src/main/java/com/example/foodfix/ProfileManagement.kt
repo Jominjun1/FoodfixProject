@@ -278,6 +278,4 @@ class ProfileManagement : AppCompatActivity() {
             }
         })
     }
-
-
 }

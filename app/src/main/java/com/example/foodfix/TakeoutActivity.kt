@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.TakeoutMenuBinding
@@ -31,12 +33,42 @@ class TakeoutActivity : AppCompatActivity(){
     lateinit var binding: TakeoutMenuBinding
     private val itemList = mutableListOf<MenuItemDTO>() // 클래스 멤버로 변경
 
+    private var payment_type: String = ""
+    private var currentlySelectedButton: Button? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.takeout_menu)
         binding = DataBindingUtil.setContentView(this, R.layout.takeout_menu)
 
         supportActionBar?.hide()
+
+        // 라디오그룹과 버튼을 ID로 찾기
+        //val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
+        val buttonPaymentType1 = findViewById<Button>(R.id.Payment_type1)
+        val buttonPaymentType2 = findViewById<Button>(R.id.Payment_type2)
+
+        // Payment_type1 버튼에 클릭 리스너 설정하기
+        buttonPaymentType1.setOnClickListener {
+            // 클릭되었을 때 실행할 코드 작성
+            payment_type = "0"
+        }
+
+        buttonPaymentType2.setOnClickListener {
+            payment_type = "1"
+        }
+        val PaymentButtons = listOf(buttonPaymentType1, buttonPaymentType2)
+        PaymentButtons.forEach { button ->
+            button.setOnClickListener {
+                currentlySelectedButton?.let {
+                    // 이전에 선택된 버튼의 색상을 초기화
+                    it.backgroundTintList = ContextCompat.getColorStateList(this, R.color.gray)
+                }
+                // 현재 선택된 버튼을 강조 표시하고 저장
+                highlightSelectedButton(it as Button)
+                currentlySelectedButton = it // 현재 선택된 버튼을 저장
+            }
+        }
 
         // 사용자의 JWT 토큰을 가져옴
         val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
@@ -140,7 +172,7 @@ class TakeoutActivity : AppCompatActivity(){
                 user_comments = user_comments.toString(),
                 packing_date = formattedDate,
                 packing_time = formattedTime,
-                payment_type = "0",
+                payment_type = payment_type,
                 store_id = store_id.toString(),
                 menuItemDTOList = takemenuList
             )
@@ -213,6 +245,11 @@ class TakeoutActivity : AppCompatActivity(){
         // 총 가격 업데이트
         val total_price = itemList.sumOf { it.menu_price }
         binding.totalPrice.text = String.format("%.2f", total_price)
+    }
+
+    private fun highlightSelectedButton(selectedButton: Button) {
+        // 선택된 버튼의 배경색을 변경
+        selectedButton.backgroundTintList = ContextCompat.getColorStateList(this, R.color.purple_200)
     }
 }
 

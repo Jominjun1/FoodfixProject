@@ -30,7 +30,7 @@
         <activity android:name=".ProfileManagement"/>
         <activity android:name=".RestaurantActivity"/>
         <activity android:name=".MenuActivity"/>
-        <activity android:name=".OrderDetailsActivity"/>
+        <activity android:name=".PackingstatusActivity"/>
         <activity android:name=".ReservationstatusActivity"/>
         <activity android:name=".MyreviewActivity"/>
         <activity android:name=".RestaurantReviews"/>

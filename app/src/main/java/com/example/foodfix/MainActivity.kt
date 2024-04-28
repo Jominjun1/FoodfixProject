@@ -17,7 +17,9 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.reflect.TypeToken
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +27,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 import java.time.LocalTime
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +35,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding:ActivityMainBinding
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+
+    private lateinit var webSocketManager: WebSocketManager
+    companion object {
+        lateinit var webSocket: WebSocket
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +66,11 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val storeService = retrofit.create(StoreService::class.java)
+
+
+        webSocketManager = WebSocketManager // WebSocketManager를 싱글톤으로 사용
+        // 웹소켓 연결
+        connectWebSocket()
 
         supportActionBar?.hide()
 
@@ -222,7 +235,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.Orderdetailsbutton).setOnClickListener {
-            val intent = Intent(this, OrderDetailsActivity::class.java)
+            val intent = Intent(this, PackingstatusActivity::class.java)
             resultLauncher.launch(intent)
         }
 
@@ -238,5 +251,21 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+    private fun connectWebSocket() {
+        // OkHttpClient 생성
+        val client = OkHttpClient.Builder()
+            .readTimeout(3, TimeUnit.SECONDS)
+            .build()
+
+        // 웹소켓 요청 생성
+        val request = Request.Builder()
+            .url("ws://54.180.213.178:8080/wsk")
+            .build()
+
+        val listener = MyWebSocketListener()
+        webSocket = client.newWebSocket(request, listener)
+        // WebSocketManager에 웹소켓 설정
+        webSocketManager.setWebSocket(webSocket)
     }
 }

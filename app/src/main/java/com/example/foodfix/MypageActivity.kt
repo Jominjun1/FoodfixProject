@@ -70,7 +70,7 @@ class MypageActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.mypage2orderHistory).setOnClickListener {
-            val intent = Intent(this, OrderDetailsActivity::class.java)
+            val intent = Intent(this, PackingstatusActivity::class.java)
             resultLauncher.launch(intent)
         }
 
@@ -93,6 +93,10 @@ class MypageActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.logoutText).setOnClickListener{
+
+            // WebSocketManager를 이용하여 웹소켓 해제
+            WebSocketManager.disconnectWebSocket()
+
 
             // 로그아웃 요청
             userService.logoutUser("Bearer $token").enqueue(object : Callback<ResponseBody> {
