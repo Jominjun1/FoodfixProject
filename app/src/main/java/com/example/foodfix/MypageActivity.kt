@@ -16,8 +16,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
-
 class MypageActivity : AppCompatActivity() {
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
@@ -70,7 +68,7 @@ class MypageActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.mypage2orderHistory).setOnClickListener {
-            val intent = Intent(this, OrderDetailsActivity::class.java)
+            val intent = Intent(this, PackingstatusActivity::class.java)
             resultLauncher.launch(intent)
         }
 
@@ -93,7 +91,6 @@ class MypageActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.logoutText).setOnClickListener{
-
             // 로그아웃 요청
             userService.logoutUser("Bearer $token").enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

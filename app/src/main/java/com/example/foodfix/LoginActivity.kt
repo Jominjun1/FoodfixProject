@@ -10,7 +10,10 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.ResponseBody
+import okhttp3.WebSocket
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,8 +21,14 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import java.util.concurrent.TimeUnit
 
 class LoginActivity : AppCompatActivity() {
+
+    /*private lateinit var webSocketManager: WebSocketManager
+    companion object {
+        lateinit var webSocket: WebSocket
+    }*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -57,6 +66,11 @@ class LoginActivity : AppCompatActivity() {
                 // 로그인 기능 내 onResponse 수정 부분
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                     if (response.isSuccessful) {
+
+                        /*webSocketManager = WebSocketManager // WebSocketManager를 싱글톤으로 사용
+                        // 웹소켓 연결
+                        connectWebSocket()*/
+
                         response.body()?.string()?.let { responseBodyString ->
                             Log.d("LoginActivity", "Response: $responseBodyString")
 
@@ -102,6 +116,22 @@ class LoginActivity : AppCompatActivity() {
             )
         }
     }
+    /*private fun connectWebSocket() {
+        // OkHttpClient 생성
+        val client = OkHttpClient.Builder()
+            .readTimeout(3, TimeUnit.SECONDS)
+            .build()
+
+        // 웹소켓 요청 생성
+        val request = Request.Builder()
+            .url("ws://54.180.213.178:8080/wsk")
+            .build()
+
+        val listener = MyWebSocketListener()
+        val webSocket = client.newWebSocket(request, listener)
+        // WebSocketManager에 웹소켓 설정
+        WebSocketManager.setWebSocket(webSocket)
+    }*/
 }
 data class LoginRequest(val user_id: String, val user_pw: String)
 

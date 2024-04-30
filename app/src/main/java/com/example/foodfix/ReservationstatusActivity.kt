@@ -15,6 +15,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,6 +26,7 @@ import java.lang.reflect.Type
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 
 class ReservationstatusActivity : AppCompatActivity() {
 
@@ -47,6 +50,22 @@ class ReservationstatusActivity : AppCompatActivity() {
         val userService = retrofit.create(UserService::class.java)
 
         supportActionBar?.hide()
+
+        // 웹소켓 연결
+        // OkHttpClient 생성
+        val client = OkHttpClient.Builder()
+            .readTimeout(3, TimeUnit.SECONDS)
+            .build()
+
+        // 웹소켓 요청 생성
+        val request = Request.Builder()
+            .url("ws://54.180.213.178:8080/wsk")
+            .build()
+
+        val listener = MyWebSocketListener()
+        val webSocket = client.newWebSocket(request, listener)
+        // WebSocketManager에 웹소켓 설정
+        WebSocketManager.setWebSocket(webSocket)
 
         val itemList = mutableListOf<ReservationCardModel>()
 
@@ -102,6 +121,11 @@ class ReservationstatusActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.showlisttext).text = "식당 예약 현황"
 
         findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
+            //웹소켓 해제
+            val clearWebSocket = WebSocketManager.getWebSocket()
+            clearWebSocket?.let {
+                WebSocketManager.disconnectWebSocket()
+            }
             val intent = Intent(this, MypageActivity::class.java)
             startActivity(intent)
             finish()

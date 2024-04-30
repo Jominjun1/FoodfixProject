@@ -139,8 +139,40 @@
                     android:layout_marginTop="50dp"
                     android:text="결제 방법"
                     android:textSize="18dp"/>
-            </LinearLayout>
 
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/Payment_type1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="앱 결제"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/Payment_type2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="방문 결제"
+                        app:layout_constraintStart_toEndOf="@+id/Payment_type1"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </RadioGroup>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
         <Button

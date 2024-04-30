@@ -17,7 +17,9 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.reflect.TypeToken
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +27,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 import java.time.LocalTime
-
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -131,6 +133,8 @@ class MainActivity : AppCompatActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
+                                    // 웹소켓 연결
+                                    connectWebSocket()
                                     Log.d("MainActivity", "Clicked store_id: ${clickedItem.store_id}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantReservation::class.java).apply {
@@ -190,6 +194,8 @@ class MainActivity : AppCompatActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
+                                    // 웹소켓 연결
+                                    connectWebSocket()
                                     Log.d("MainActivity", "Clicked store_id: ${clickedItem.store_id}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantActivity::class.java).apply {
@@ -222,7 +228,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.Orderdetailsbutton).setOnClickListener {
-            val intent = Intent(this, OrderDetailsActivity::class.java)
+            val intent = Intent(this, PackingstatusActivity::class.java)
             resultLauncher.launch(intent)
         }
 
@@ -238,5 +244,22 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun connectWebSocket() {
+        // OkHttpClient 생성
+        val client = OkHttpClient.Builder()
+            .readTimeout(3, TimeUnit.SECONDS)
+            .build()
+
+        // 웹소켓 요청 생성
+        val request = Request.Builder()
+            .url("ws://54.180.213.178:8080/wsk")
+            .build()
+
+        val listener = MyWebSocketListener()
+        val webSocket = client.newWebSocket(request, listener)
+        // WebSocketManager에 웹소켓 설정
+        WebSocketManager.setWebSocket(webSocket)
     }
 }
