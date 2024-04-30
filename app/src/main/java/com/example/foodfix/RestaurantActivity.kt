@@ -124,6 +124,11 @@ class RestaurantActivity : AppCompatActivity() {
         })
 
         findViewById<Button>(R.id.restaurant_detailBackButton).setOnClickListener {
+            // 웹소켓 해제
+            val clearWebSocket = WebSocketManager.getWebSocket()
+            clearWebSocket?.let {
+                WebSocketManager.disconnectWebSocket()
+            }
             val intent = Intent(this@RestaurantActivity, MainActivity::class.java)
             startActivity(intent)
             finish()

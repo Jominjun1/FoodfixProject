@@ -29,17 +29,11 @@ import java.lang.reflect.Type
 import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 
-
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityMainBinding
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
-
-    private lateinit var webSocketManager: WebSocketManager
-    companion object {
-        lateinit var webSocket: WebSocket
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,11 +60,6 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val storeService = retrofit.create(StoreService::class.java)
-
-
-        webSocketManager = WebSocketManager // WebSocketManager를 싱글톤으로 사용
-        // 웹소켓 연결
-        connectWebSocket()
 
         supportActionBar?.hide()
 
@@ -144,6 +133,8 @@ class MainActivity : AppCompatActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
+                                    // 웹소켓 연결
+                                    connectWebSocket()
                                     Log.d("MainActivity", "Clicked store_id: ${clickedItem.store_id}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantReservation::class.java).apply {
@@ -203,6 +194,8 @@ class MainActivity : AppCompatActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
+                                    // 웹소켓 연결
+                                    connectWebSocket()
                                     Log.d("MainActivity", "Clicked store_id: ${clickedItem.store_id}")
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(this@MainActivity, RestaurantActivity::class.java).apply {
@@ -252,6 +245,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
     private fun connectWebSocket() {
         // OkHttpClient 생성
         val client = OkHttpClient.Builder()
@@ -264,8 +258,8 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val listener = MyWebSocketListener()
-        webSocket = client.newWebSocket(request, listener)
+        val webSocket = client.newWebSocket(request, listener)
         // WebSocketManager에 웹소켓 설정
-        webSocketManager.setWebSocket(webSocket)
+        WebSocketManager.setWebSocket(webSocket)
     }
 }

@@ -62,6 +62,11 @@ class RestaurantReservation : AppCompatActivity() {
         findViewById<TextView>(R.id.restaurantName).text = store_name
 
         findViewById<Button>(R.id.restaurnatReservationBackButton).setOnClickListener {
+            // 웹소켓 해제
+            val clearWebSocket = WebSocketManager.getWebSocket()
+            clearWebSocket?.let {
+                WebSocketManager.disconnectWebSocket()
+            }
             finish()
         }
 
@@ -151,6 +156,11 @@ class RestaurantReservation : AppCompatActivity() {
                             response.body()?.let { responseBody ->
                                 val responseString = responseBody.string() // 응답을 문자열로 변환
                                 if (responseString.contains("예약 주문 성공")) {
+                                    // 웹소켓 해제
+                                    val clearWebSocket = WebSocketManager.getWebSocket()
+                                    clearWebSocket?.let {
+                                        WebSocketManager.disconnectWebSocket()
+                                    }
                                     Toast.makeText(this@RestaurantReservation, "성공: $responseString", Toast.LENGTH_LONG).show()
                                     val intent = Intent(this@RestaurantReservation, MainActivity::class.java)
                                     startActivity(intent)

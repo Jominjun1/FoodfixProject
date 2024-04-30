@@ -33,7 +33,7 @@ class TakeoutActivity : AppCompatActivity(){
     lateinit var binding: TakeoutMenuBinding
     private val itemList = mutableListOf<MenuItemDTO>() // 클래스 멤버로 변경
 
-    private var payment_type: String = ""
+    private var payment_type: String = "1"
     private var currentlySelectedButton: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +48,13 @@ class TakeoutActivity : AppCompatActivity(){
         val buttonPaymentType1 = findViewById<Button>(R.id.Payment_type1)
         val buttonPaymentType2 = findViewById<Button>(R.id.Payment_type2)
 
-        // Payment_type1 버튼에 클릭 리스너 설정하기
+        // Payment_type1 버튼에 클릭 리스너 설정하기, 0 = 앱결제
         buttonPaymentType1.setOnClickListener {
             // 클릭되었을 때 실행할 코드 작성
             payment_type = "0"
         }
 
+        // 1 = 현장결제
         buttonPaymentType2.setOnClickListener {
             payment_type = "1"
         }
@@ -148,6 +149,7 @@ class TakeoutActivity : AppCompatActivity(){
         findViewById<Button>(R.id.takeoutButton).setOnClickListener {
             val user_phone = findViewById<TextView>(R.id.user_phone).text
             val user_comments = findViewById<TextView>(R.id.user_commend).text
+            val paymentType = payment_type
 
             val takemenuList = mutableListOf<MenuDTO>()
             for (item in itemList) {
@@ -172,7 +174,7 @@ class TakeoutActivity : AppCompatActivity(){
                 user_comments = user_comments.toString(),
                 packing_date = formattedDate,
                 packing_time = formattedTime,
-                payment_type = payment_type,
+                payment_type = paymentType,
                 store_id = store_id.toString(),
                 menuItemDTOList = takemenuList
             )
@@ -192,6 +194,11 @@ class TakeoutActivity : AppCompatActivity(){
                             response.body()?.let { responseBody ->
                                 val responseString = responseBody.string() // 응답을 문자열로 변환
                                 if (responseString.contains("포장 주문 성공")) {
+                                    // 웹소켓 해제
+                                    val clearWebSocket = WebSocketManager.getWebSocket()
+                                    clearWebSocket?.let {
+                                        WebSocketManager.disconnectWebSocket()
+                                    }
                                     Toast.makeText(this@TakeoutActivity, "성공: $responseString", Toast.LENGTH_LONG).show()
                                     val intent = Intent(this@TakeoutActivity, MainActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

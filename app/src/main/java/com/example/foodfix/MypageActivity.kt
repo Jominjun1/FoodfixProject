@@ -16,8 +16,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
-
 class MypageActivity : AppCompatActivity() {
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
@@ -93,11 +91,6 @@ class MypageActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.logoutText).setOnClickListener{
-
-            // WebSocketManager를 이용하여 웹소켓 해제
-            WebSocketManager.disconnectWebSocket()
-
-
             // 로그아웃 요청
             userService.logoutUser("Bearer $token").enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

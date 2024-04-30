@@ -1,6 +1,6 @@
 package com.example.foodfix
 
-import android.util.Log
+
 import okhttp3.*
 import okio.ByteString
 
@@ -8,7 +8,6 @@ class MyWebSocketListener : WebSocketListener() {
     override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
         println("웹소켓 연결 성공")
-        Log.d("웹소켓 연결:", "성공")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
@@ -24,7 +23,6 @@ class MyWebSocketListener : WebSocketListener() {
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosing(webSocket, code, reason)
         println("웹소켓 연결 종료: $code / $reason")
-        Log.d("웹소켓 연결 종료:", "$code / $reason\"")
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
