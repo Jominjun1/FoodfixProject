@@ -7,13 +7,13 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ReservationCardAdapter(val revervationitems: MutableList<ReservationCardModel>) : RecyclerView.Adapter<ReservationCardAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservationCardAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.reservation_cardview, parent, false)
+class PackingCardAdapter(val revervationitems: MutableList<PackingCardModel>) : RecyclerView.Adapter<PackingCardAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackingCardAdapter.ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.packing_cardview, parent, false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: ReservationCardAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PackingCardAdapter.ViewHolder, position: Int) {
         holder.bindItems(revervationitems[position])
         holder.cancelButton.setOnClickListener {
             listener?.onCancelClick(position)
@@ -48,22 +48,22 @@ class ReservationCardAdapter(val revervationitems: MutableList<ReservationCardMo
             }
         }*/
 
-        fun bindItems(reservationCardModel: ReservationCardModel) {
-            val reservation_id = itemView.findViewById<TextView>(R.id.reservationId)
+        fun bindItems(packingCardModel: PackingCardModel) {
+            val packing_id = itemView.findViewById<TextView>(R.id.packingId)
             val store_id = itemView.findViewById<TextView>(R.id.storeId)
-            val date = itemView.findViewById<TextView>(R.id.reservationDate)
-            val time = itemView.findViewById<TextView>(R.id.reservationTime)
-            val peopleNum = itemView.findViewById<TextView>(R.id.peopleNum)
-            val detail = itemView.findViewById<TextView>(R.id.reservationcomment)
-            val status = itemView.findViewById<TextView>(R.id.reservationtatus)
+            val date = itemView.findViewById<TextView>(R.id.packingDate)
+            val time = itemView.findViewById<TextView>(R.id.packingTime)
+            val price = itemView.findViewById<TextView>(R.id.menuTotalPrice)
+            val packingcomment = itemView.findViewById<TextView>(R.id.packingcomment)
+            val packingstatus = itemView.findViewById<TextView>(R.id.packingstatus)
 
-            reservation_id.text = reservationCardModel.reservation_id.toString()
-            store_id.text = reservationCardModel.store_id.toString()
-            date.text = reservationCardModel.reservation_date
-            time.text = reservationCardModel.reservation_time
-            peopleNum.text = reservationCardModel.num_people.toString()
-            detail.text = reservationCardModel.user_comments
-            status.text = reservationCardModel.reservation_status
+            packing_id.text = packingCardModel.packing_id.toString()
+            store_id.text = packingCardModel.store_id.toString()
+            date.text = packingCardModel.packing_date
+            time.text = packingCardModel.packing_time
+            price.text = packingCardModel.totalPrice.toString()
+            packingcomment.text = packingCardModel.user_comments
+            packingstatus.text = packingCardModel.packing_status
         }
     }
 }

@@ -22,12 +22,12 @@ data class PackingCardModel(
     val packing_id: Long,
     val store_id: Long,
     val totalPrice: Double,
-    val packing_date: LocalDate,
-    val packing_time: LocalTime,
+    val packing_date: String,
+    val packing_time: String,
     val user_comments: String,
     val packing_status: String,
-    val payment_type: String,
-    val menuItemDTOList: List<MenuDTO>
+    val payment_type: String
+    //val menuItemDTOList: List<MenuDTO>
 )
 data class StoreDTO(
     val store_id: Long,

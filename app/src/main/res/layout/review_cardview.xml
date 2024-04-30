@@ -41,7 +41,7 @@
             app:layout_constraintTop_toBottomOf="@+id/storeId" />
 
         <TextView
-            android:id="@+id/reservationDate"
+            android:id="@+id/packingDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -61,7 +61,7 @@
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
-            android:id="@+id/reservationdetail"
+            android:id="@+id/packingcomment"
             android:layout_width="200dp"
             android:maxLines="3"
             android:layout_height="wrap_content"
