@@ -1,6 +1,5 @@
 package com.project.foodfix.service;
 
-import com.project.foodfix.OrderType;
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.*;
@@ -199,12 +198,6 @@ public class AuthService {
         return switch (userType) {
             case USER -> "user_id";
             case ADMIN -> "admin_id";
-        };
-    }
-    private String getOrderKey(OrderType orderType){
-        return switch(orderType){
-            case RESERVATION -> "reservation_status";
-            case PACKING -> "packing_status";
         };
     }
     // 사용자 ID 중복 확인 메서드

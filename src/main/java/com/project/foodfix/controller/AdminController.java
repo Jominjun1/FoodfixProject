@@ -2,6 +2,7 @@ package com.project.foodfix.controller;
 
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
+import com.project.foodfix.config.WebSocketHandler;
 import com.project.foodfix.model.Admin;
 import com.project.foodfix.model.DTO.MenuDTO;
 import com.project.foodfix.model.DTO.PackingDTO;
@@ -31,16 +32,17 @@ public class AdminController {
     private final StoreService storeService;
     private final ImageService imageService;
     private final MenuRepository menuRepository;
-
     private final JwtTokenProvider jwtTokenProvider;
+    private final WebSocketHandler webSocketHandler;
 
     @Autowired
-    public AdminController(AuthService authService, StoreService storeService, ImageService imageService, MenuRepository menuRepository, JwtTokenProvider jwtTokenProvider) {
+    public AdminController(AuthService authService, StoreService storeService, ImageService imageService, MenuRepository menuRepository, JwtTokenProvider jwtTokenProvider, WebSocketHandler webSocketHandler) {
         this.authService = authService;
         this.storeService = storeService;
         this.imageService = imageService;
         this.menuRepository = menuRepository;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.webSocketHandler = webSocketHandler;
     }
     //*********** 관리자 엔드 포인트 **************//
     // 관리자 정보 조회 API
@@ -475,6 +477,7 @@ public class AdminController {
             // 업데이트
             reservationDTO.setReservation_status(reservationStatus);
             storeService.updateReservation(reservationDTO);
+            webSocketHandler.sendUpdateReservation(reservationDTO.getUser_id());
             return ResponseEntity.ok("포장 상태 업데이트");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -520,6 +523,7 @@ public class AdminController {
             // 업데이트
             packingDTO.setPacking_status(packingStatus);
             storeService.updatePacking(packingDTO);
+            webSocketHandler.sendUpdatePacking(packingDTO.getUser_id());
             return ResponseEntity.ok("포장 상태 업데이트");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

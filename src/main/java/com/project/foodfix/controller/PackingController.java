@@ -25,7 +25,6 @@ public class PackingController {
     public ResponseEntity<String> createPacking(@RequestBody PackingDTO packingDTO)  {
         // 매장 포장 시도
         List<PackingDTO> packings = storeService.packingStore(packingDTO);
-
         if (packings != null) {
             webSocketHandler.sendPackingOrder(packingDTO.getStore_id());
             return ResponseEntity.ok("포장 주문 성공");

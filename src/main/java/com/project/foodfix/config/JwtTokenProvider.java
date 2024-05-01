@@ -43,10 +43,10 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
-            System.err.println("토큰이 만료되었습니다. : " + e.getMessage());
+            System.err.println("토큰 만료: " + e.getMessage());
             return false;
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
-            System.err.println("잘못된 토큰입니다. : " + e.getMessage());
+            System.err.println("잘못된 토큰: " + e.getMessage());
             return false;
         }
     }
