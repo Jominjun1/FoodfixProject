@@ -47,7 +47,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
         } else if (store_id != null) {
             storeSessionManager.removeStoreSession(store_id);
         }
-        session.sendMessage(new TextMessage("웹소켓 연결 해제"));
+        if (session.isOpen()) {
+            session.sendMessage(new TextMessage("웹소켓 연결 해제"));
+        }
     }
 
     public void sendPackingOrder(Long store_id) {
