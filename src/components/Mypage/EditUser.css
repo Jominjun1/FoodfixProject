@@ -38,10 +38,15 @@
     width: 100%;
     padding: 10px 10px;
     margin-bottom: 15px;
-    border: 1px solid #fffffff1;
+    border: 1px solid transparent;
     background-color: #fffffff1;
     border-radius: 5px;
     font-family: 'NanumSquareRound';
+}
+
+.editpage-container input:focus {
+    border-color: #569b5d;
+    outline: none;
 }
 
 .editpage-container button {

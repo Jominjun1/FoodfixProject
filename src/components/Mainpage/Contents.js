@@ -10,7 +10,7 @@ export const MainSection = () => {
   const { ref, animation } = useObserver();
 
   return (
-      <section id="main" className="fullscreen-section notice-section">
+      <section id="main" className="fullscreen-section">
       <motion.div
         ref={ref}
         initial="hidden"
@@ -68,7 +68,7 @@ export const RestaurantSection = () => {
   };
 
   return (
-      <section id="restaurant" className="fullscreen-section restaurant-section">
+      <section id="restaurant" className="fullscreen-section">
           <motion.div
               ref={ref}
               initial="hidden"
@@ -102,7 +102,7 @@ export const MenuSection = () => {
     };
   
     return (
-        <section id="menu" className="fullscreen-section menu-section">
+        <section id="menu" className="fullscreen-section">
         <motion.div
           ref={ref}
           initial="hidden"
@@ -136,7 +136,7 @@ export const InformationSection = () => {
     };
   
     return (
-      <section id="info" className="fullscreen-section info-section">
+      <section id="info" className="fullscreen-section">
         <motion.div
           ref={ref}
           initial="hidden"

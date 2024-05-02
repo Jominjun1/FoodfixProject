@@ -11,20 +11,21 @@ import Mypage from './components/Mypage/Mypage';
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Mainpage />} />
-          <Route path='/info' element={<Information />} />
-          <Route path='/restaurant' element={<Restaurant />} />
-          <Route path='/restaurant-info' element={<RestaurantInquiry />} />
-          <Route path ='/menu' element={<Menu />} />
-          <Route path='/mypage' element={<Mypage />} />
-        </Routes>
-      </div>
-    </Router>
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<Mainpage />} />
+            <Route path='/info' element={<Information />} />
+            <Route path='/restaurant' element={<Restaurant />} />
+            <Route path='/restaurant-info' element={<RestaurantInquiry />} />
+            <Route path ='/menu' element={<Menu />} />
+            <Route path='/mypage' element={<Mypage />} />
+          </Routes>
+        </div>
+      </Router>
+    
   );
 }
 

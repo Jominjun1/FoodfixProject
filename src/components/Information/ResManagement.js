@@ -5,23 +5,47 @@ import axios from 'axios';
 const ResManagement = () => {
     const [reservations, setReservations] = useState([]);
 
-    useEffect(() => {
-        const fetchReservations = async () => {
-            try{
-                const token = sessionStorage.getItem('token');
-                const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/GetReservation`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setReservations(response.data);
-            } catch (error) {
-                console.error('Error fetching reservations:', error);
-            }
-        };
+    const fetchReservations = async () => {
+        try {
+            const token = sessionStorage.getItem('token');
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/getReservation`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const filteredReservations = response.data.filter(reservation => reservation.reservation_status !== "2" && reservation.reservation_status !== "3");
+            setReservations(filteredReservations);
+        } catch (error) {
+            console.error('Error fetching reservations:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchReservations();
     }, []);
+
+    const updateReservationStatus = async (reservation_id, reservation_status) => {
+        try {
+            // 먼저 로컬 상태를 업데이트
+            const updatedReservations = reservations.map(reservation =>
+                reservation.reservation_id === reservation_id ? { ...reservation, reservation_status } : reservation
+            );
+            setReservations(updatedReservations);
+
+            // 서버로 업데이트된 상태 전송
+            const token = sessionStorage.getItem('token');
+            await axios.put(`${process.env.REACT_APP_SERVER_URL}/admin/updateReservation`, {
+                reservation_id,
+                reservation_status
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        } catch (error) {
+            console.error('Error updating reservation status:', error);
+        }
+    };
 
     return (
         <div>
@@ -29,7 +53,7 @@ const ResManagement = () => {
                 <div key={index} className="res-container">
                     <div className="res-content-background">
                         <div>
-                            <h3>{index+1}</h3>
+                            <h3>{index + 1}</h3>
                             <div className='person-info'>
                                 <strong>예약 번호</strong><span>{reservation.reservation_id}</span>
                                 <strong>예약 상태</strong><span>{reservation.reservation_status}</span>
@@ -37,18 +61,20 @@ const ResManagement = () => {
                                 <strong>예약자 전화번호</strong><span>{reservation.user_phone}</span>
                             </div>
                             <div className='res-info'>
-                                <img src='/images/calendar.png' alt='달력 일러스트' className='icon'></img><strong>날짜 </strong><span>{reservation.reservation_date}</span>
-                                <img src='/images/clock.png' alt='시계 일러스트' className='icon'></img><strong>시간 </strong><span>{reservation.reservation_time}</span>
-                                <img src='/images/person.png' alt='사람 일러스트' className='icon'></img><strong>인원수 </strong><span>{reservation.people_cnt}</span>
+                                <strong>날짜 </strong><span>{reservation.reservation_date}</span>
+                                <strong>시간 </strong><span>{reservation.reservation_time}</span>
+                                <strong>인원수 </strong><span>{reservation.people_cnt}</span>
                                 <strong>요청사항 </strong><span>{reservation.user_comments}</span>
-
-                                <div className='button-groups'>
-                                    <div>
-                                        <button>예약 취소하기</button>
-                                    </div>
-                                    <div>
-                                        <button>예약 확정하기</button>
-                                    </div>
+                            </div>
+                            <div className='res-button-groups'>
+                                <div>
+                                    <button onClick={() => updateReservationStatus(reservation.reservation_id, 2)}>예약 취소하기</button>
+                                </div>
+                                <div>
+                                    <button onClick={() => updateReservationStatus(reservation.reservation_id, 1)}>예약 확정하기</button>
+                                </div>
+                                <div>
+                                    <button onClick={() => updateReservationStatus(reservation.reservation_id, 3)}>예약 완료하기</button>
                                 </div>
                             </div>
                         </div>
@@ -60,3 +86,9 @@ const ResManagement = () => {
 };
 
 export default ResManagement;
+
+
+
+
+
+

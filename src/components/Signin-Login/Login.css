@@ -19,9 +19,10 @@
 .login-container {
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 80vw; /* 뷰포트 너비의 80% */
+    max-width: 500px; /* 최대 너비 제한 */
     background: #fff;
-    padding-bottom: 30px;
+    padding: 2vw; /* 패딩을 뷰포트 너비에 상대적으로 */
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(10, 10, 10, 0.1);
 }
@@ -79,7 +80,8 @@
     display: flex;
     align-items: center;
     margin: auto;
-    width: 370px;
+    width: 70vw; /* 뷰포트 너비의 70% */
+    max-width: 370px;
     height: 45px;
     background: #f3f1f1;
     padding: 0 15px; /* 추가된 부분 */
@@ -104,7 +106,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 400px;
+    width: 70vw; /* 뷰포트 너비의 70% */
+    max-width: 400px;
     height: 40px;
     color: white;
     background: rgb(139, 139, 139);
@@ -160,3 +163,157 @@
     margin-bottom: 0; /* 수정된 부분 */
 }
 
+/* 모바일 css */
+.full-container-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to right, #1ecd646b 50%, #fff 50%);
+    overflow: hidden;
+}
+
+.login-logo-mobile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+}
+
+.login-container-mobile {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* 뷰포트 너비의 80% */
+    background: #fff;
+    padding: 10px; /* 패딩을 뷰포트 너비에 상대적으로 */
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(10, 10, 10, 0.1);
+}
+
+.login-header-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.signin-header-mobile {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    margin-top: 40px;
+}
+
+.signin-text-mobile {
+    color: rgb(0, 0, 0);
+    font-size: 40px;
+    font-weight: lighter;
+}
+
+.signup-prompt-mobile {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+    flex-direction: column;
+    gap: 9px;
+    margin-left: 20px;
+}
+
+.signup-prompt-mobile span {
+    color: rgb(112, 208, 150);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.signin-inputs-mobile {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.signin-custom-input-mobile {
+    border: 1px solid transparent;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 240px; /* 뷰포트 너비의 70% */
+    height: 45px;
+    background: #f3f1f1;
+    padding: 0 15px; /* 추가된 부분 */
+    transition: border-color 0.3s ease;
+}
+
+.signin-custom-input-mobile::placeholder {
+    font-size: 12px;
+}
+
+.signin-custom-input-mobile:focus {
+    border-color: green; /* 포커스되었을 때 테두리 색상을 변경합니다 */
+    outline: none; /* 포커스된 상태에서의 외곽선을 제거합니다 */
+}
+
+.login-submit-mobile {
+    display: flex;
+    gap: 30px;
+    margin: 10px auto;
+    border-radius: 10px;
+    border: 1px solid rgb(139, 139, 139);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 270px; /* 뷰포트 너비의 70% */
+    height: 40px;
+    color: white;
+    background: rgb(139, 139, 139);
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.5s ease;
+}
+
+.login-submit-mobile.active {
+    background: rgb(112, 208, 150);
+    border-color: rgb(112, 208, 150);
+}
+
+.login-separator-line-mobile {
+    position: relative;
+    margin: 20px auto;
+    width: 400px;
+    height: 1px;
+    background-color: #d2cfcf;
+}
+
+.login-separator-line-mobile::after {
+    content: "OR";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 0 10px;
+    font-size: 14px;
+}
+
+.login-image-mobile {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.naver-mobile, .google-mobile, .kakao-mobile, .apple-mobile {
+    margin-right: 20px;
+    margin-left: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}

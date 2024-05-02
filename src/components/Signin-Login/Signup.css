@@ -17,11 +17,10 @@
 .signup-container{
     display: flex;
     flex-direction: column;
-    margin: auto;
-    width: 500px;
+    width: 80vw; /* 뷰포트 너비의 80% */
+    max-width: 500px; /* 최대 너비 제한 */
     background: #fff;
-    padding-bottom: 30px;
-    border: none;
+    padding: 2vw; /* 패딩을 뷰포트 너비에 상대적으로 */
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(10, 10, 10, 0.1);
 }
@@ -78,7 +77,8 @@
     display: flex;
     align-items: center;
     margin: auto;
-    width: 370px;
+    width: 70vw; /* 뷰포트 너비의 70% */
+    max-width: 370px;
     height: 45px;
     background: #f3f1f1;
     padding: 0 15px; /* 추가된 부분 */
@@ -103,7 +103,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 400px;
+    width: 70vw; /* 뷰포트 너비의 70% */
+    max-width: 400px;
     height: 40px;
     color: white;
     background: rgb(139, 139, 139);

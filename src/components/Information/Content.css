@@ -4,43 +4,45 @@
   
 .header-content {
     padding: 20px;
-    text-align: center;
     color: rgb(84, 164, 116);
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between; /* 좌측에 로고, 우측에 버튼들 */
     font-size: 20px;
+    width: 100%; /* 전체 너비를 사용하도록 설정 */
 }
-  
-.title {
-    margin-left: 70px;
-    margin-right: 70px;
+
+.logo {
+    flex: 0 0 auto; /* 로고는 자신의 공간을 차지하며 크기는 고정 */
 }
 
 .tab-buttons {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-right: 650px; /* 중앙 정렬을 위해 오른쪽 여백 자동 조정 */
+    margin-top: 20px;
 }
-  
+
 .tab-buttons button {
     background: none;
     border: none;
-    padding: 0;
     cursor: pointer;
     font-size: 20px;
     color: #464646;
-    margin-right: 200px;
+    margin-right: 50px; /* 버튼 간 간격 */
     border-bottom: 2px solid transparent;
     padding-bottom: 10px;
     font-family: 'NanumSquareB', Arial, sans-serif;
 }
-  
+
 .tab-buttons button:focus {
     outline: none;
 }
-  
+
 .tab-buttons button:last-child {
-    margin-right: 0; 
+    margin-right: 0;
 }
-  
+
 .tab-buttons button.selected {
-    border-bottom-color: rgb(59, 180, 83); 
+    border-bottom-color: #ababab;
 }

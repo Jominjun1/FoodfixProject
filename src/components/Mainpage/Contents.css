@@ -23,31 +23,8 @@
     width: 100%;
     height: 100vh;
     display: flex;
-}
-
-.notice-section {
-    position: relative; /* notice-content를 중앙 정렬하기 위해 부모 요소를 상대 위치로 설정합니다. */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.notice-content {
-    position: absolute; /* notice-content를 절대 위치로 지정합니다. */
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* translate를 사용하여 요소를 가운데로 이동합니다. */
-    text-align: center; /* 텍스트를 가운데로 정렬합니다. */
-}
-
-.restaurant-section,
-.menu-section,
-.info-section {
-    width: 100%;
-    height: 100vh;
-    display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
+    align-items: center;
 }
 
 .main-image-container,
@@ -55,7 +32,7 @@
 .menu-image-container,
 .info-image-container {
     position: relative;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 
@@ -70,13 +47,14 @@
 
 .main-text{
     position: absolute;
-    top: 230px; /* 원하는 위치로 조정 */
-    left: 180px;
+    top: 50%;  /* 뷰포트의 수직 중앙 */
+    left: 10vw;  /* 화면의 가로 너비의 10% */
+    transform: translateY(-50%);
 }
 
 .main-text-header {
     color: #0c0c0cde;
-    font-size: 50px;
+    font-size: 3.5vw;
     font-weight: bold;
     font-family: 'seolleimcool-SemiBold';
     text-align: center;
@@ -85,59 +63,62 @@
 .restaurant-text {
     text-align: right;
     position: absolute;
-    top: 200px; /* 원하는 위치로 조정 */
-    left: 830px;
+    top: 50%;  /* 뷰포트의 수직 중앙 */
+    left: 55vw;  /* 화면의 가로 너비의 10% */
+    transform: translateY(-50%);
 }
 
 .restaurant-text-header {
     color: #0c0c0cde;
-    font-size: 30px;
+    font-size: 2vw;
     font-weight: bold;
     font-family: 'seolleimcool-SemiBold';
 }
 
 .restaurant-text-content {
     color: #222222;
-    font-size: 18px;
+    font-size: 1.3vw;
     font-family: 'seolleimcool-SemiBold';
 }
 
 .info-text {
     text-align: right;
     position: absolute;
-    top: 200px; /* 원하는 위치로 조정 */
-    left: 900px;
+    top: 50%;  /* 뷰포트의 수직 중앙 */
+    left: 60vw;  /* 화면의 가로 너비의 10% */
+    transform: translateY(-50%);
 }
 
 .info-text-header {
     color: #0c0c0cde;
-    font-size: 30px;
+    font-size: 2vw;
     font-weight: bold;
     font-family: 'seolleimcool-SemiBold';
 }
 
 .info-text-content {
     color: #222222;
-    font-size: 18px;
+    font-size: 1.3vw;
     font-family: 'seolleimcool-SemiBold';
 }
 
 .menu-text{
     position: absolute;
-    top: 200px; /* 원하는 위치로 조정 */
-    left: 130px;
+    top: 50%;  /* 뷰포트의 수직 중앙 */
+    left: 10vw;  /* 화면의 가로 너비의 10% */
+    transform: translateY(-50%);
 }
 
 .menu-text-header {
     color: #0c0c0cde;
-    font-size: 30px;
+    font-size: 2vw;
     font-weight: bold;
     font-family: 'seolleimcool-SemiBold';
 }
 
 .menu-text-content {
     color: #222222;
-    font-size: 18px;
+    font-size: 1.3vw;
     font-family: 'seolleimcool-SemiBold';
 }
 
@@ -145,17 +126,71 @@
 .menu-custom-button,
 .info-custom-button {
     margin-top: 10px;
-    padding: 10px 10px;
-    font-size: 14px;
+    padding: 0.8vw 0.8vw;
+    font-size: 1.2vw;
+    width: 15vw;
     font-family: 'seolleimcool-SemiBold';
     border-radius: 40px;
     background-color: #52c56784;
     border: none;
-    width: 180px;
 }
 
 .restaurant-custom-button:hover,
 .menu-custom-button:hover,
 .info-custom-button:hover {
     background-color: #158c2b84;
+}
+
+/* For screens up to 768px width (typical mobile devices) */
+@media screen and (max-width: 768px) {
+  .fullscreen-section {
+    height: auto; /* Remove fixed height */
+    min-height: 100vh; /* Set minimum height to viewport height */
+    align-items: flex-start; /* Adjust alignment */
+  }
+
+  .main-text,
+  .restaurant-text,
+  .info-text,
+  .menu-text {
+    position: absolute; /* Adjust text positioning */
+    top: auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; /* Center text */
+  }
+
+  .main-text,
+  .menu-text {
+    left: 10vw; /* Adjust left position */
+  }
+
+  .restaurant-text {
+    left: auto;
+    right: 10vw; /* Adjust right position */
+  }
+
+  .info-text {
+    left: auto;
+    right: 50%; /* Center horizontally */
+    transform: translateX(50%);
+  }
+
+  .main-text-header,
+  .restaurant-text-header,
+  .info-text-header,
+  .menu-text-header,
+  .restaurant-text-content,
+  .info-text-content,
+  .menu-text-content {
+    font-size: 5vw; /* Increase font size for readability */
+  }
+
+  .restaurant-custom-button,
+  .menu-custom-button,
+  .info-custom-button {
+    padding: 4vw 4vw; /* Adjust button padding */
+    font-size: 3.5vw; /* Adjust button font size */
+    width: 70vw; /* Adjust button width */
+  }
 }

@@ -16,7 +16,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     background-color: transparent; /* 배경색을 투명으로 설정 */
     z-index: 1000;
 }
@@ -48,7 +48,8 @@
     border: none;
     cursor: pointer;
     margin: 0 8px;
-    font-size: 18px;
+    font-size: 1.3vw;
+    white-space: nowrap;
 }
 
 .mainpage-header-button:hover {
@@ -60,29 +61,14 @@
 }
 
 .nav-button {
-    padding: 15px 16px;
+    padding: 1vw 1vw;
     background-color: transparent; 
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 1.3vw;
     font-family: 'NanumBarunpen';
 }
 
 .nav-button:hover {
     color: #8b8b8b;
-}
-
-.search-container {
-    flex: 1; 
-    display: flex;
-    justify-content: center;
-}
-
-.search-input {
-    padding: 8px 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 400px;
-    background-color: #f2f2f2;
 }
