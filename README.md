@@ -1,4 +1,4 @@
-### FoodFix 
+### FoodFix Project
 ---
 
 # **0. 팀원 소개 및 역할**
