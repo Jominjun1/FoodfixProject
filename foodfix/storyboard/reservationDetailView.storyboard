@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Reservation Detail View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="reservationDetailViewController" id="Y6W-OH-hqX" customClass="reservationDetailViewController" customModule="foodfix" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="주문 번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cHY-FC-WWS">
+                                <rect key="frame" x="16" y="218" width="64" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Zax-mi-cWK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예약상세" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BlW-A6-UMj">
+                                <rect key="frame" x="0.0" y="59" width="393" height="45"/>
+                                <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="I59-Qr-lbz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Imb-KX-GB3">
+                                <rect key="frame" x="16" y="64" width="54" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="뒤로"/>
+                                <connections>
+                                    <segue destination="FGK-Sr-FVi" kind="unwind" unwindAction="unwindToReservationWithUnwindsegue:" id="3hF-dd-Jag"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBX-b2-qvz">
+                                <rect key="frame" x="155" y="753" width="83" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="예약취소"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예약일시" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ngz-Qn-gYp">
+                                <rect key="frame" x="16" y="259" width="62" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="gex-GA-VOy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예약인원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M9E-Gs-Vx0">
+                                <rect key="frame" x="16" y="300" width="59" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Jhs-4V-H7d"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="사용자 요구사항" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p0P-bF-VDV">
+                                <rect key="frame" x="16" y="379" width="151" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="예약상태" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Q7-Ib-Osn">
+                                <rect key="frame" x="16" y="560" width="115" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="주문정보" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3k-3h-9zE">
+                                <rect key="frame" x="16" y="169" width="84" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="29" id="VqY-y5-cBg"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="29" id="uAZ-uF-cwt"/>
+                                    <constraint firstAttribute="height" constant="29" id="yIe-2q-gAi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="reservation_id" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OpB-4Q-neq">
+                                <rect key="frame" x="177" y="218" width="200" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="LDY-T4-MPe"/>
+                                    <constraint firstAttribute="width" constant="200" id="jxO-s9-hd5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="reservation_time" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ouN-lG-qPv">
+                                <rect key="frame" x="177" y="259" width="200" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="8Af-kE-nYf"/>
+                                    <constraint firstAttribute="height" constant="21" id="sdT-rl-rgS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="num_people" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="19W-fb-vQe">
+                                <rect key="frame" x="177" y="300" width="200" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Wvb-1W-QTY"/>
+                                    <constraint firstAttribute="width" constant="200" id="udw-cc-wuD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="user_comment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Or-Ab-amC">
+                                <rect key="frame" x="16" y="430" width="361" height="90"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="pny-Bz-Hal"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="reservation_status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bzq-AP-Xki">
+                                <rect key="frame" x="16" y="609" width="361" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="v6j-qW-AMh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="p0P-bF-VDV" secondAttribute="trailing" constant="226" id="2V6-VG-4TX"/>
+                            <constraint firstItem="Imb-KX-GB3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="2gI-tn-T6w"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="19W-fb-vQe" secondAttribute="trailing" constant="16" id="5p9-uI-OFT"/>
+                            <constraint firstItem="cHY-FC-WWS" firstAttribute="top" secondItem="f3k-3h-9zE" secondAttribute="bottom" constant="20" id="6eT-ed-OV1"/>
+                            <constraint firstItem="yBX-b2-qvz" firstAttribute="top" secondItem="Bzq-AP-Xki" secondAttribute="bottom" constant="123" id="B2e-lh-DI0"/>
+                            <constraint firstItem="f3k-3h-9zE" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="BHW-Tf-DJu"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="OpB-4Q-neq" secondAttribute="trailing" constant="16" id="Cmi-0Q-5r5"/>
+                            <constraint firstItem="4Or-Ab-amC" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="Dcc-bg-a6E"/>
+                            <constraint firstItem="ngz-Qn-gYp" firstAttribute="top" secondItem="cHY-FC-WWS" secondAttribute="bottom" constant="20" id="FP9-ba-8cg"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ouN-lG-qPv" secondAttribute="trailing" constant="16" id="I0Z-wP-u60"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="0Q7-Ib-Osn" secondAttribute="trailing" constant="262" id="JOP-xQ-NMf"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="yBX-b2-qvz" secondAttribute="bottom" constant="30" id="K25-2n-lBT"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ouN-lG-qPv" secondAttribute="trailing" constant="16" id="Lly-6t-m18"/>
+                            <constraint firstItem="19W-fb-vQe" firstAttribute="leading" secondItem="M9E-Gs-Vx0" secondAttribute="trailing" constant="102" id="MV0-eS-qJB"/>
+                            <constraint firstItem="cHY-FC-WWS" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="NcB-nc-QOJ"/>
+                            <constraint firstItem="ouN-lG-qPv" firstAttribute="leading" secondItem="ngz-Qn-gYp" secondAttribute="trailing" constant="99" id="Nlu-sf-jQq"/>
+                            <constraint firstItem="BlW-A6-UMj" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="QYQ-ml-BMV"/>
+                            <constraint firstItem="ouN-lG-qPv" firstAttribute="top" secondItem="OpB-4Q-neq" secondAttribute="bottom" constant="20" id="Rgd-hM-136"/>
+                            <constraint firstItem="Imb-KX-GB3" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="5" id="TU2-Tu-2Ql"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="yBX-b2-qvz" secondAttribute="trailing" constant="155" id="TsR-ce-cUq"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Bzq-AP-Xki" secondAttribute="trailing" constant="16" id="W59-QD-cXO"/>
+                            <constraint firstItem="OpB-4Q-neq" firstAttribute="leading" secondItem="cHY-FC-WWS" secondAttribute="trailing" constant="97" id="WSd-Dd-3iW"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Imb-KX-GB3" secondAttribute="trailing" constant="323" id="Xq0-Tb-edN"/>
+                            <constraint firstItem="ouN-lG-qPv" firstAttribute="top" secondItem="OpB-4Q-neq" secondAttribute="bottom" constant="20" id="Zl7-0r-nx2"/>
+                            <constraint firstItem="Bzq-AP-Xki" firstAttribute="top" secondItem="0Q7-Ib-Osn" secondAttribute="bottom" constant="20" id="aba-bQ-sKG"/>
+                            <constraint firstItem="ngz-Qn-gYp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="dTP-Cr-n8O"/>
+                            <constraint firstItem="4Or-Ab-amC" firstAttribute="top" secondItem="p0P-bF-VDV" secondAttribute="bottom" constant="22" id="e1G-ci-PIH"/>
+                            <constraint firstItem="19W-fb-vQe" firstAttribute="top" secondItem="ouN-lG-qPv" secondAttribute="bottom" constant="20" id="eqB-pG-sa4"/>
+                            <constraint firstItem="0Q7-Ib-Osn" firstAttribute="top" secondItem="4Or-Ab-amC" secondAttribute="bottom" constant="40" id="fi6-G3-3Bg"/>
+                            <constraint firstItem="BlW-A6-UMj" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="g6y-lS-rg8"/>
+                            <constraint firstItem="p0P-bF-VDV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="gdE-co-Vgm"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="4Or-Ab-amC" secondAttribute="trailing" constant="16" id="gdX-1m-Dqk"/>
+                            <constraint firstItem="Bzq-AP-Xki" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="iBe-uv-K8O"/>
+                            <constraint firstItem="cHY-FC-WWS" firstAttribute="top" secondItem="f3k-3h-9zE" secondAttribute="bottom" constant="20" id="j3j-8B-MnY"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="f3k-3h-9zE" secondAttribute="trailing" constant="293" id="k0G-78-JVO"/>
+                            <constraint firstItem="0Q7-Ib-Osn" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="nHc-jI-3dT"/>
+                            <constraint firstItem="OpB-4Q-neq" firstAttribute="top" secondItem="BlW-A6-UMj" secondAttribute="bottom" constant="114" id="oUU-w1-Rsj"/>
+                            <constraint firstItem="M9E-Gs-Vx0" firstAttribute="top" secondItem="ngz-Qn-gYp" secondAttribute="bottom" constant="20" id="qku-UY-gal"/>
+                            <constraint firstItem="f3k-3h-9zE" firstAttribute="top" secondItem="BlW-A6-UMj" secondAttribute="bottom" constant="65" id="r3d-t4-KsW"/>
+                            <constraint firstItem="BlW-A6-UMj" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="teW-Co-bhe"/>
+                            <constraint firstItem="yBX-b2-qvz" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="155" id="tpe-BR-arB"/>
+                            <constraint firstItem="M9E-Gs-Vx0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="w3G-3c-R30"/>
+                            <constraint firstItem="p0P-bF-VDV" firstAttribute="top" secondItem="M9E-Gs-Vx0" secondAttribute="bottom" constant="58" id="zmb-DQ-alc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="numPeopleLabel" destination="19W-fb-vQe" id="aCP-ke-gUz"/>
+                        <outlet property="reservationStatusLabel" destination="Bzq-AP-Xki" id="cA7-1R-P7Q"/>
+                        <outlet property="reserveIdLabel" destination="OpB-4Q-neq" id="MG8-Ya-ZCK"/>
+                        <outlet property="reserveTimeLabel" destination="ouN-lG-qPv" id="BaX-Qx-kXg"/>
+                        <outlet property="userCommentLabel" destination="4Or-Ab-amC" id="oY4-tO-Odv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="FGK-Sr-FVi" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="54.198473282442748" y="-34.507042253521128"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
