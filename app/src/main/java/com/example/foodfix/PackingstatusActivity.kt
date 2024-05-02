@@ -24,7 +24,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-class PackingstatusActivity : AppCompatActivity() {
+class PackingstatusActivity : BaseActivity() {
 
     lateinit var binding: ShowlistBinding
 
@@ -78,6 +78,7 @@ class PackingstatusActivity : AppCompatActivity() {
             override fun onCancelClick(position: Int) {
                 // 여기에서 취소 버튼이 클릭된 아이템의 처리 로직을 구현하세요.
                 Toast.makeText(this@PackingstatusActivity, "Cancel clicked at position $position", Toast.LENGTH_SHORT).show()
+                Log.d("PackingstatusActivity", "$position")
             }
         })
 
@@ -103,12 +104,14 @@ class PackingstatusActivity : AppCompatActivity() {
                                 "2" -> "주문 완료"
                                 "3" -> "주문 취소"
                                 else -> "오류"
-                            }
+                            },
+                            menuItemDTOList = dto.menuItemDTOList
                         )
                     }
                     // RecyclerView 어댑터에 데이터 설정
                     itemList.clear()
                     itemList.addAll(cardItems)
+                    itemList.reverse()
                     adapter.notifyDataSetChanged()
                 } else {
                     Toast.makeText(this@PackingstatusActivity, "Failed to fetch packings", Toast.LENGTH_SHORT).show()

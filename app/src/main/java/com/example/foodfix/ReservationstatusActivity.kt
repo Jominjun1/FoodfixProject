@@ -28,7 +28,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-class ReservationstatusActivity : AppCompatActivity() {
+class ReservationstatusActivity : BaseActivity() {
 
     lateinit var binding:ShowlistBinding
     override fun onCreate(savedInstanceState: Bundle?) {

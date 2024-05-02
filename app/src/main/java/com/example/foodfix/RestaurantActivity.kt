@@ -10,7 +10,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.RestaurantDetailBinding
 import retrofit2.Call
@@ -19,7 +21,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class RestaurantActivity : AppCompatActivity() {
+class RestaurantActivity : BaseActivity() {
 
     // ActivityResultLauncher 초기화
     private lateinit var reviewActivityResultLauncher: ActivityResultLauncher<Intent>

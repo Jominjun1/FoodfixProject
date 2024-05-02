@@ -21,7 +21,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class RestaurantReservation : AppCompatActivity() {
+class RestaurantReservation : BaseActivity() {
 
     // 선택된 날짜를 저장할 변수 선언. 초기값은 오늘 날짜로 설정합니다.
     private var selectedDate: String = LocalDate.now().format(DateTimeFormatter.ISO_DATE)

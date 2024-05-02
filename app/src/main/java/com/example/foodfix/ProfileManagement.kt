@@ -23,7 +23,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 
-class ProfileManagement : AppCompatActivity() {
+class ProfileManagement : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profilemanagement)

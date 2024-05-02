@@ -28,12 +28,12 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class TakeoutActivity : AppCompatActivity(){
+class TakeoutActivity : BaseActivity(){
 
     lateinit var binding: TakeoutMenuBinding
     private val itemList = mutableListOf<MenuItemDTO>() // 클래스 멤버로 변경
 
-    private var payment_type: String = "1"
+    private var payment_type: String = ""
     private var currentlySelectedButton: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

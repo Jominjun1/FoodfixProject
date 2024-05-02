@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.RestaurantReviewsBinding
 
-class RestaurantReviews : AppCompatActivity() {
+class RestaurantReviews : BaseActivity() {
 
     lateinit var binding:RestaurantReviewsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
