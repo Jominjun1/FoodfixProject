@@ -32,10 +32,9 @@ const Signup = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // 사용자 아이디와 비밀번호의 유효성을 검사하는 함수
     const validateForm = () => {
-        const idPattern = /^[a-zA-Z0-9]{4,10}$/; // 아이디 패턴
-        const pwPattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,16}$/; // 비밀번호 패턴
+        const idPattern = /^[a-zA-Z0-9]{4,10}$/;
+        const pwPattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,16}$/; 
 
         if (!idPattern.test(formData.admin_id)) {
             alert('아이디는 4자 이상 10자 이하의 대소문자 영문자 또는 숫자여야 합니다.');
@@ -53,7 +52,6 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
-        // 폼 유효성 검사
         if (!validateForm()) {
             return;
         }

@@ -45,7 +45,6 @@ const Side = ({ onEditClick, onInfoClick }) => {
 
     const handleWithdrawal = async () => {
         const confirmDelete = window.confirm('회원 탈퇴를 하시겠습니까? 이 작업은 되돌릴 수 없습니다.');
-        // 회원 탈퇴 요청 보내기
 
         if (confirmDelete) {
             const token = sessionStorage.getItem('token');

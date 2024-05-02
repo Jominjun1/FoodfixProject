@@ -2,8 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw; /* Viewport의 너비를 100%로 설정 */
-    min-height: 100vh; /* Viewport의 높이를 최소 100%로 설정 */
+    width: 100vw;
+    min-height: 100vh; 
     background: linear-gradient(to right, #1ecd646b 50%, #fff 50%);
 }
 
@@ -11,25 +11,25 @@
     position: absolute;
     top: 0;
     left: 0;
-    margin: 10px; /* 로고와 화면 경계 사이의 여백을 조정합니다 */
+    margin: 10px; 
 }
 
 .signup-container{
     display: flex;
     flex-direction: column;
-    width: 80vw; /* 뷰포트 너비의 80% */
-    max-width: 500px; /* 최대 너비 제한 */
+    width: 80vw; 
+    max-width: 500px; 
     background: #fff;
-    padding: 2vw; /* 패딩을 뷰포트 너비에 상대적으로 */
+    padding: 2vw; 
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(10, 10, 10, 0.1);
 }
 
 .signup-header {
     display: flex;
-    justify-content: space-between; /* 요소들을 양쪽 끝에 위치시킵니다 */
-    align-items: center; /* 요소들을 수직 중심으로 정렬합니다 */
-    padding: 10px; /* 적당한 패딩을 추가하여 요소들 사이에 공간을 만듭니다 */
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px;
     margin-bottom: 20px;
 }
 
@@ -51,8 +51,8 @@
 
 .signin-prompt {
     display: flex;
-    justify-content: flex-end; /* prompt를 오른쪽으로 정렬합니다 */
-    align-items: center; /* 요소를 수직 중앙에 정렬합니다 */
+    justify-content: flex-end;
+    align-items: center; 
     flex: 1;
     flex-direction: column;
     gap: 9px;
@@ -77,11 +77,11 @@
     display: flex;
     align-items: center;
     margin: auto;
-    width: 70vw; /* 뷰포트 너비의 70% */
+    width: 70vw;
     max-width: 370px;
     height: 45px;
     background: #f3f1f1;
-    padding: 0 15px; /* 추가된 부분 */
+    padding: 0 15px;
     transition: border-color 0.3s ease;
 }
 
@@ -90,8 +90,8 @@
 }
 
 .signup-custom-input:focus {
-    border-color: green; /* 포커스되었을 때 테두리 색상을 변경합니다 */
-    outline: none; /* 포커스된 상태에서의 외곽선을 제거합니다 */
+    border-color: green;
+    outline: none;
 }
 
 .signup-submit{
@@ -103,7 +103,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70vw; /* 뷰포트 너비의 70% */
+    width: 70vw;
     max-width: 400px;
     height: 40px;
     color: white;
@@ -116,8 +116,8 @@
 }
 
 .signup-submit.active {
-    background: rgb(112, 208, 150); /* 활성화된 경우의 배경색 */
-    border-color: rgb(112, 208, 150); /* 활성화된 경우의 테두리 색 */
+    background: rgb(112, 208, 150); 
+    border-color: rgb(112, 208, 150); 
 }
 
 .custom-input {

@@ -23,7 +23,7 @@
     width: 100%;
     height: 100vh;
     display: flex;
-    justify-content: center; /* 수평 가운데 정렬 */
+    justify-content: center;
     align-items: center;
 }
 
@@ -47,8 +47,8 @@
 
 .main-text{
     position: absolute;
-    top: 50%;  /* 뷰포트의 수직 중앙 */
-    left: 10vw;  /* 화면의 가로 너비의 10% */
+    top: 50%; 
+    left: 10vw;  
     transform: translateY(-50%);
 }
 
@@ -63,8 +63,8 @@
 .restaurant-text {
     text-align: right;
     position: absolute;
-    top: 50%;  /* 뷰포트의 수직 중앙 */
-    left: 55vw;  /* 화면의 가로 너비의 10% */
+    top: 50%; 
+    left: 55vw;  
     transform: translateY(-50%);
 }
 
@@ -84,8 +84,8 @@
 .info-text {
     text-align: right;
     position: absolute;
-    top: 50%;  /* 뷰포트의 수직 중앙 */
-    left: 60vw;  /* 화면의 가로 너비의 10% */
+    top: 50%; 
+    left: 60vw; 
     transform: translateY(-50%);
 }
 
@@ -104,8 +104,8 @@
 
 .menu-text{
     position: absolute;
-    top: 50%;  /* 뷰포트의 수직 중앙 */
-    left: 10vw;  /* 화면의 가로 너비의 10% */
+    top: 50%; 
+    left: 10vw; 
     transform: translateY(-50%);
 }
 
@@ -139,58 +139,4 @@
 .menu-custom-button:hover,
 .info-custom-button:hover {
     background-color: #158c2b84;
-}
-
-/* For screens up to 768px width (typical mobile devices) */
-@media screen and (max-width: 768px) {
-  .fullscreen-section {
-    height: auto; /* Remove fixed height */
-    min-height: 100vh; /* Set minimum height to viewport height */
-    align-items: flex-start; /* Adjust alignment */
-  }
-
-  .main-text,
-  .restaurant-text,
-  .info-text,
-  .menu-text {
-    position: absolute; /* Adjust text positioning */
-    top: auto;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center; /* Center text */
-  }
-
-  .main-text,
-  .menu-text {
-    left: 10vw; /* Adjust left position */
-  }
-
-  .restaurant-text {
-    left: auto;
-    right: 10vw; /* Adjust right position */
-  }
-
-  .info-text {
-    left: auto;
-    right: 50%; /* Center horizontally */
-    transform: translateX(50%);
-  }
-
-  .main-text-header,
-  .restaurant-text-header,
-  .info-text-header,
-  .menu-text-header,
-  .restaurant-text-content,
-  .info-text-content,
-  .menu-text-content {
-    font-size: 5vw; /* Increase font size for readability */
-  }
-
-  .restaurant-custom-button,
-  .menu-custom-button,
-  .info-custom-button {
-    padding: 4vw 4vw; /* Adjust button padding */
-    font-size: 3.5vw; /* Adjust button font size */
-    width: 70vw; /* Adjust button width */
-  }
 }

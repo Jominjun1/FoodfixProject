@@ -20,14 +20,14 @@
 }
 
 .menu-top-logo img {
-    cursor: pointer; /* 로고에 클릭 가능한 느낌을 주기 위해 */
+    cursor: pointer;
     margin-left: 10px;
 }
 
 .menu-page-title {
     display: flex;
     justify-content: center;
-    flex-grow: 1; /* 타이틀이 남은 공간을 모두 차지하도록 설정 */
+    flex-grow: 1;
     font-size: 30px;
     font-family: 'ChosunGu';
     font-weight: bold;
@@ -35,7 +35,7 @@
 }
 
 .menu-add-button {
-    margin-left: auto; /* 이것은 오른쪽 정렬을 위해 추가 버튼에만 적용됩니다 */
+    margin-left: auto; 
     margin-right: 30px;
 }
 
@@ -174,7 +174,7 @@
     max-height: 150px;
     border-radius: 50%;
     position: relative;
-    top: -20%; /* 이미지를 위쪽으로 절반만 이동시킴 */
+    top: -20%; 
     object-fit: cover;
     box-shadow: 0 0 10px #878787c3;
 }
@@ -183,7 +183,7 @@
 .menu-price,
 .menu-description {
     position: relative;
-    top: -30px; /* 이미지를 위쪽으로 절반만 이동시킴 */
+    top: -30px; 
     object-fit: cover;
     margin-top: 5px;
 }
@@ -202,7 +202,7 @@
 
 .menu-buttons {
     position: relative;
-    top: -15px; /* 이미지를 위쪽으로 절반만 이동시킴 */
+    top: -15px; 
     object-fit: cover;
 }
 

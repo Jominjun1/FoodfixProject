@@ -26,13 +26,11 @@ const ResManagement = () => {
 
     const updateReservationStatus = async (reservation_id, reservation_status) => {
         try {
-            // 먼저 로컬 상태를 업데이트
             const updatedReservations = reservations.map(reservation =>
                 reservation.reservation_id === reservation_id ? { ...reservation, reservation_status } : reservation
             );
             setReservations(updatedReservations);
 
-            // 서버로 업데이트된 상태 전송
             const token = sessionStorage.getItem('token');
             await axios.put(`${process.env.REACT_APP_SERVER_URL}/admin/updateReservation`, {
                 reservation_id,
@@ -86,9 +84,3 @@ const ResManagement = () => {
 };
 
 export default ResManagement;
-
-
-
-
-
-

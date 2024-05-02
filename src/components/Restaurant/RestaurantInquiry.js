@@ -22,11 +22,11 @@ const RestaurantInquiry = () => {
     });
 
     const handleOpenModal = () => {
-        setEditModalOpen(true); // 모달 열기
+        setEditModalOpen(true); 
     };
 
     const handleCloseModal = () => {
-        setEditModalOpen(false); // 모달 닫기
+        setEditModalOpen(false);
     };
 
     const fetchData = async () => {
@@ -80,7 +80,7 @@ const RestaurantInquiry = () => {
         try {
             const token = sessionStorage.getItem('token');
             const formData = new FormData();
-            formData.append('imageFile', restaurantInfo.store_image); // 사진 추가
+            formData.append('imageFile', restaurantInfo.store_image);
             formData.append('store_name', restaurantInfo.store_name);
             formData.append('store_phone', restaurantInfo.store_phone);
             formData.append('store_address', restaurantInfo.store_address);

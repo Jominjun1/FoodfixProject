@@ -7,19 +7,19 @@
     color: rgb(84, 164, 116);
     display: flex;
     align-items: center;
-    justify-content: space-between; /* 좌측에 로고, 우측에 버튼들 */
+    justify-content: space-between; 
     font-size: 20px;
-    width: 100%; /* 전체 너비를 사용하도록 설정 */
+    width: 100%; 
 }
 
 .logo {
-    flex: 0 0 auto; /* 로고는 자신의 공간을 차지하며 크기는 고정 */
+    flex: 0 0 auto;
 }
 
 .tab-buttons {
     display: flex;
     justify-content: center;
-    margin-right: 650px; /* 중앙 정렬을 위해 오른쪽 여백 자동 조정 */
+    margin-right: 650px; 
     margin-top: 20px;
 }
 
@@ -29,7 +29,7 @@
     cursor: pointer;
     font-size: 20px;
     color: #464646;
-    margin-right: 50px; /* 버튼 간 간격 */
+    margin-right: 50px; 
     border-bottom: 2px solid transparent;
     padding-bottom: 10px;
     font-family: 'NanumSquareB', Arial, sans-serif;

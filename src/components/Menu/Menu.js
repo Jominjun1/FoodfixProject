@@ -30,7 +30,6 @@ const Menu = () => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         setMenuImage(file);
-        // 이미지 미리보기를 위한 로직
         const reader = new FileReader();
         reader.onloadend = () => {
             setMenuImagePreview(reader.result);
@@ -40,7 +39,6 @@ const Menu = () => {
 
     const openModal = () => {
         setIsModalOpen(true);
-        // 모달이 열릴 때 입력란 초기화
         setMenuName('');
         setMenuPrice('');
         setMenuDescription('');
@@ -50,7 +48,6 @@ const Menu = () => {
     
     const closeModal = () => {
         setIsModalOpen(false);
-        // 모달을 닫을 때 이미지 미리보기도 초기화
         setMenuImagePreview('');
     };
 
@@ -71,7 +68,7 @@ const Menu = () => {
             });
             console.log('Success:', response.data);
             alert('메뉴가 등록되었습니다.');
-            closeModal(); // 모달 창 닫기
+            closeModal(); 
             fetchMenuData();
         } catch (error) {
             console.error('Error:', error);
@@ -132,8 +129,8 @@ const Menu = () => {
         try {
             const token = sessionStorage.getItem('token');
             const formData = new FormData();
-            formData.append('imageFile', imageFile); // 이미지 파일 추가
-            Object.keys(editMenu).forEach(key => formData.append(key, editMenu[key])); // 나머지 데이터 추가
+            formData.append('imageFile', imageFile); 
+            Object.keys(editMenu).forEach(key => formData.append(key, editMenu[key])); 
 
             await axios.put(`${process.env.REACT_APP_SERVER_URL}/admin/updatemenu`, formData, {
                 headers: {
@@ -151,12 +148,11 @@ const Menu = () => {
 
     const handleImageEdit = (event) => {
         const file = event.target.files[0];
-        setImageFile(file); // 파일 선택 시 상태 업데이트
+        setImageFile(file); 
     
-        // 이미지 미리보기를 위한 로직
         const reader = new FileReader();
         reader.onloadend = () => {
-            setEditMenuImagePreview(reader.result); // 미리보기 이미지 설정
+            setEditMenuImagePreview(reader.result);
         };
         reader.readAsDataURL(file);
     };

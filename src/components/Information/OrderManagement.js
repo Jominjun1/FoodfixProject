@@ -29,7 +29,7 @@ const OrderManagement = () => {
             order.packing_id === packing_id ? { ...order, packing_status } : order
         );
 
-        setOrders(updatedOrders);  // 로컬 상태 업데이트
+        setOrders(updatedOrders); 
 
         try {
             const token = sessionStorage.getItem('token');
@@ -43,7 +43,6 @@ const OrderManagement = () => {
             });
         } catch (error) {
             console.error('Error updating order status:', error);
-            // 에러 발생 시 원래 상태로 복구
             fetchOrders();
         }
     };
@@ -64,7 +63,7 @@ const OrderManagement = () => {
                             <div className='order-info'>
                                 <strong>날짜 </strong><span>{order.packing_date}</span>
                                 <strong>시간 </strong><span>{order.packing_time}</span>
-                                <strong>주문목록 </strong><span>{order.order_items}</span> {/* 추가된 속성 확인 필요 */}
+                                <strong>주문목록 </strong><span>{order.order_items}</span> 
                                 <strong>요청사항 </strong><span>{order.user_comments}</span>
                             </div>
                             <div className='order-button-groups'>

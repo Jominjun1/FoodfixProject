@@ -111,13 +111,13 @@
 }
 
 .right-label-input-container p {
-    flex: 0 0 180px; /* 라벨의 고정된 너비 (선택사항) */
+    flex: 0 0 180px;
     font-family: 'TAEBAEKmilkyway';
     font-weight: bold;
 }
 
 .right-label-input-container span {
-    flex: 1; /* 입력 요소가 남은 공간을 채우도록 설정 */
+    flex: 1; 
     margin-top: 10px;
     width: 100%;
     padding: 10px;
@@ -164,8 +164,8 @@
     width: 60vw;
     max-width: 500px;
     height: 60vh;
-    max-height: 500px; /* 최대 높이 설정 */
-    overflow-y: scroll; /* 내용이 모달의 높이를 초과하면 스크롤 생성 */
+    max-height: 500px;
+    overflow-y: scroll; 
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -207,8 +207,8 @@
 
 .edit-modal-close {
     position: absolute;
-    top: 10px; /* 모달 창의 상단으로부터 10px 떨어진 위치에 배치 */
-    right: calc(50% - 20px); /* 가로 가운데 정렬을 위해 50%로 설정하고 버튼의 너비의 절반만큼 왼쪽으로 이동 */
+    top: 10px;
+    right: calc(50% - 20px); 
     cursor: pointer;
     font-size: 24px;
     color: #aaa;

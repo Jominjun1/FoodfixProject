@@ -22,17 +22,14 @@ const RestaurantInfo = () => {
     const [reservationCancelTime, setReservationCancelTime] = useState('');
     const [storeImage, setStoreImage] = useState(null);
     const [storeDescription, setStoreDescription] = useState('');
-    // 이미지 미리보기 상태를 관리하는 useState 추가
     const [previewImage, setPreviewImage] = useState(null);
 
-    // 이미지 변경 시 호출되는 함수
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
-        setStoreImage(selectedImage); // 선택한 이미지를 상태에 저장
+        setStoreImage(selectedImage);
 
-        // 이미지를 미리보기로 표시하기 위해 URL 생성
         const imageUrl = URL.createObjectURL(selectedImage);
-        setPreviewImage(imageUrl); // 미리보기 이미지 상태 업데이트
+        setPreviewImage(imageUrl);
     };
 
     const handleSubmit = async () => {
