@@ -25,12 +25,12 @@ const ResManagement = () => {
     }, []);
 
     const updateReservationStatus = async (reservation_id, reservation_status) => {
-        try {
-            const updatedReservations = reservations.map(reservation =>
-                reservation.reservation_id === reservation_id ? { ...reservation, reservation_status } : reservation
-            );
-            setReservations(updatedReservations);
+        const updatedReservations = reservations.map(reservation =>
+            reservation.reservation_id === reservation_id ? { ...reservation, reservation_status } : reservation
+        );
+        setReservations(updatedReservations);
 
+        try {
             const token = sessionStorage.getItem('token');
             await axios.put(`${process.env.REACT_APP_SERVER_URL}/admin/updateReservation`, {
                 reservation_id,
@@ -42,6 +42,7 @@ const ResManagement = () => {
             });
         } catch (error) {
             console.error('Error updating reservation status:', error);
+            fetchReservations();
         }
     };
 

@@ -19,14 +19,15 @@
 }
 
 .order-content-background {
-    width: 90%;
-    height: 260px;
+    width: 90vw;
+    height: 50vh;
+    max-height: 260px;
     background-color: #f2f2f2;
     border-radius: 5px;
 }
 
 .order-content-background h3 {
-    margin-left: 20px;
+    margin-left: 2vw;
 }
 
 .person-info {

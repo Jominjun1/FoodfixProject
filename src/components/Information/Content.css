@@ -1,10 +1,10 @@
 .my-body {
     margin: auto;
+    width: 100vw;
 }
   
 .header-content {
     padding: 20px;
-    color: rgb(84, 164, 116);
     display: flex;
     align-items: center;
     justify-content: space-between; 

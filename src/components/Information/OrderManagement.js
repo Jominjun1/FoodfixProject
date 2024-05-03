@@ -63,7 +63,7 @@ const OrderManagement = () => {
                             <div className='order-info'>
                                 <strong>날짜 </strong><span>{order.packing_date}</span>
                                 <strong>시간 </strong><span>{order.packing_time}</span>
-                                <strong>주문목록 </strong><span>{order.order_items}</span> 
+                                <strong>주문목록 </strong><span>{order.menuItemDTOList ? order.menuItemDTOList.map(item => `${item.menu_name} x ${item.quantity}`).join(", ") : '정보 없음'}</span> 
                                 <strong>요청사항 </strong><span>{order.user_comments}</span>
                             </div>
                             <div className='order-button-groups'>
@@ -83,6 +83,7 @@ const OrderManagement = () => {
             ))}
         </div>
     );
+    
 };
 
 export default OrderManagement;
