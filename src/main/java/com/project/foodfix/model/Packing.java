@@ -37,7 +37,7 @@ public class Packing {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store; // 포장한 매장
 
-    @OneToMany(mappedBy = "packing", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "packing", cascade = CascadeType.ALL)
     private List<MenuItem> menus = new ArrayList<>();
 
 }

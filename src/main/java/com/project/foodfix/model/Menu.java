@@ -20,7 +20,7 @@ public class Menu {
     private String explanation; //메뉴 설명
     private Double menu_price; // 메뉴 가격
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "photo_id")
     @JsonBackReference
     private Photo menuPhoto;

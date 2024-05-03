@@ -17,11 +17,11 @@ public interface StoreService {
     // 매장 포장 기능
     List<PackingDTO> packingStore(PackingDTO packingStoreDTO);
     // 예약 내역 조회 기능
-    List<ReservationDTO> getReservationsByStoreId(Long store_id);
+    List<ReservationDTO> getReservations(Long store_id);
     // 예약 주문 상태 변경
     void updateReservation(ReservationDTO reservationDTO);
     // 포장 내역 조회 기능
-    List<PackingDTO> getPackingByStoreId(Long store_id);
+    List<PackingDTO> getPacking(Long store_id);
     // 포장 주문 상태 변경
     void updatePacking(PackingDTO packingDTO);
 }

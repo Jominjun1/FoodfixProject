@@ -453,7 +453,7 @@ public class AdminController {
             Long store_id = admin.getStore().getStore_id();
 
             // 예약 내역 조회
-            List<ReservationDTO> reservations = storeService.getReservationsByStoreId(store_id);
+            List<ReservationDTO> reservations = storeService.getReservations(store_id);
             return ResponseEntity.ok(reservations);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -498,8 +498,8 @@ public class AdminController {
         if (admin != null) {
             Long store_id = admin.getStore().getStore_id();
 
-            // 예약 내역 조회
-            List<PackingDTO> packings = storeService.getPackingByStoreId(store_id);
+            // 포장 내역 조회
+            List<PackingDTO> packings = storeService.getPacking(store_id);
             return ResponseEntity.ok(packings);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

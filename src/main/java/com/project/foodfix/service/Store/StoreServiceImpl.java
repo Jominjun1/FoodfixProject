@@ -55,11 +55,11 @@ public class StoreServiceImpl implements StoreService {
         packing.setTotalPrice(totalMenuPrice);
 
         // 사용자 정보 설정
-        packing.setUser(user); // 저장된 사용자 정보 설정
+        packing.setUser(user);
 
         // 매장 정보 설정
         Store store = new Store();
-        store.setStore_id(packingDTO.getStore_id()); // 포장할 매장의 ID를 설정
+        store.setStore_id(packingDTO.getStore_id());
         packing.setStore(store);
 
         // 저장된 예약을 반환
@@ -68,13 +68,13 @@ public class StoreServiceImpl implements StoreService {
         return Collections.singletonList(returnPackingDTO(savedPacking));
     }
     @Override
-    public List<PackingDTO> getPackingByStoreId(Long store_id) {
+    public List<PackingDTO> getPacking(Long store_id) {
         List<Packing> packings = packingRepository.findByStoreId(store_id);
 
         // 시간순으로 정렬
         packings.sort(Comparator.comparing(Packing::getPacking_time).reversed());
 
-        // 조회된 예약 내역을 리스트로 변환 후 반환
+        // 리스트로 변환 후 반환
         List<PackingDTO> packingDTOS = new ArrayList<>();
         for (Packing packing : packings) {
             packingDTOS.add(returnPackingDTO(packing));
@@ -125,7 +125,7 @@ public class StoreServiceImpl implements StoreService {
         // ReservationDTO -> Reservation 엔터티로 변환
         Reservation reservation = new Reservation();
 
-        // 예약 시간을 ISO 8601 형식의 문자열에서 LocalDateTime 변환
+        // ISO 8601 형식 문자열 -> LocalDateTime 변환
         reservation.setReservation_date(reservationDTO.getReservation_date());
         reservation.setReservation_time(reservationDTO.getReservation_time());
         reservation.setNum_people(reservationDTO.getPeople_cnt());
@@ -133,27 +133,25 @@ public class StoreServiceImpl implements StoreService {
         reservation.setReservation_status("0"); // 예약 대기 상태로 초기화
 
         // 예약에 필요한 사용자 정보 설정
-        reservation.setUser(user); // 저장된 사용자 정보 설정
+        reservation.setUser(user);
 
         // 예약에 필요한 매장 정보 설정
         Store store = new Store();
         store.setStore_id(reservationDTO.getStore_id()); // 예약할 매장의 ID를 설정
         reservation.setStore(store);
 
-        // 저장된 예약을 반환
         Reservation savedReservation = reservationRepository.save(reservation);
 
-        // 저장된 예약을 ReservationDTO 변환 후 반환
+        //  ReservationDTO 변환 후 반환
         return Collections.singletonList(returnReservationDTO(savedReservation));
     }
-    public List<ReservationDTO> getReservationsByStoreId(Long store_id) {
-        // 매장 ID를 이용하여 해당 매장의 예약 내역을 조회
+    public List<ReservationDTO> getReservations(Long store_id) {
         List<Reservation> reservations = reservationRepository.findByStoreId(store_id);
 
-        // 조회된 예약 내역을 시간순으로 정렬
+        // 시간순으로 정렬
         reservations.sort(Comparator.comparing(Reservation::getReservation_time).reversed());
 
-        // 조회된 예약 내역을 ReservationDTO 리스트로 변환 후 반환
+        // 리스트로 변환 후 반환
         List<ReservationDTO> reservationDTOs = new ArrayList<>();
         for (Reservation reservation : reservations) {
             reservationDTOs.add(returnReservationDTO(reservation));
@@ -206,6 +204,19 @@ public class StoreServiceImpl implements StoreService {
         // 매장 정보 설정
         packingDTO.setStore_id(packing.getStore().getStore_id());
         packingDTO.setStore_phone(packing.getStore().getStore_phone());
+
+        // 메뉴 정보 설정
+        List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
+        for (MenuItem menuItem : packing.getMenus()) {
+            MenuItemDTO menuItemDTO = new MenuItemDTO(
+                    menuItem.getId(),
+                    menuItem.getMenu_price(),
+                    menuItem.getMenu_name(),
+                    menuItem.getQuantity()
+            );
+            menuItemDTOList.add(menuItemDTO);
+        }
+        packingDTO.setMenuItemDTOList(menuItemDTOList);
 
         return packingDTO;
     }
