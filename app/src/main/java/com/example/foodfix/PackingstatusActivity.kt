@@ -1,6 +1,7 @@
 package com.example.foodfix
 
 
+import MyWebSocketListener
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -47,7 +48,7 @@ class PackingstatusActivity : BaseActivity() {
             .url("ws://54.180.213.178:8080/wsk")
             .build()
 
-        val listener = MyWebSocketListener()
+        val listener = MyWebSocketListener(getApplicationContext())
         val webSocket = client.newWebSocket(request, listener)
         // WebSocketManager에 웹소켓 설정
         WebSocketManager.setWebSocket(webSocket)
@@ -124,6 +125,7 @@ class PackingstatusActivity : BaseActivity() {
         })
 
         findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
+            // 웹소켓 해제
             val clearWebSocket = WebSocketManager.getWebSocket()
             clearWebSocket?.let {
                 WebSocketManager.disconnectWebSocket()

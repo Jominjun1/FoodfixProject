@@ -1,11 +1,9 @@
 package com.example.foodfix
 
+import MyWebSocketListener
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
@@ -21,7 +19,6 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.WebSocket
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -240,6 +237,7 @@ class MainActivity : BaseActivity() {
                                         putExtra("store_phone", clickedItem.store_phone)
                                         putExtra("openTime", clickedItem.openTime)
                                         putExtra("closeTime", clickedItem.closeTime)
+                                        putExtra("imagePath", clickedItem.imagePath)
                                     }
                                     resultLauncher.launch(intent)
                                 }
@@ -299,8 +297,12 @@ class MainActivity : BaseActivity() {
             .url("ws://54.180.213.178:8080/wsk")
             .build()
 
-        val listener = MyWebSocketListener()
+        // Context를 안전하게 전달
+        val listener = MyWebSocketListener(getApplicationContext())
+
+        // 웹소켓 생성 및 연결
         val webSocket = client.newWebSocket(request, listener)
+
         // WebSocketManager에 웹소켓 설정
         WebSocketManager.setWebSocket(webSocket)
     }

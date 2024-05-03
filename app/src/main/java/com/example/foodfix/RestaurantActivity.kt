@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.foodfix.databinding.RestaurantDetailBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,6 +53,20 @@ class RestaurantActivity : BaseActivity() {
 
         supportActionBar?.hide()
 
+        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+
+        val imageArea = findViewById<ImageView>(R.id.restaurantimage)
+        val storimage = intent.getStringExtra("imagePath")
+        val parts = storimage?.split("/")
+        val fileName = parts?.last()
+
+        // 이미지 로딩
+        Glide.with(imageArea)
+            .load("http://54.180.213.178:8080/images/${fileName}") // 서버에서 받은 이미지 URL
+            .placeholder(R.drawable.ic_launcher_foreground) // 로딩 중에 표시될 이미지
+            .error(R.drawable.ic_launcher_background) // 로딩 에러 발생 시 표시될 이미지
+            .into(imageArea)
+
         // Retrofit 인스턴스 생성
         val retrofit = Retrofit.Builder()
             .baseUrl("http://54.180.213.178:8080") // 서버의 기본 URL
@@ -60,15 +75,14 @@ class RestaurantActivity : BaseActivity() {
 
         val userService = retrofit.create(UserService::class.java)
 
-        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
 
         // 식당 정보
         val store_id = intent.getLongExtra("store_id", 1L)
         Log.d("RestaurantActivity", "store_id $store_id")
         val store_name = intent.getStringExtra("store_name")
-        val store_intro = intent.getStringExtra("store_intro")
 
-       findViewById<TextView>(R.id.restaurant_name).text = store_name
+
+        findViewById<TextView>(R.id.restaurant_name).text = store_name
 
         val itemList = mutableListOf<MenuModel>()
 
@@ -85,7 +99,7 @@ class RestaurantActivity : BaseActivity() {
                             menu_id = dto.menu_id,
                             menu_name = dto.menu_name,
                             explanation = dto.explanation,
-                            menu_image = R.drawable.ic_launcher_foreground.toString(),
+                            imagePath = dto.imagePath,
                             menu_price = dto.menu_price
                         )
                     }
@@ -147,16 +161,33 @@ class RestaurantActivity : BaseActivity() {
 
         findViewById<TextView>(R.id.restautant_inf).setOnClickListener {
 
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("식당 정보")
-            builder.setMessage(store_intro)
+            // 변수로부터 식당 정보를 가져옵니다.
+            val store_name = intent.getStringExtra("store_name") ?: "이름 없음"
+            val store_intro = intent.getStringExtra("store_intro") ?: "설명 없음"
+            val store_address = intent.getStringExtra("store_address") ?: "주소 정보 없음"
+            val store_phone = intent.getStringExtra("store_phone") ?: "전화번호 정보 없음"
+            val openTime = intent.getStringExtra("openTime") ?: "오픈 시간 정보 없음"
+            val closeTime = intent.getStringExtra("closeTime") ?: "클로즈 시간 정보 없음"
 
-            // "확인" 버튼
-            builder.setPositiveButton("확인") { dialog, which ->
-                // "확인" 버튼 클릭 시 실행할 코드
-                dialog.dismiss() // 다이얼로그 닫기
+            // 정보를 하나의 문자열로 합칩니다.
+            val message = "이름: $store_name\n" +
+                    "설명: $store_intro\n" +
+                    "주소: $store_address\n" +
+                    "전화번호: $store_phone\n" +
+                    "오픈 시간: $openTime\n" +
+                    "클로즈 시간: $closeTime"
+
+            // AlertDialog를 생성하고 설정합니다.
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("$store_name 정보")
+            builder.setMessage(message)
+
+            // "확인" 버튼 추가
+            builder.setPositiveButton("닫기") { dialog, _ ->
+                dialog.dismiss() // 다이얼로그를 닫습니다.
             }
-            // 다이얼로그를 표시합니다.
+
+            // 다이얼로그 표시
             builder.show()
         }
 

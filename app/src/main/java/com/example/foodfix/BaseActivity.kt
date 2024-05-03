@@ -16,6 +16,11 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (backPressedTwice) {
+            // 웹소켓 해제
+            val clearWebSocket = WebSocketManager.getWebSocket()
+            clearWebSocket?.let {
+                WebSocketManager.disconnectWebSocket()
+            }
             super.onBackPressed() // 앱 종료
             finishAffinity()
             return
