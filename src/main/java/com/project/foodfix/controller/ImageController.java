@@ -12,13 +12,13 @@ import java.nio.file.*;
 @Controller
 public class ImageController {
 
-    // 이미지가 저장된 디렉토리 경로
+    // 이미지 저장 경로
     private static final String DIRECTORY = "src/main/resources/static/images/";
 
     @GetMapping("/images/{imageName}")
     public ResponseEntity<Resource> getImage(@PathVariable String imageName) {
         try {
-            // 이미지 파일의 경로를 생성
+            // 경로 생성
             Path imagePath = Paths.get(DIRECTORY).resolve(imageName);
             Resource resource = new UrlResource(imagePath.toUri());
 

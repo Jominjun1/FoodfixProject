@@ -29,6 +29,4 @@ public class Menu {
     @JoinColumn(name = "store_id", nullable = false, updatable = false) // (매장) 일대다 (메뉴) 관계
     @JsonIgnore
     private Store store; // 매장 정보
-
-
 }

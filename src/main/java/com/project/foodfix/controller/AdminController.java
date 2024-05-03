@@ -307,7 +307,7 @@ public class AdminController {
     //*********** 메뉴 엔드 포인트 ***********//
     // 메뉴 조회 API
     @GetMapping("/menus")
-    public ResponseEntity<Object> getMenusByStore(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<Object> getMenus(@RequestHeader("Authorization") String authorizationHeader) {
         // 인증 처리 및 토큰 추출
         String token = extractToken(authorizationHeader);
         if (token == null) return unauthorizedResponseObject();

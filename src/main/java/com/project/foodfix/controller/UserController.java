@@ -2,6 +2,7 @@ package com.project.foodfix.controller;
 
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
+import com.project.foodfix.model.DTO.MenuDTO;
 import com.project.foodfix.model.Menu;
 import com.project.foodfix.model.Store;
 import com.project.foodfix.model.User;
@@ -56,13 +57,26 @@ public class UserController {
     }
     // 매장의 메뉴 조회
     @GetMapping("/menus/{store_id}")
-    public ResponseEntity<Object> getMenusByStoreId(@PathVariable Long store_id) {
+    public ResponseEntity<Object> getMenus(@PathVariable Long store_id) {
         Optional<Store> optionalStore = storeRepository.findById(store_id);
 
         if (optionalStore.isPresent()) {
             Store store = optionalStore.get();
             List<Menu> menus = store.getMenus();
-            return ResponseEntity.ok(menus);
+
+            List<MenuDTO> menuDTOs = new ArrayList<>();
+            for (Menu menu : menus) {
+                String imagePath = menu.getMenuPhoto() != null ? menu.getMenuPhoto().getImagePath() : null;
+                MenuDTO menuDTO = new MenuDTO(
+                        menu.getMenu_id(),
+                        menu.getMenu_price(),
+                        menu.getMenu_name(),
+                        menu.getExplanation(),
+                        imagePath
+                );
+                menuDTOs.add(menuDTO);
+            }
+            return ResponseEntity.ok(menuDTOs);
         } else {
             return ResponseEntity.ok("매장 정보 조회 실패");
         }
