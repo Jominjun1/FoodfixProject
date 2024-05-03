@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class StoreSessionManager {
+public class SessionManager {
 
     private final Map<String, WebSocketSession> userSessions = new ConcurrentHashMap<>();
     private final Map<Long, WebSocketSession> storeSessions = new ConcurrentHashMap<>();
@@ -15,11 +15,12 @@ public class StoreSessionManager {
         userSessions.put(user_id, session);
     }
 
-    public void removeUserSession(String user_id) {
-        userSessions.remove(user_id);
-    }
     public void addStoreSession(Long store_id, WebSocketSession session) {
         storeSessions.put(store_id, session);
+    }
+
+    public void removeUserSession(String user_id) {
+        userSessions.remove(user_id);
     }
 
     public void removeStoreSession(Long store_id) {

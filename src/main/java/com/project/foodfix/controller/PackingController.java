@@ -26,7 +26,7 @@ public class PackingController {
         // 매장 포장 시도
         List<PackingDTO> packings = storeService.packingStore(packingDTO);
         if (packings != null) {
-            webSocketHandler.sendPackingOrder(packingDTO.getStore_id());
+            webSocketHandler.sendPackingOrder(packingDTO.getStore_id(), packingDTO.getMinimumTime());
             return ResponseEntity.ok("포장 주문 성공");
         } else {
             return ResponseEntity.badRequest().body("포장 실패");

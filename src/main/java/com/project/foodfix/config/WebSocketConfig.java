@@ -10,10 +10,10 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    private final StoreSessionManager storeSessionManager;
+    private final SessionManager sessionManager;
 
-    public WebSocketConfig(StoreSessionManager storeSessionManager) {
-        this.storeSessionManager = storeSessionManager;
+    public WebSocketConfig(SessionManager sessionManager) {
+        this.sessionManager = sessionManager;
     }
 
     @Override
@@ -23,6 +23,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler webSocketHandler() {
-        return new WebSocketHandler(storeSessionManager);
+        return new WebSocketHandler(sessionManager);
     }
 }
