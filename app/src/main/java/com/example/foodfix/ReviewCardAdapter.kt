@@ -47,9 +47,9 @@ class ReviwCardAdapter(val items: MutableList<ReviewCardModel>) : RecyclerView.A
 
         fun bindItems(reviewCardModel: ReviewCardModel) {
             val username = itemView.findViewById<TextView>(R.id.storeId)
-            val reviewDate = itemView.findViewById<TextView>(R.id.reservationDate)
+            val reviewDate = itemView.findViewById<TextView>(R.id.packingDate)
             val reviewImage = itemView.findViewById<ImageView>(R.id.reviewimage)
-            val reviewDtail = itemView.findViewById<TextView>(R.id.reservationdetail)
+            val reviewDtail = itemView.findViewById<TextView>(R.id.packingcomment)
             val rating = itemView.findViewById<RatingBar>(R.id.reviewRating)
 
 

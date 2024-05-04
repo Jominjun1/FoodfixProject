@@ -8,13 +8,11 @@ object WebSocketManager {
     fun setWebSocket(socket: WebSocket) {
         webSocket = socket
     }
-
     fun getWebSocket(): WebSocket? {
         return webSocket
     }
-
     fun disconnectWebSocket() {
-        webSocket?.close(1000, "로그아웃으로 인한 웹소켓 해제")
+        webSocket?.close(1000, "사용자로 인한 웹소켓 해제")
         webSocket = null
     }
 }

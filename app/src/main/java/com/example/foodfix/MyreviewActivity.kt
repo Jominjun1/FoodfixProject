@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.ShowlistBinding
 
-class MyreviewActivity : AppCompatActivity() {
+class MyreviewActivity : BaseActivity() {
 
     lateinit var binding:ShowlistBinding
     override fun onCreate(savedInstanceState: Bundle?) {

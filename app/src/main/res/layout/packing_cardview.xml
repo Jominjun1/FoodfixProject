@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/reservationCardView"
+    android:id="@+id/packingCardView"
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:layout_margin="30dp"
@@ -16,6 +16,16 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="식당 id : "
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/storeId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,9 +34,8 @@
             app:layout_constraintStart_toEndOf="@+id/textView15"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <TextView
-            android:id="@+id/reservationDate"
+            android:id="@+id/packingDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -36,18 +45,17 @@
             app:layout_constraintTop_toBottomOf="@+id/storeId" />
 
         <TextView
-            android:id="@+id/reservationcomment"
-            android:layout_width="200dp"
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:maxLines="3"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="포장날짜:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/storeId" />
 
         <TextView
-            android:id="@+id/reservationTime"
+            android:id="@+id/packingTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -57,23 +65,13 @@
             app:layout_constraintTop_toBottomOf="@+id/storeId" />
 
         <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="예약날짜:"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storeId" />
-
-        <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="8dp"
-            android:text="예약시간:"
-            app:layout_constraintStart_toEndOf="@+id/reservationDate"
+            android:text="포장시간:"
+            app:layout_constraintStart_toEndOf="@+id/packingDate"
             app:layout_constraintTop_toBottomOf="@+id/storeId" />
 
         <TextView
@@ -82,19 +80,41 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="인원 수:"
+            android:text="총 가격:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
-            android:id="@+id/peopleNum"
+            android:id="@+id/menuTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="3"
+            android:text="0000"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/payment_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="결제 방식"
+            android:textColor="@color/red"
+            app:layout_constraintStart_toEndOf="@+id/menuTotalPrice"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/packingcomment"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:maxLines="3"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textView13"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
         <TextView
             android:id="@+id/textView13"
@@ -114,23 +134,24 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible"
             app:srcCompat="@drawable/icons_trash" />
 
         <TextView
-            android:id="@+id/reservationtatus"
+            android:id="@+id/packingstatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="예약 상태"
+            android:text="포장 상태"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/reservationId"
+            android:id="@+id/packingId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="주문id"
+            android:text="포장id"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView14" />
 
@@ -139,18 +160,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="주문 id : "
+            android:text="포장 id : "
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="식당 id : "
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

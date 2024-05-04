@@ -54,8 +54,8 @@ class ReservationCardAdapter(val revervationitems: MutableList<ReservationCardMo
             val date = itemView.findViewById<TextView>(R.id.reservationDate)
             val time = itemView.findViewById<TextView>(R.id.reservationTime)
             val peopleNum = itemView.findViewById<TextView>(R.id.peopleNum)
-            val detail = itemView.findViewById<TextView>(R.id.reservationdetail)
-            val status = itemView.findViewById<TextView>(R.id.status)
+            val detail = itemView.findViewById<TextView>(R.id.reservationcomment)
+            val status = itemView.findViewById<TextView>(R.id.reservationtatus)
 
             reservation_id.text = reservationCardModel.reservation_id.toString()
             store_id.text = reservationCardModel.store_id.toString()

@@ -22,12 +22,12 @@ data class PackingCardModel(
     val packing_id: Long,
     val store_id: Long,
     val totalPrice: Double,
-    val packing_date: LocalDate,
-    val packing_time: LocalTime,
+    val packing_date: String,
+    val packing_time: String,
     val user_comments: String,
     val packing_status: String,
     val payment_type: String,
-    val menuItemDTOList: List<MenuDTO>
+    val menuItemDTOList: List<MenuDTO>? = emptyList()
 )
 data class StoreDTO(
     val store_id: Long,
@@ -40,7 +40,7 @@ data class StoreDTO(
     val openTime: LocalTime,
     val closeTime: LocalTime,
     val reservationCancel:LocalTime?,
-    val photo: Photo?
+    val imagePath: String?
 )
 
 data class ReservationDTO(
@@ -83,12 +83,8 @@ data class MenuModel(
     val menu_id: Long,
     val menu_name: String,
     val explanation: String?,
-    val menu_image: String?,
+    val imagePath: String?,
     val menu_price: Double
     // 서버에서 받는 메뉴 관련 다른 필드도 추가할 수 있습니다.
 )
 
-data class Photo(
-    val photo_id: Long,
-    val imagePath: String
-)

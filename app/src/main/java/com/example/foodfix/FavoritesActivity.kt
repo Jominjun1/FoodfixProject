@@ -12,22 +12,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.ShowlistBinding
 
-class FavoritesActivity : AppCompatActivity() {
+class FavoritesActivity : BaseActivity() {
 
     lateinit var binding:ShowlistBinding
-
-    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.showlist)
         binding = DataBindingUtil.setContentView(this, R.layout.showlist)
-
-        resultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            // 여기서는 별도의 결과 처리가 필요 없습니다.
-        }
 
         supportActionBar?.hide()
 
@@ -51,7 +43,7 @@ class FavoritesActivity : AppCompatActivity() {
                 // 예를 들어, 다른 화면으로 이동하거나 데이터를 전달할 수 있습니다.
                 val intent = Intent(this@FavoritesActivity, RestaurantActivity::class.java)
                 intent.putExtra("restaurant_name", clickedItem.title)
-                resultLauncher.launch(intent)
+                startActivity(intent)
             }
         })
 

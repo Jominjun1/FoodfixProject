@@ -1,5 +1,6 @@
 package com.example.foodfix
 
+import MyWebSocketListener
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -28,7 +29,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-class ReservationstatusActivity : AppCompatActivity() {
+class ReservationstatusActivity : BaseActivity() {
 
     lateinit var binding:ShowlistBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +63,7 @@ class ReservationstatusActivity : AppCompatActivity() {
             .url("ws://54.180.213.178:8080/wsk")
             .build()
 
-        val listener = MyWebSocketListener()
+        val listener = MyWebSocketListener(getApplicationContext())
         val webSocket = client.newWebSocket(request, listener)
         // WebSocketManager에 웹소켓 설정
         WebSocketManager.setWebSocket(webSocket)

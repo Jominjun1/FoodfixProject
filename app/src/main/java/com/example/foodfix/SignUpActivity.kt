@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : BaseActivity() {
 
     private var selectedValue = 0
     override fun onCreate(savedInstanceState: Bundle?) {

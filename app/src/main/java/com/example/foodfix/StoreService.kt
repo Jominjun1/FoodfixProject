@@ -23,10 +23,10 @@ interface StoreService {
         @Query("menu_name") menuName: String?
     ): Call<List<StoreDTO>>
 
-    @POST("/reservation/create")
+    @POST("/order/reservation")
     fun createReservation(@Body reservationDTO: ReservationDTO): Call<ResponseBody>
 
-    @POST("/packing/create")
+    @POST("/order/packing")
     fun createPackingOrder(@Body packingOrder: PackingOrder): Call<ResponseBody>
 }
 

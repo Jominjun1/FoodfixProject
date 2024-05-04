@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
+
 class StoreAdapter(val items: MutableList<StoreDTO>) :
     RecyclerView.Adapter<StoreAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreAdapter.ViewHolder {
@@ -57,9 +58,13 @@ class StoreAdapter(val items: MutableList<StoreDTO>) :
             val detailArea = itemView.findViewById<TextView>(R.id.detailArea)
             val titleArea = itemView.findViewById<TextView>(R.id.titleArea)
 
+            val storimage = storeDTO.imagePath
+            val parts = storimage?.split("/")
+            val fileName = parts?.last()
+
             // 이미지 로딩
             Glide.with(imageArea)
-                .load("http://54.180.213.178:8080/images/${storeDTO.photo?.imagePath}") // 서버에서 받은 이미지 URL
+                .load("http://54.180.213.178:8080/images/${fileName}") // 서버에서 받은 이미지 URL
                 .placeholder(R.drawable.ic_launcher_foreground) // 로딩 중에 표시될 이미지
                 .error(R.drawable.ic_launcher_background) // 로딩 에러 발생 시 표시될 이미지
                 .into(imageArea)

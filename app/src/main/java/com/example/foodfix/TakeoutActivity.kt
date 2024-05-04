@@ -28,12 +28,11 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class TakeoutActivity : AppCompatActivity(){
+class TakeoutActivity : BaseActivity(){
 
     lateinit var binding: TakeoutMenuBinding
     private val itemList = mutableListOf<MenuItemDTO>() // 클래스 멤버로 변경
 
-    private var payment_type: String = "1"
     private var currentlySelectedButton: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,26 +47,23 @@ class TakeoutActivity : AppCompatActivity(){
         val buttonPaymentType1 = findViewById<Button>(R.id.Payment_type1)
         val buttonPaymentType2 = findViewById<Button>(R.id.Payment_type2)
 
-        // Payment_type1 버튼에 클릭 리스너 설정하기, 0 = 앱결제
-        buttonPaymentType1.setOnClickListener {
-            // 클릭되었을 때 실행할 코드 작성
-            payment_type = "0"
-        }
+        var payment_type = ""
 
-        // 1 = 현장결제
-        buttonPaymentType2.setOnClickListener {
-            payment_type = "1"
-        }
         val PaymentButtons = listOf(buttonPaymentType1, buttonPaymentType2)
+
         PaymentButtons.forEach { button ->
             button.setOnClickListener {
-                currentlySelectedButton?.let {
-                    // 이전에 선택된 버튼의 색상을 초기화
-                    it.backgroundTintList = ContextCompat.getColorStateList(this, R.color.gray)
-                }
-                // 현재 선택된 버튼을 강조 표시하고 저장
-                highlightSelectedButton(it as Button)
-                currentlySelectedButton = it // 현재 선택된 버튼을 저장
+                // 현재 선택된 버튼에 따라 payment_type 설정
+                payment_type = if (button == buttonPaymentType1) "0" else "1"
+
+                // 이전에 선택된 버튼의 색상을 초기화
+                currentlySelectedButton?.backgroundTintList = ContextCompat.getColorStateList(this, R.color.gray)
+
+                // 현재 선택된 버튼을 강조 표시
+                highlightSelectedButton(button)
+
+                // 현재 선택된 버튼을 저장
+                currentlySelectedButton = button
             }
         }
 
@@ -149,7 +145,10 @@ class TakeoutActivity : AppCompatActivity(){
         findViewById<Button>(R.id.takeoutButton).setOnClickListener {
             val user_phone = findViewById<TextView>(R.id.user_phone).text
             val user_comments = findViewById<TextView>(R.id.user_commend).text
-            val paymentType = payment_type
+
+
+            Log.d("----------payment_type: ", "$payment_type")
+
 
             val takemenuList = mutableListOf<MenuDTO>()
             for (item in itemList) {
@@ -174,7 +173,7 @@ class TakeoutActivity : AppCompatActivity(){
                 user_comments = user_comments.toString(),
                 packing_date = formattedDate,
                 packing_time = formattedTime,
-                payment_type = paymentType,
+                payment_type = payment_type,
                 store_id = store_id.toString(),
                 menuItemDTOList = takemenuList
             )
@@ -194,6 +193,7 @@ class TakeoutActivity : AppCompatActivity(){
                             response.body()?.let { responseBody ->
                                 val responseString = responseBody.string() // 응답을 문자열로 변환
                                 if (responseString.contains("포장 주문 성공")) {
+
                                     // 웹소켓 해제
                                     val clearWebSocket = WebSocketManager.getWebSocket()
                                     clearWebSocket?.let {
