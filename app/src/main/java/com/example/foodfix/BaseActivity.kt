@@ -1,5 +1,9 @@
 package com.example.foodfix
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -31,7 +35,7 @@ open class BaseActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             backPressedTwice = false
-        }, 2000) // 2초 내에 다시 눌러야 함
+        }, 1000) // 1초 내에 다시 눌러야 함
     }
 }
 

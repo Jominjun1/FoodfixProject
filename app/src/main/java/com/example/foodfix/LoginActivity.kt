@@ -1,27 +1,25 @@
 package com.example.foodfix
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
+import android.provider.Settings
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.NotificationManagerCompat
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.ResponseBody
-import okhttp3.WebSocket
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.POST
-import java.util.concurrent.TimeUnit
+
 
 class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +27,9 @@ class LoginActivity : BaseActivity() {
         setContentView(R.layout.activity_login)
 
         supportActionBar?.hide()
+
+        // 앱 알림 권한 설정
+        checkNotificationPermission()
 
         findViewById<Button>(R.id.signupButton).setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
@@ -107,6 +108,23 @@ class LoginActivity : BaseActivity() {
             )
         }
     }
+
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                }
+                try {
+                    startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(this, "Notification Settings page not found.", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
 }
 data class LoginRequest(val user_id: String, val user_pw: String)
 
