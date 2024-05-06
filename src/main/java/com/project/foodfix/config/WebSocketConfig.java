@@ -1,5 +1,6 @@
 package com.project.foodfix.config;
 
+import com.project.foodfix.service.SessionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -10,10 +11,10 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    private final SessionManager sessionManager;
+    private final SessionService sessionService;
 
-    public WebSocketConfig(SessionManager sessionManager) {
-        this.sessionManager = sessionManager;
+    public WebSocketConfig(SessionService sessionService) {
+        this.sessionService = sessionService;
     }
 
     @Override
@@ -23,6 +24,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler webSocketHandler() {
-        return new WebSocketHandler(sessionManager);
+        return new WebSocketHandler(sessionService);
     }
 }

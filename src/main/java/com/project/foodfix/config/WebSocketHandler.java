@@ -1,85 +1,93 @@
 package com.project.foodfix.config;
 
+import com.project.foodfix.service.SessionService;
 import io.micrometer.common.lang.NonNullApi;
 import org.slf4j.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @NonNullApi
 public class WebSocketHandler extends TextWebSocketHandler {
 
-    private final SessionManager sessionManager;
+    private final SessionService sessionService;
     private static final Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
 
-    public WebSocketHandler(SessionManager sessionManager) {
-        this.sessionManager = sessionManager;
+    public WebSocketHandler(SessionService sessionService) {
+        this.sessionService = sessionService;
     }
-
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws IOException {
-        Map<String, Object> attributes = session.getAttributes();
-        String user_id = (String) attributes.get("user_id");
-        Long store_id = (Long) attributes.get("store_id");
+    public void afterConnectionEstablished(WebSocketSession session) {
+        String session_id = session.getId();
+        sessions.put(session_id, session);
 
-        if (user_id != null) {
-            sessionManager.addUserSession(user_id, session);
-        } else if (store_id != null) {
-            sessionManager.addStoreSession(store_id, session);
+        URI uri = session.getUri();
+        assert uri != null;
+        MultiValueMap<String, String> queryParams = UriComponentsBuilder.fromUri(uri).build().getQueryParams();
+
+        String user_id = queryParams.getFirst("user_id");
+        String store_idS = queryParams.getFirst("store_id");
+        Long store_id = null;
+        logger.info("id들: {} , {} ", user_id, store_idS);
+        if (store_idS != null) {
+            try { store_id = Long.parseLong(store_idS);
+            } catch (NumberFormatException e) { logger.error("오류"); }
         }
-        session.sendMessage(new TextMessage("연결"));
+        if (user_id != null) {
+            sessionService.addUserSession(user_id, session);
+        } else if (store_id != null) {
+            sessionService.addStoreSession(store_id, session);
+        }
+        sendMessage(session, session_id);
+        logger.info("연결된 세션: {}", session_id);
     }
-
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        Map<String, Object> attributes = session.getAttributes();
-        String user_id = (String) attributes.get("user_id");
-        Long store_id = (Long) attributes.get("store_id");
-
-        if (user_id != null) {
-            sessionManager.removeUserSession(user_id);
-        } else if (store_id != null) {
-            sessionManager.removeStoreSession(store_id);
-        }
-        if (session.isOpen()) {
-            session.sendMessage(new TextMessage("연결 해제"));
-        }
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status){
+        String session_id = session.getId();
+        sessions.remove(session_id);
+        logger.info("삭제된 세션: {}", session_id);
+        sessionService.removeSession(session_id);
+        logger.info("닫힌 세션: {}", session_id);
     }
 
-    public void sendPackingOrder(Long store_id, Integer time) {
-        WebSocketSession storeSession = sessionManager.findStoreSession(store_id);
-        sendMessage(storeSession, "포장 주문 접수");
-
-        scheduler.schedule(() -> {
-            if (storeSession.isOpen()) {
-                try {
-                    storeSession.close();
-                } catch (IOException e) {
-                    logger.error("오류 발생");
-                }
+    public void sendPacking(Long store_id, String message) {
+        Optional<String> storeSS_id = sessionService.findStoreSession(store_id);
+        if (storeSS_id.isPresent()) {
+            String storeSS = storeSS_id.get();
+            WebSocketSession storeSession = sessions.get(storeSS);
+            if (storeSession != null) {
+                sendMessage(storeSession, message);
+            } else {
+                logger.info("매장 세션 x");
             }
-        }, time, TimeUnit.MINUTES);
-    }
-    public void sendReservationOrder(Long store_id) {
-        WebSocketSession storeSession = sessionManager.findStoreSession(store_id);
-        sendMessage(storeSession, "예약 주문 접수");
+        } else {
+            logger.info("매장 세션 못찾음");
+        }
     }
 
-    public void sendUpdateReservation(String user_id) {
-        WebSocketSession userSession = sessionManager.findUserSession(user_id);
-        sendMessage(userSession, "예약 주문 상태 변경");
+    public void sendReservation(Long store_id, String message) {
+        Optional<String> storeSS_id = sessionService.findStoreSession(store_id);
+        if (storeSS_id.isPresent()) {
+            String storeSS = storeSS_id.get();
+            WebSocketSession storeSession = sessions.get(storeSS);
+            if (storeSession != null) {
+                sendMessage(storeSession, message);
+            } else {
+                logger.info("매장 세션 x");
+            }
+        } else {
+            logger.info("매장 세션 못찾음");
+        }
     }
-
-    public void sendUpdatePacking(String user_id) {
-        WebSocketSession userSession = sessionManager.findUserSession(user_id);
-        sendMessage(userSession, "포장 주문 상태 변경");
-    }
-
     public void sendMessage(WebSocketSession session, String message) {
         if (session.isOpen()) {
             try {
@@ -90,3 +98,4 @@ public class WebSocketHandler extends TextWebSocketHandler {
         }
     }
 }
+

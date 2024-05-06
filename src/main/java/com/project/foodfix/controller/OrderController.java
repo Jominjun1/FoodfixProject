@@ -27,24 +27,21 @@ public class OrderController {
     // 예약 주문 생성
     @PostMapping("/reservation")
     public ResponseEntity<String> createReservation(@RequestBody ReservationDTO reservationDTO) {
-        // 매장 예약 시도
         List<ReservationDTO> reservationResult = storeService.reservationStore(reservationDTO);
 
         if (reservationResult != null) {
-            webSocketHandler.sendReservationOrder(reservationDTO.getStore_id());
+            webSocketHandler.sendPacking(reservationDTO.getStore_id(), "예약 주문 생성");
             return ResponseEntity.ok("예약 주문 성공");
         } else {
             return ResponseEntity.badRequest().body("예약 실패");
         }
     }
-
     // 포장 주문 생성
     @PostMapping("/packing")
-    public ResponseEntity<String> createPacking(@RequestBody PackingDTO packingDTO)  {
-        // 매장 포장 시도
+    public ResponseEntity<String> createPacking(@RequestBody PackingDTO packingDTO) {
         List<PackingDTO> packings = storeService.packingStore(packingDTO);
         if (packings != null) {
-            webSocketHandler.sendPackingOrder(packingDTO.getStore_id(), packingDTO.getMinimumTime());
+            webSocketHandler.sendPacking(packingDTO.getStore_id(), "포장 주문 생성");
             return ResponseEntity.ok("포장 주문 성공");
         } else {
             return ResponseEntity.badRequest().body("포장 실패");

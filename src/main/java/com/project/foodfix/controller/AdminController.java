@@ -477,7 +477,6 @@ public class AdminController {
             // 업데이트
             reservationDTO.setReservation_status(reservationStatus);
             storeService.updateReservation(reservationDTO);
-            webSocketHandler.sendUpdateReservation(reservationDTO.getUser_id());
             return ResponseEntity.ok("포장 상태 업데이트");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -523,7 +522,6 @@ public class AdminController {
             // 업데이트
             packingDTO.setPacking_status(packingStatus);
             storeService.updatePacking(packingDTO);
-            webSocketHandler.sendUpdatePacking(packingDTO.getUser_id());
             return ResponseEntity.ok("포장 상태 업데이트");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
