@@ -135,6 +135,7 @@ class RestaurantActivity : BaseActivity() {
                 intent.putExtra("menu_name", clickedItem.menu_name)
                 intent.putExtra("menu_price", clickedItem.menu_price)
                 intent.putExtra("explanation", clickedItem.explanation)
+                intent.putExtra("memu_imagePath", clickedItem.imagePath)
                 resultLauncher.launch(intent)
             }
         })

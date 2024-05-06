@@ -287,6 +287,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun connectWebSocket() {
+
+        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val userId = sharedPref.getString("user_id", "").toString() // 사용자 아이디 가져오기
         // OkHttpClient 생성
         val client = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
@@ -294,7 +297,7 @@ class MainActivity : BaseActivity() {
 
         // 웹소켓 요청 생성
         val request = Request.Builder()
-            .url("ws://54.180.213.178:8080/wsk")
+            .url("ws://54.180.213.178:8080/wsk?user_id=$userId")
             .build()
 
         // Context를 안전하게 전달

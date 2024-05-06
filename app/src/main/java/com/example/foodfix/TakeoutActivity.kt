@@ -145,10 +145,7 @@ class TakeoutActivity : BaseActivity(){
         findViewById<Button>(R.id.takeoutButton).setOnClickListener {
             val user_phone = findViewById<TextView>(R.id.user_phone).text
             val user_comments = findViewById<TextView>(R.id.user_commend).text
-
-
-            Log.d("----------payment_type: ", "$payment_type")
-
+            //val session = sharedPref.getString("session_id", "") ?: ""
 
             val takemenuList = mutableListOf<MenuDTO>()
             for (item in itemList) {
@@ -186,6 +183,7 @@ class TakeoutActivity : BaseActivity(){
                 Toast.makeText(this@TakeoutActivity, "전화번호와 요청사항을 입력해주세요.", Toast.LENGTH_LONG).show()
             }
             else {
+
                 service.createPackingOrder(packingOrder).enqueue(object : Callback<ResponseBody>{
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>){
                         if (response.isSuccessful){
@@ -194,13 +192,13 @@ class TakeoutActivity : BaseActivity(){
                                 val responseString = responseBody.string() // 응답을 문자열로 변환
                                 if (responseString.contains("포장 주문 성공")) {
 
-                                    // 웹소켓 해제
+                                    /*// 웹소켓 해제
                                     val clearWebSocket = WebSocketManager.getWebSocket()
                                     clearWebSocket?.let {
                                         WebSocketManager.disconnectWebSocket()
-                                    }
+                                    }*/
                                     Toast.makeText(this@TakeoutActivity, "성공: $responseString", Toast.LENGTH_LONG).show()
-                                    val intent = Intent(this@TakeoutActivity, MainActivity::class.java)
+                                    val intent = Intent(this@TakeoutActivity, PackingstatusActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                     startActivity(intent)
                                     finish()

@@ -3,6 +3,7 @@ package com.example.foodfix
 
 import MyWebSocketListener
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -38,7 +39,7 @@ class PackingstatusActivity : BaseActivity() {
 
         findViewById<TextView>(R.id.showlisttext).text = "포장 주문 내역"
 
-        // OkHttpClient 생성
+        /*// OkHttpClient 생성
         val client = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
             .build()
@@ -51,7 +52,7 @@ class PackingstatusActivity : BaseActivity() {
         val listener = MyWebSocketListener(getApplicationContext())
         val webSocket = client.newWebSocket(request, listener)
         // WebSocketManager에 웹소켓 설정
-        WebSocketManager.setWebSocket(webSocket)
+        WebSocketManager.setWebSocket(webSocket)*/
 
         val gson = GsonBuilder()
             .registerTypeAdapter(LocalDateTime::class.java, JsonDeserializer { json, _, _ ->
@@ -93,6 +94,7 @@ class PackingstatusActivity : BaseActivity() {
                             store_id = dto.store_id,
                             packing_date = dto.packing_date,
                             packing_time = dto.packing_time,
+                            minimumTime = dto.minimumTime,
                             totalPrice = dto.totalPrice,
                             user_comments = dto.user_comments,
                             payment_type = when (dto.payment_type) {
@@ -130,6 +132,8 @@ class PackingstatusActivity : BaseActivity() {
             clearWebSocket?.let {
                 WebSocketManager.disconnectWebSocket()
             }
+            val intent = Intent(this@PackingstatusActivity, MainActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }

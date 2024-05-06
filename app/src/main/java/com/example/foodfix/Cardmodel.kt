@@ -24,6 +24,7 @@ data class PackingCardModel(
     val totalPrice: Double,
     val packing_date: String,
     val packing_time: String,
+    val minimumTime: Int,
     val user_comments: String,
     val packing_status: String,
     val payment_type: String,
