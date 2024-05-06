@@ -9,6 +9,7 @@ import com.example.foodfix.MainActivity
 import com.example.foodfix.R
 import okhttp3.*
 import okio.ByteString
+import org.json.JSONObject
 
 class MyWebSocketListener(private val context: Context) : WebSocketListener() {
 
@@ -37,14 +38,20 @@ class MyWebSocketListener(private val context: Context) : WebSocketListener() {
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
-        val user_id = sharedPref.getString("user_id", "").toString() // 예시로 초기 메시지 가져오기
-        webSocket.send(user_id) // SharedPreferences에서 가져온 값을 전송
-        println("웹소켓 연결 성공, user: $user_id")
+        val userId = sharedPref.getString("user_id", "") // 사용자 아이디 가져오기
+        println("------------user_id: $userId")
+        val json = JSONObject().apply {
+            put("type", "user_id")
+            put("user_id", userId)
+        }
+        webSocket.send(json.toString())
+        println("웹소켓 연결 성공")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
         println("서버로부터 메시지 수신: $text")
+        //sharedPref.edit().putString("session_id", text).apply() // 세션 ID를 저장
         showNotification(text)
     }
 

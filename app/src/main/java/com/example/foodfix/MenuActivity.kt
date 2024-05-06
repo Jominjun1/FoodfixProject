@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -19,6 +20,18 @@ class MenuActivity : BaseActivity() {
         setContentView(R.layout.menu_detail)
 
         supportActionBar?.hide()
+
+        val imageArea = findViewById<ImageView>(R.id.menuimage)
+        val menu_image = intent.getStringExtra("memu_imagePath")
+        val parts = menu_image?.split("/")
+        val fileName = parts?.last()
+
+        // 이미지 로딩
+        Glide.with(imageArea)
+            .load("http://54.180.213.178:8080/images/${fileName}") // 서버에서 받은 이미지 URL
+            .placeholder(R.drawable.ic_launcher_foreground) // 로딩 중에 표시될 이미지
+            .error(R.drawable.ic_launcher_background) // 로딩 에러 발생 시 표시될 이미지
+            .into(imageArea)
 
         findViewById<Button>(R.id.menu_detailBackButton).setOnClickListener {
             finish()
