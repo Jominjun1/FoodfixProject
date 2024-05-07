@@ -67,49 +67,50 @@ const RestaurantInfo = () => {
     };
 
     return (
-        <div className="res-register-full-container">
+        <div className='res-register-full-container'>
             <div className='register-container'>
-                <div className="container-header">
-                    <div className="register-header">
-                        <span className="register-text">Restaurant Registration</span><span className="register-text">식당 등록</span>
+                <div className='container-header'>
+                    <div className='register-header'>
+                        <span className='register-text'>Restaurant Registration</span>
+                        <span className='register-text'>식당 등록</span>
                     </div>
-                    <div className="register-button">
+                    <div className='register-button'>
                         <button className='submit-button' onClick={handleSubmit}>등록하기</button>
                     </div>
                 </div>
 
                 <div className='total-container'>
-                    <div className="left-container">
-                        <div className="left-label-input-container">
+                    <div className='left-container'>
+                        <div className='left-label-input-container'>
                             <label htmlFor="restaurantImage">식당 사진</label>
-                            <input className="image-input" type="file" id="restaurantImage" accept="image/*" onChange={handleImageChange} />
+                            <input className='image-input' type="file" id="restaurantImage" accept="image/*" onChange={handleImageChange} />
                         </div>
-                        {previewImage && <img src={previewImage} alt="미리보기" className="preview-image" width={250} height={150}/>}
+                        {previewImage && <img src={previewImage} alt="미리보기" className='preview-image' width={250} height={150}/>}
                 
-                        <div className="left-label-input-container">
+                        <div className='left-label-input-container'>
                             <label htmlFor="restaurantName">식당 이름</label>
-                            <input className="info-input" type="text" id="restaurantName" value={restaurantName} onChange={(e) => setRestaurantName(e.target.value)} />
+                            <input className='info-input' type="text" id="restaurantName" value={restaurantName} onChange={(e) => setRestaurantName(e.target.value)} />
                         </div>
 
-                        <div className="left-label-input-container">
+                        <div className='left-label-input-container'>
                             <label htmlFor="phoneNumber">전화번호 </label>
-                            <input className="info-input" type="text" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                            <input className='info-input' type="text" id="phoneNumber" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
                         </div>
                         
-                        <div className="left-label-input-container">
+                        <div className='left-label-input-container'>
                             <label htmlFor="address">식당 주소</label>
-                            <input className="info-input" type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                            <input className='info-input' type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
                         </div>
 
-                        <div className="left-label-input-container">
+                        <div className='left-label-input-container'>
                             <label htmlFor="storeDescription">식당 설명</label>
-                            <input className="info-input" type="text" id="storeDescription" value={storeDescription} onChange={(e) => setStoreDescription(e.target.value)} />
+                            <input className='info-input' type="text" id="storeDescription" value={storeDescription} onChange={(e) => setStoreDescription(e.target.value)} />
                         </div>
                     </div>
 
-                    <div className="right-container">
+                    <div className='right-container'>
                         <label htmlFor="foodtype">식당 음식 종류</label>
-                        <select className="select-style" value={foodCategory} onChange={(e) => setFoodCategory(e.target.value)}>
+                        <select className='select-style' value={foodCategory} onChange={(e) => setFoodCategory(e.target.value)}>
                             <option value="">음식 종류를 선택하세요</option>
                             <option value="한식">한식</option>
                             <option value="양식">양식</option>
@@ -123,13 +124,13 @@ const RestaurantInfo = () => {
                         </select>
                         
                         <label htmlFor="opentime">시작 시간 / 마감 시간</label>
-                        <div className="time-input-container">
-                            <input className="time-input" type="time" id="openTime" value={openTime} onChange={(e) => setOpenTime(e.target.value)} />
-                            <input className="time-input" type="time" id="closeTime" value={closeTime} onChange={(e) => setCloseTime(e.target.value)} />
+                        <div className='time-input-container'>
+                            <input className='time-input' type="time" id="openTime" value={openTime} onChange={(e) => setOpenTime(e.target.value)} />
+                            <input className='time-input' type="time" id="closeTime" value={closeTime} onChange={(e) => setCloseTime(e.target.value)} />
                         </div>
                         
                         <label htmlFor="takeouttime">포장 준비 시간</label>
-                        <select className="select-style" value={timeCategory} onChange={(e) => setTimeCategory(e.target.value)}>
+                        <select className='select-style' value={timeCategory} onChange={(e) => setTimeCategory(e.target.value)}>
                             <option value="">시간을 선택하세요</option>
                             <option value="10">10분</option>
                             <option value="20">20분</option>
@@ -145,14 +146,14 @@ const RestaurantInfo = () => {
                         </div>
                         
                         {reservationsAllowed && (
-                            <div className="reservation-input-container">
-                                <div className="input-row">
+                            <div className='reservation-input-container'>
+                                <div className='input-row'>
                                     <label htmlFor="maxReservations">예약 최대 가능 팀</label>
-                                    <input className="res-input" type="number" id="maxReservations" value={maxReservations} onChange={(e) => setMaxReservations(e.target.value)} />
+                                    <input className='res-input' type="number" id="maxReservations" value={maxReservations} onChange={(e) => setMaxReservations(e.target.value)} />
                                 </div>
-                                <div className="input-row">
+                                <div className='input-row'>
                                     <label htmlFor="reservationCancelTime">예약 취소 가능 시간(시간:분)</label>
-                                    <input className="info-input" type="text" id="reservationCancelTime" value={reservationCancelTime} onChange={(e) => setReservationCancelTime(e.target.value)} />
+                                    <input className='info-input' type="text" id="reservationCancelTime" value={reservationCancelTime} onChange={(e) => setReservationCancelTime(e.target.value)} />
                                 </div>
                             </div>
                         )}

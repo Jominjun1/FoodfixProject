@@ -139,52 +139,52 @@ const RestaurantInquiry = () => {
     };
 
     return (
-        <div className="restaurant-full-container">
-            <div className="restaurant-container">
-                <div className="res-title-container">
-                    <div className="res-title">
+        <div className='restaurant-full-container'>
+            <div className='restaurant-container'>
+                <div className='res-title-container'>
+                    <div className='res-title'>
                         <span className='title-text'>Restaurant Information</span><span className="title-text">{storeInfo.store_name} ({storeInfo.store_id})</span>
                     </div>
-                    <div className="res-button">
-                        <div className="submit-button" onClick={handleOpenModal}>식당 수정</div>
-                        <div className="submit-button" onClick={handleDeleteRestaurant}>식당 삭제</div> 
+                    <div className='res-button'>
+                        <div className='submit-button' onClick={handleOpenModal}>식당 수정</div>
+                        <div className='submit-button' onClick={handleDeleteRestaurant}>식당 삭제</div> 
                     </div>
                 </div>
 
-                <div className="res-info-total-container">
-                    <div className="info-left-container">
+                <div className='res-info-total-container'>
+                    <div className='info-left-container'>
                         <img src={storeImageSrc} alt="매장 이미지" width={550} height={400}/>
                     </div>
 
-                    <div className="right-container">
-                        <div className="right-label-input-container">
+                    <div className='right-container'>
+                        <div className='right-label-input-container'>
                             <p>식당 설명</p><span>{storeInfo.store_intro}</span>
                         </div>
-                        <div className="right-label-input-container">
+                        <div className='right-label-input-container'>
                             <p>식당 주소</p><span>{storeInfo.store_address}</span>
                         </div>
-                        <div className="right-label-input-container">
+                        <div className='right-label-input-container'>
                             <p>식당 전화번호</p><span>{storeInfo.store_phone}</span>
                         </div>
-                        <div className="right-label-input-container">
+                        <div className='right-label-input-container'>
                             <p>음식 카테고리</p><span>{storeInfo.store_category}</span>
                         </div>
-                        <div className="right-label-input-container">
+                        <div className='right-label-input-container'>
                             <p>오픈 시간 / 마감 시간</p><span>{storeInfo.openTime} / {storeInfo.closeTime}</span>
                         </div>
-                        <div className="right-label-input-container">
+                        <div className='right-label-input-container'>
                             <p>포장 최소 준비 시간</p><span>{storeInfo.minimumTime}분</span>
                         </div>
-                        <p className="reservation-text">예약 가능 여부 / 예약 최대 가능팀 / 예약 취소 가능 시간</p>
-                        <span className="right-container-span">{storeInfo.res_status === '1' ? '가능' : '불가능'} / {storeInfo.res_max}팀 / 예약시간 {cancelHour}시 {cancelMinute}분전까지 가능</span>
+                        <p className='reservation-text'>예약 가능 여부 / 예약 최대 가능팀 / 예약 취소 가능 시간</p>
+                        <span className='right-container-span'>{storeInfo.res_status === '1' ? '가능' : '불가능'} / {storeInfo.res_max}팀 / 예약시간 {cancelHour}시 {cancelMinute}분전까지 가능</span>
                     </div>
                 </div>
             </div>
 
             {editModalOpen && (
-                <div className="edit-modal">
-                    <div className="edit-modal-content">
-                        <span className="edit-modal-close" onClick={handleCloseModal}>&times;</span><br />
+                <div className='edit-modal'>
+                    <div className='edit-modal-content'>
+                        <span className='edit-modal-close' onClick={handleCloseModal}>&times;</span><br />
                         <label htmlFor="store_image">식당 사진</label><br />
                         <input type="file" id="store_image" name="store_image" onChange={handleInputChange} /><br />
                 
@@ -234,7 +234,7 @@ const RestaurantInquiry = () => {
 
                 
                         {restaurantInfo.res_status && (
-                            <div className="reservation-input-container">
+                            <div className='reservation-input-container'>
                                 <label htmlFor="res_max">예약 최대 가능 팀</label><br />
                                 <input type="number" id="res_max" name="res_max" value={restaurantInfo.res_max} onChange={handleInputChange} /><br />
                         
@@ -242,7 +242,7 @@ const RestaurantInquiry = () => {
                                 <input type="text" name="reservationCancel" value={restaurantInfo.reservationCancel} onChange={handleInputChange} /><br />
                             </div>
                         )}
-                        <button className="edit-submit-button" onClick={handleSubmit}>수정하기</button>
+                        <button className='edit-submit-button' onClick={handleSubmit}>수정하기</button>
                     </div>
                 </div>
             )}

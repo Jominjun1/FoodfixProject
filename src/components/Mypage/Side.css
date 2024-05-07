@@ -6,7 +6,7 @@
 }
 
 .side {
-    width: 200px;
+    width: 13vw;
     background-color: #569b5d24;
     color: white;
     display: flex;
@@ -17,8 +17,8 @@
 }
   
 .profile {
-    width: 150px;
-    height: 50px;
+    width: 10vw;
+    height: 7vh;
     margin-top: 30px;
     margin-bottom: 10px;
     margin-left: auto;
@@ -31,6 +31,7 @@
 .restaurant-info,
 .edit-restaurant,
 .menu-info,
+.restaurant-sales,
 .withdrawal {
     color: rgb(255, 255, 255);
     padding: 8px 0;
@@ -40,10 +41,10 @@
     border-radius: 30px;
     text-decoration: none;
     display: block;
-    width: 150px;
-    font-size: 16px;
+    width: 10vw;
+    font-size: 1vw;
     margin-top: 10px;
-    margin-left: 25px;
+    margin-left: 1.4vw;
     font-family: 'NanumSquareRound';
 }
 
@@ -51,7 +52,7 @@
 .edit-user:hover,
 .leave-user:hover,
 .restaurant-info:hover,
-.edit-restaurant:hover,
+.restaurant-sales:hover,
 .menu-info:hover,
 .withdrawal:hover {
     color: #b5b5b5;
@@ -67,11 +68,11 @@
     border-radius: 30px;
     text-decoration: none;
     display: block;
-    width: 150px;
-    font-size: 16px;
+    width: 10vw;
+    font-size: 1vw;
     margin-top: auto;
     margin-bottom: 30px;
-    margin-left: 25px;
+    margin-left: 1.4vw;
     font-family: 'NanumSquareRound';
 }
 .back:hover {
@@ -88,13 +89,61 @@
     border-radius: 30px;
     text-decoration: none;
     display: block;
-    width: 150px;
-    font-size: 16px;
+    width: 10vw;
+    font-size: 1vw;
     margin-top: 10px;
-    margin-left: 25px;
+    margin-left: 1.4vw;
 }
 
 .logout:hover {
     color: #b5b5b5;
     background-color: white;
+}
+
+.password-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+}
+
+.password-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: auto;
+}
+
+.password-modal-content input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.password-modal-content button {
+    padding: 10px 20px;
+    background-color: #95d28a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.password-modal-content button:hover {
+    background-color: #479f37;
 }

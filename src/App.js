@@ -6,26 +6,25 @@ import Mainpage from './components/Mainpage/Mainpage';
 import Restaurant from './components/Restaurant/RestaurantInfo';
 import RestaurantInquiry from './components/Restaurant/RestaurantInquiry';
 import Menu from './components/Menu/Menu';
-import Information from './components/Information/Content';
+import Content from './components/Information/Content';
 import Mypage from './components/Mypage/Mypage';
 
 function App() {
   return (
-      <Router>
-        <div>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/" element={<Mainpage />} />
-            <Route path='/info' element={<Information />} />
-            <Route path='/restaurant' element={<Restaurant />} />
-            <Route path='/restaurant-info' element={<RestaurantInquiry />} />
-            <Route path ='/menu' element={<Menu />} />
-            <Route path='/mypage' element={<Mypage />} />
-          </Routes>
-        </div>
-      </Router>
-    
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<Mainpage />} />
+          <Route path='/content' element={<Content />} /> 
+          <Route path='/restaurant' element={<Restaurant />} />
+          <Route path='/restaurant-info' element={<RestaurantInquiry />} />
+          <Route path ='/menu' element={<Menu />} />
+          <Route path='/mypage' element={<Mypage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

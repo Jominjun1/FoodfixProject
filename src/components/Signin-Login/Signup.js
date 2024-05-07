@@ -75,12 +75,12 @@ const Signup = () => {
                 <img src='/images/logo.png' alt="푸드픽스 로고" onClick={handleHomeClick} />
             </div>
 
-            <div className="signup-container">
-                <div className="signup-header">
-                    <div className="header">
-                        Welcome to FoodFix<span className="signup-text">Sign Up</span>
+            <div className='signup-container'>
+                <div className='signup-header'>
+                    <div className='header'>
+                        Welcome to FoodFix<span className='signup-text'>Sign Up</span>
                     </div>
-                    <div className="signup-prompt">
+                    <div className='signup-prompt'>
                         Have an Account?<span onClick={() => { navigate('/login'); }}>Sign In</span>
                     </div>
                 </div>

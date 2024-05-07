@@ -1,91 +1,163 @@
-.order {
+.order-info-view {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 50px;
 }
 
-.top-logo {
-    margin-left: 700px;
-    margin-top: 40px;
+.order-info-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 80px;
+    margin-top: 30px;
+    width: 80%;
+}
+
+.order-items-container {
+    position: relative;
+    background-color: #f1f1f1;
+    border: 1px solid #f1f1f1;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
     margin-bottom: 30px;
 }
 
-.order-container {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
-
-.order-content-background {
-    width: 90vw;
-    height: 50vh;
-    max-height: 260px;
-    background-color: #f2f2f2;
+.order-items {
+    background-color: #f9f8f8;
+    border: 1px solid #f9f8f8;
     border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+    margin-bottom: 60px;
 }
 
-.order-content-background h3 {
-    margin-left: 2vw;
+.order-items-container:hover {
+    background-color: #D4E9BB;
 }
 
-.person-info {
-    margin-top: 40px;
-    margin-left: 50px;
-    font-size: 20px;
+.order-name,
+.order-price,
+.order-description {
+    margin-top: 5px;
 }
 
-.person-info span {
-    margin-left: 5px;
-    margin-right: 40px;
-    background-color: #fffffff1;
-    padding: 10px 20px;
-    border-radius: 10px;
+.order-name {
+    font-size: 22px;
+    font-weight: bold;
 }
 
-.order-info {
+.order-description {
+    cursor: pointer;
+}
+
+.order-buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+}
+
+.order-buttons button {
+    margin: 0 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #8fbc8fc3;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.order-buttons button:hover {
+    background-color: #14521b;
+}
+
+.plus-info-add-button {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+}
+
+.plus-info-add-button button {
+    width: 40px;
+    height: 40px;
+    background-color: #99C76B;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    font-size: 35px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-plus-info-modal {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    margin-left: 50px;
-    margin-top: 40px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    overflow: hidden;
+}
+      
+.order-plus-info-modal-content {
+    background-color: #eceeec;
+    padding: 60px;
+    width: 60vw;
+    max-width: 500px;
+    height: 60vh;
+    max-height: 500px;
+    overflow-y: scroll; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: center;
 }
 
-.order-info strong {
-    font-size: 20px;
-}
-
-.order-info span {
-    margin-right: 20px;
-    margin-left: 10px;
-    background-color: #fffffff1;
+.order-modal-button {
+    margin: 0 5px;
     padding: 10px 20px;
-    border-radius: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #8fbc8fc3;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+    white-space: nowrap;
 }
 
-.clock-icon {
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
+.order-modal-button:hover {
+    background-color: #14521b;
 }
 
-.order-button-groups {
-    margin-left: 1150px; 
-    display: flex;
-    flex-direction: column; 
-    margin-top: -140px; 
+.order-plus-info-modal-close {
+    position: absolute;
+    top: 10px;
+    right: calc(50% - 10px); 
+    cursor: pointer;
+    font-size: 24px;
+    color: #aaa;
 }
 
-.order-button-groups button {
-    margin-top: 10px;
-    background-color: #d5d5d5; 
-    border: none; 
-    border-radius: 10px; 
-    padding: 10px 20px; 
-    font-size: 18px;
-}
-
-.order-button-groups button:hover {
-    background-color: #fffffff1;
+.order-plus-info-modal-close:hover,
+.order-plus-info-modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }

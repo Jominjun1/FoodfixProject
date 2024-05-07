@@ -4,6 +4,8 @@ import './OrderManagement.css';
 
 const OrderManagement = () => {
     const [orders, setOrders] = useState([]);
+    const [filteredOrders, setFilteredOrders] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchOrders = async () => {
         try {
@@ -13,8 +15,15 @@ const OrderManagement = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            const filteredOrders = response.data.filter(order => order.packing_status !== "2" && order.packing_status !== "3");
-            setOrders(filteredOrders);
+            const allOrders = response.data;
+            const filteredOrders = allOrders.filter(order => order.packing_status !== "2" && order.packing_status !== "3")
+                .sort((a, b) => {
+                    const dateA = new Date(`${a.packing_date} ${a.packing_time}`);
+                    const dateB = new Date(`${b.packing_date} ${b.packing_time}`);
+                    return dateA - dateB;
+                });
+            setOrders(allOrders);
+            setFilteredOrders(filteredOrders);
         } catch (error) {
             console.error('Error fetching orders:', error);
         }
@@ -29,7 +38,7 @@ const OrderManagement = () => {
             order.packing_id === packing_id ? { ...order, packing_status } : order
         );
 
-        setOrders(updatedOrders); 
+        setOrders(updatedOrders);
 
         try {
             const token = sessionStorage.getItem('token');
@@ -47,45 +56,76 @@ const OrderManagement = () => {
         }
     };
 
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const calculateTotalPrice = (order) => {
+        let totalPrice = 0;
+        if (order.menuItemDTOList) {
+            order.menuItemDTOList.forEach(menuItem => {
+                totalPrice += menuItem.quantity * menuItem.menu_price;
+            });
+        }
+        return totalPrice;
+    };
+
     return (
         <div>
-            {orders.map((order, index) => (
-                <div key={index} className="order-container">
-                    <div className="order-content-background">
-                        <div>
-                            <h3>{index + 1}</h3>
-                            <div className='person-info'>
-                                <strong>주문 번호</strong><span>{order.packing_id}</span>
-                                <strong>고객 아이디</strong><span>{order.user_id}</span>
-                                <strong>고객 전화번호</strong><span>{order.user_phone}</span>
-                                <strong>포장 주문 상태</strong><span>{order.packing_status}</span>
-                            </div>
-                            <div className='order-info'>
-                                <strong>날짜 </strong><span>{order.packing_date}</span>
-                                <strong>시간 </strong><span>{order.packing_time}</span>
-                                <strong>주문목록</strong>
-                                <ul>
-                                    {order.menuItemDTOList && order.menuItemDTOList.map((menuItem, index) => (
-                                        <li key={index}>{menuItem.menu_name} - 수량: {menuItem.quantity}</li>
-                                    ))}
-                                </ul>
-                                <strong>요청사항 </strong><span>{order.user_comments}</span>
-                            </div>
-                            <div className='order-button-groups'>
-                                <div>
-                                    <button onClick={() => updateOrderStatus(order.packing_id, 2)}>주문 취소하기</button>
-                                </div>
-                                <div>
-                                    <button onClick={() => updateOrderStatus(order.packing_id, 1)}>주문 확정하기</button>
-                                </div>
-                                <div>
-                                    <button onClick={() => updateOrderStatus(order.packing_id, 3)}>주문 완료하기</button>
+            <div className='plus-info-add-button'>
+                <button onClick={openModal}>+</button>
+            </div>
+
+            <div className='order-info-view'>
+                <div className='order-info-container'>
+                    {filteredOrders.map(order => (
+                        <div className='order-items-container' key={order.packing_id}>
+                            <div className='order-items'>
+                                <p className='order-name'>주문 번호 : {order.packing_id}</p>
+                                <p className='order-price'>고객 정보 : {order.user_id} ({order.user_phone})</p>
+                                <p className='order-description'>상태 : {order.packing_status === "0" ? "대기" : "확정"}</p>
+                                <p className='order-description'>날짜 : {order.packing_date}</p>
+                                <p className='order-description'>시간 : {order.packing_time}</p>
+                                <p className='order-list'>주문 목록 : {order.menuItemDTOList && order.menuItemDTOList.map((menuItem, index) => (
+                                    `${menuItem.menu_name} x ${menuItem.quantity}${index !== order.menuItemDTOList.length - 1 ? ' / ' : ''}`
+                                ))}
+                                </p>
+                                <p className='order-description'>총 가격: {calculateTotalPrice(order)}</p>
+
+                                <div className='order-buttons'>
+                                    <button onClick={() => updateOrderStatus(order.packing_id, 1)}>확정</button>
+                                    <button onClick={() => updateOrderStatus(order.packing_id, 2)}>취소</button>
+                                    <button onClick={() => updateOrderStatus(order.packing_id, 3)}>완료</button>
                                 </div>
                             </div>
                         </div>
+                    ))}
+                </div>
+            </div>
+
+            {isModalOpen && (
+                <div className='order-plus-info-modal'>
+                    <div className='order-plus-info-modal-content'>
+                        <span className='order-plus-info-modal-close' onClick={closeModal}>&times;</span>
+                        {orders.map(order => (
+                            (order.packing_status === "2" || order.packing_status === "3") && 
+                            <div className='order-items-container' key={order.packing_id}>
+                                <p>주문 번호: {order.packing_id}</p>
+                                <p>고객 정보: {order.user_id} ({order.user_phone})</p>
+                                <p>상태: {order.packing_status === "2" ? "취소" : "완료"}</p>
+                                <p>날짜: {order.packing_date}</p>
+                                <p>시간: {order.packing_time}</p>
+                                <p className='order-description'>총 가격: {calculateTotalPrice(order)}</p>
+                                <button className='order-modal-button' onClick={() => updateOrderStatus(order.packing_id, 1)}>확정</button>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            ))}
+            )}
         </div>
     );
 };

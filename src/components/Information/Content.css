@@ -1,35 +1,31 @@
-.my-body {
-    margin: auto;
-    width: 100vw;
-}
-  
 .header-content {
-    padding: 20px;
     display: flex;
-    align-items: center;
     justify-content: space-between; 
+    align-items: center;
+    padding: 20px;
     font-size: 20px;
-    width: 100%; 
+    position: relative; 
 }
 
 .logo {
-    flex: 0 0 auto;
+    margin-right: auto;
+    margin-top: -10px;
 }
 
 .tab-buttons {
     display: flex;
     justify-content: center;
-    margin-right: 650px; 
-    margin-top: 20px;
+    flex-grow: 1;
+    white-space: nowrap;
+    margin-top: 10px;
 }
 
 .tab-buttons button {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 1.3vw;
     color: #464646;
-    margin-right: 50px; 
     border-bottom: 2px solid transparent;
     padding-bottom: 10px;
     font-family: 'NanumSquareB', Arial, sans-serif;
@@ -43,6 +39,18 @@
     margin-right: 0;
 }
 
+.tab-buttons button:not(:last-child) {
+    margin-right: 50px; 
+    margin-left: -160px;
+}
+
 .tab-buttons button.selected {
-    border-bottom-color: #ababab;
+    border-bottom-color: #8fbc8fc3;
+}
+
+.websocket-notification {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    text-align: center;
 }

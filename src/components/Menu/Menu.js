@@ -189,24 +189,24 @@ const Menu = () => {
 
     return (
         <div>
-            <div className="menu-page-header">
-                <div className="menu-top-logo">
+            <div className='menu-page-header'>
+                <div className='menu-top-logo'>
                     <img src='/images/logo.png' alt="푸드픽스 로고" onClick={handleHomeClick} />
                 </div>
-                <div className="menu-page-title">
+                <div className='menu-page-title'>
                     <span>메뉴 관리</span>
                 </div>
-                <div className="menu-add-button">
-                    <button className="add-button" onClick={openModal}>+</button>
+                <div className='menu-add-button'>
+                    <button className='add-button' onClick={openModal}>+</button>
                 </div>
             </div>
 
             {isModalOpen && (
-                <div className="menu-modal">
-                    <div className="menu-modal-content">
-                        <span className="close" onClick={closeModal}>&times;</span>
+                <div className='menu-modal'>
+                    <div className='menu-modal-content'>
+                        <span className='close' onClick={closeModal}>&times;</span>
                         <input type="file" accept="image/*" onChange={handleImageChange} />
-                        {menuImagePreview && <img src={menuImagePreview} alt="메뉴 이미지" className="menu-image-preview" />}
+                        {menuImagePreview && <img src={menuImagePreview} alt="메뉴 이미지" className='menu-image-preview' />}
                         <input type="text" placeholder="메뉴 이름" value={menuName} onChange={handleMenuNameChange} />
                         <input type="text" placeholder="가격" value={menuPrice} onChange={handleMenuPriceChange} />
                         <input type="text" placeholder="메뉴 설명" value={menuDescription} onChange={handleMenuDescriptionChange} />
@@ -215,14 +215,14 @@ const Menu = () => {
                 </div>
             )}
 
-            <div className="menu-info-view">
-                <div className="menu-info-container">
+            <div className='menu-info-view'>
+                <div className='menu-info-container'>
                     {menuList.map(menu => (
-                        <div className="menu-items" key={menu.menu_id}>
+                        <div className='menu-items' key={menu.menu_id}>
                             <img src={menu.menu_image} alt={menu.menu_name} />
-                            <p className="menu-name">{menu.menu_name} ({menu.menu_id})</p>
-                            <p className="menu-price">가격: {menu.menu_price}</p>
-                            <p className="menu-description" onClick={() => toggleDescription(menu.menu_id)}>
+                            <p className='menu-name'>{menu.menu_name} ({menu.menu_id})</p>
+                            <p className='menu-price'>가격: {menu.menu_price}</p>
+                            <p className='menu-description' onClick={() => toggleDescription(menu.menu_id)}>
                                 {menu.explanation.length > 10 && !menu.showFullDescription ? (
                                     <>
                                         {menu.explanation.substring(0, 10)}...
@@ -231,7 +231,7 @@ const Menu = () => {
                                     menu.explanation
                                 )}
                             </p>
-                            <div className="menu-buttons">
+                            <div className='menu-buttons'>
                                 <button onClick={() => handleEdit(menu.menu_id)}>수정하기</button>
                                 <button onClick={() => handleDelete(menu.menu_id)}>삭제하기</button>
                             </div>
@@ -240,11 +240,11 @@ const Menu = () => {
                 </div>
             </div>
             {editMenu && (
-                <div className="menu-modal">
-                    <div className="menu-modal-content">
-                        <span className="close" onClick={() => setEditMenu(null)}>&times;</span>
+                <div className='menu-modal'>
+                    <div className='menu-modal-content'>
+                        <span className='close' onClick={() => setEditMenu(null)}>&times;</span>
                         <input type="file" accept="image/*" onChange={handleImageEdit} />
-                        {editMenuImagePreview && <img src={editMenuImagePreview} alt="미리보기" className="menu-image-preview" />}
+                        {editMenuImagePreview && <img src={editMenuImagePreview} alt="미리보기" className='menu-image-preview' />}
                         <input type="text" placeholder="메뉴 이름" value={editMenu.menu_name} onChange={e => setEditMenu({ ...editMenu, menu_name: e.target.value })} />
                         <input type="text" placeholder="가격" value={editMenu.menu_price} onChange={e => setEditMenu({ ...editMenu, menu_price: e.target.value })} />
                         <input type="text" placeholder="메뉴 설명" value={editMenu.explanation} onChange={e => setEditMenu({ ...editMenu, explanation: e.target.value })} />
@@ -257,4 +257,3 @@ const Menu = () => {
 };
 
 export default Menu;
-

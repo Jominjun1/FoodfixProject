@@ -51,7 +51,7 @@ const EditUser = () => {
     };
 
     return (
-        <div className="editpage-container">
+        <div className='editpage-container'>
             <h2>관리자 정보 수정</h2>
             <form onSubmit={handleSubmit}>
                 <div>

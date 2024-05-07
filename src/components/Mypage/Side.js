@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Side.css';
 
-const Side = ({ onEditClick, onInfoClick }) => {
+const Side = ({ onEditClick, onInfoClick, onSaleClick }) => {
     const navigate = useNavigate();
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [password, setPassword] = useState('');
 
     const handleHomeClick = () => {
         navigate('/');
@@ -73,15 +75,39 @@ const Side = ({ onEditClick, onInfoClick }) => {
             }
         }
     };
+
+    const handleEditClick = () => {
+        setShowPasswordModal(true);
+        setPassword('');
+    };
+
+    const handleEditUser = () => {
+        onEditClick();
+        setShowPasswordModal(false);
+    };
     
     return (
-        <div className="side">
-            <img src='/images/logo.png' alt='logo' className="profile" onClick={handleHomeClick} />
-            <div className="user-info" onClick={onInfoClick}>회원 정보 조회</div> 
-            <div className="edit-user" onClick={onEditClick}>회원 정보 수정</div> 
-            <div className="logout" onClick={handleLogout}>로그아웃</div> 
-            <div className="withdrawal" onClick={handleWithdrawal}>회원 탈퇴</div>
+        <div className='side'>
+            <img src='/images/logo.png' alt='logo' className='profile' onClick={handleHomeClick} />
+            <div className='user-info' onClick={onInfoClick}>회원 정보 조회</div> 
+            <div className='edit-user' onClick={handleEditClick}>회원 정보 수정</div> 
+            <div className='restaurant-sales' onClick={onSaleClick}>매장 매출 정보</div> 
+            <div className='logout' onClick={handleLogout}>로그아웃</div> 
+            <div className='withdrawal' onClick={handleWithdrawal}>회원 탈퇴</div>
             <div onClick={goBack} className="back">뒤로 가기</div>
+            {showPasswordModal && (
+                <div className='password-modal'>
+                    <div className='password-modal-content'>
+                        <input
+                            type="password"
+                            placeholder="비밀번호를 입력하세요"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <button onClick={handleEditUser}>확인</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

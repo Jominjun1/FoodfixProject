@@ -35,7 +35,7 @@ const Mainpage = () => {
             <MenuSection />
             <InformationSection />
             {showScroll && (
-                <button className="scroll-top" onClick={scrollToTop}>
+                <button className='scroll-top' onClick={scrollToTop}>
                     <FaRegArrowAltCircleUp />
                 </button>
             )}

@@ -30,7 +30,7 @@ const AdminInfo = () => {
     }, []);
 
     return (
-        <div className="admininfo_container">
+        <div className='admininfo_container'>
             <h2>관리자 정보</h2>
             <div>
                 <p><strong>ID</strong><br></br><span>{userData.admin_id}</span></p>
