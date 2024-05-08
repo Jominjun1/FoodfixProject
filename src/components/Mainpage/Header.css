@@ -17,7 +17,7 @@
     top: 0;
     left: 0;
     width: 100vw;
-    background-color: transparent; /* 배경색을 투명으로 설정 */
+    background-color: transparent; 
     z-index: 1000;
 }
 
