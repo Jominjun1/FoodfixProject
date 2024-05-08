@@ -30,7 +30,7 @@ public class OrderController {
         List<ReservationDTO> reservationResult = storeService.reservationStore(reservationDTO);
 
         if (reservationResult != null) {
-            webSocketHandler.sendPacking(reservationDTO.getStore_id(), "예약 주문 생성");
+            webSocketHandler.sendReservation(reservationDTO.getStore_id(), "예약 주문 생성");
             return ResponseEntity.ok("예약 주문 성공");
         } else {
             return ResponseEntity.badRequest().body("예약 실패");

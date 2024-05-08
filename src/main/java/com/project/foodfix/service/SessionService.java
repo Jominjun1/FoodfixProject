@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,10 +35,20 @@ public class SessionService {
     public void removeSession(String session_id){
         webSessionRepository.deleteBySession(session_id);
     }
-    public Optional<String> findStoreSession(Long store_id) {
-        return webSessionRepository.findByStoreId(store_id);
+    public Optional<List<String>> findStoreSession(Long store_id) {
+        List<String> storeSS_ids = webSessionRepository.findByStoreId(store_id);
+        if (!storeSS_ids.isEmpty()) {
+            return Optional.of(storeSS_ids);
+        } else {
+            return Optional.empty();
+        }
     }
-    public Optional<String> findUserSession(String user_id) {
-        return webSessionRepository.findByUserId(user_id);
+    public Optional<List<String>> findUserSession(String user_id) {
+        List<String> storeSS_ids = webSessionRepository.findByUserId(user_id);
+        if (!storeSS_ids.isEmpty()) {
+            return Optional.of(storeSS_ids);
+        } else {
+            return Optional.empty();
+        }
     }
 }
