@@ -4,14 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.RadioGroup
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.foodfix.databinding.TakeoutMenuBinding
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -183,7 +181,6 @@ class TakeoutActivity : BaseActivity(){
                 Toast.makeText(this@TakeoutActivity, "전화번호와 요청사항을 입력해주세요.", Toast.LENGTH_LONG).show()
             }
             else {
-
                 service.createPackingOrder(packingOrder).enqueue(object : Callback<ResponseBody>{
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>){
                         if (response.isSuccessful){
@@ -191,12 +188,6 @@ class TakeoutActivity : BaseActivity(){
                             response.body()?.let { responseBody ->
                                 val responseString = responseBody.string() // 응답을 문자열로 변환
                                 if (responseString.contains("포장 주문 성공")) {
-
-                                    /*// 웹소켓 해제
-                                    val clearWebSocket = WebSocketManager.getWebSocket()
-                                    clearWebSocket?.let {
-                                        WebSocketManager.disconnectWebSocket()
-                                    }*/
                                     Toast.makeText(this@TakeoutActivity, "성공: $responseString", Toast.LENGTH_LONG).show()
                                     val intent = Intent(this@TakeoutActivity, PackingstatusActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -242,6 +233,9 @@ class TakeoutActivity : BaseActivity(){
             val editor = sharedPref.edit()
             editor.putString("menuList", strList)
             editor.apply()
+            val intent = Intent(this, RestaurantActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP // 현재 스택에 있는 1번 액티비티를 재사용
+            startActivity(intent)
             finish()
         }
     }

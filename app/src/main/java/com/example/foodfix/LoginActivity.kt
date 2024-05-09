@@ -1,5 +1,6 @@
 package com.example.foodfix
 
+import MyWebSocketListener
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -13,12 +14,15 @@ import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 
 class LoginActivity : BaseActivity() {
@@ -85,6 +89,8 @@ class LoginActivity : BaseActivity() {
                                 }
 
                                 Toast.makeText(this@LoginActivity, "Login Successful!", Toast.LENGTH_SHORT).show()
+                                // 웹소켓 연결
+                                connectWebSocket()
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
@@ -124,7 +130,29 @@ class LoginActivity : BaseActivity() {
             }
         }
     }
+    private fun connectWebSocket() {
 
+        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val userId = sharedPref.getString("user_id", "").toString() // 사용자 아이디 가져오기
+        // OkHttpClient 생성
+        val client = OkHttpClient.Builder()
+            .readTimeout(3, TimeUnit.SECONDS)
+            .build()
+
+        // 웹소켓 요청 생성
+        val request = Request.Builder()
+            .url("ws://54.180.213.178:8080/wsk?user_id=$userId")
+            .build()
+
+        // Context를 안전하게 전달
+        val listener = MyWebSocketListener(getApplicationContext())
+
+        // 웹소켓 생성 및 연결
+        val webSocket = client.newWebSocket(request, listener)
+
+        // WebSocketManager에 웹소켓 설정
+        WebSocketManager.setWebSocket(webSocket)
+    }
 }
 data class LoginRequest(val user_id: String, val user_pw: String)
 

@@ -141,8 +141,6 @@ class MainActivity : BaseActivity() {
                                     override fun onItemClick(position: Int) {
                                         // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                         val clickedItem = itemList[position]
-                                        // 웹소켓 연결
-                                        connectWebSocket()
                                         Log.d(
                                             "MainActivity",
                                             "Clicked store_id: ${clickedItem.store_id}"
@@ -219,8 +217,6 @@ class MainActivity : BaseActivity() {
                                 override fun onItemClick(position: Int) {
                                     // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
                                     val clickedItem = itemList[position]
-                                    // 웹소켓 연결
-                                    connectWebSocket()
                                     Log.d(
                                         "MainActivity",
                                         "Clicked store_id: ${clickedItem.store_id}"
@@ -284,29 +280,5 @@ class MainActivity : BaseActivity() {
             startActivity(intent)
             finish()
         }
-    }
-
-    private fun connectWebSocket() {
-
-        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
-        val userId = sharedPref.getString("user_id", "").toString() // 사용자 아이디 가져오기
-        // OkHttpClient 생성
-        val client = OkHttpClient.Builder()
-            .readTimeout(3, TimeUnit.SECONDS)
-            .build()
-
-        // 웹소켓 요청 생성
-        val request = Request.Builder()
-            .url("ws://54.180.213.178:8080/wsk?user_id=$userId")
-            .build()
-
-        // Context를 안전하게 전달
-        val listener = MyWebSocketListener(getApplicationContext())
-
-        // 웹소켓 생성 및 연결
-        val webSocket = client.newWebSocket(request, listener)
-
-        // WebSocketManager에 웹소켓 설정
-        WebSocketManager.setWebSocket(webSocket)
     }
 }

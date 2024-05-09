@@ -52,22 +52,6 @@ class ReservationstatusActivity : BaseActivity() {
 
         supportActionBar?.hide()
 
-        // 웹소켓 연결
-        // OkHttpClient 생성
-        val client = OkHttpClient.Builder()
-            .readTimeout(3, TimeUnit.SECONDS)
-            .build()
-
-        // 웹소켓 요청 생성
-        val request = Request.Builder()
-            .url("ws://54.180.213.178:8080/wsk")
-            .build()
-
-        val listener = MyWebSocketListener(getApplicationContext())
-        val webSocket = client.newWebSocket(request, listener)
-        // WebSocketManager에 웹소켓 설정
-        WebSocketManager.setWebSocket(webSocket)
-
         val itemList = mutableListOf<ReservationCardModel>()
 
         val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
@@ -122,11 +106,6 @@ class ReservationstatusActivity : BaseActivity() {
         findViewById<TextView>(R.id.showlisttext).text = "식당 예약 현황"
 
         findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
-            //웹소켓 해제
-            val clearWebSocket = WebSocketManager.getWebSocket()
-            clearWebSocket?.let {
-                WebSocketManager.disconnectWebSocket()
-            }
             val intent = Intent(this, MypageActivity::class.java)
             startActivity(intent)
             finish()
