@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -158,6 +159,7 @@ class MainActivity : BaseActivity() {
                                             putExtra("openTime", clickedItem.openTime)
                                             putExtra("closeTime", clickedItem.closeTime)
                                         }
+
                                         resultLauncher.launch(intent)
                                     }
                                 })
@@ -235,6 +237,7 @@ class MainActivity : BaseActivity() {
                                         putExtra("closeTime", clickedItem.closeTime)
                                         putExtra("imagePath", clickedItem.imagePath)
                                     }
+                                    editor.putString("store_image", clickedItem.imagePath).apply()
                                     resultLauncher.launch(intent)
                                 }
                             })

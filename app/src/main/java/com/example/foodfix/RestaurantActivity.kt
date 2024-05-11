@@ -54,9 +54,10 @@ class RestaurantActivity : BaseActivity() {
         supportActionBar?.hide()
 
         val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
 
         val imageArea = findViewById<ImageView>(R.id.restaurantimage)
-        val storimage = intent.getStringExtra("imagePath")
+        val storimage = sharedPref.getString("store_image", null)
         val parts = storimage?.split("/")
         val fileName = parts?.last()
 
@@ -201,4 +202,26 @@ class RestaurantActivity : BaseActivity() {
             }
         }
     }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent) // 새 인텐트로 현재 인텐트를 갱신
+
+        val sharedPref = getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+        val imagePath = sharedPref.getString("store_image", null)
+
+        val parts = imagePath?.split("/")
+        val fileName = parts?.last()
+
+        if (imagePath != null) {
+            val imageArea = findViewById<ImageView>(R.id.restaurantimage)
+            Glide.with(this)
+                .load("http://54.180.213.178:8080/images/${fileName}")
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .error(R.drawable.ic_launcher_background)
+                .into(imageArea)
+        }
+    }
+
+
 }

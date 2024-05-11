@@ -72,6 +72,7 @@ class ReservationstatusActivity : BaseActivity() {
             override fun onResponse(call: Call<List<ReservationCardModel>>, response: Response<List<ReservationCardModel>>) {
                 if (response.isSuccessful) {
                     val reservation = response.body() ?: emptyList()
+                    Log.d("-------------서버 식당 예약 코드 : ", "$reservation")
                     val cardItems = reservation.map { dto ->
                         ReservationCardModel(
                             reservation_id = dto.reservation_id,
