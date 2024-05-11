@@ -102,10 +102,16 @@ class MypageActivity : BaseActivity() {
                             apply()
                         }
 
-                        Toast.makeText(this@MypageActivity, "Logout Successful", Toast.LENGTH_SHORT).show()
+                        // 웹소켓 해제
+                        val clearWebSocket = WebSocketManager.getWebSocket()
+                        clearWebSocket?.let {
+                            WebSocketManager.disconnectWebSocket()
+                        }
 
-                        // 로그아웃 성공 후, 로그인 화면 또는 원하는 화면으로 이동
+                        Toast.makeText(this@MypageActivity, "Logout Successful", Toast.LENGTH_SHORT).show()
+                        // 로그아웃 성공 후, 로그인 화면으로 이동
                         val intent = Intent(this@MypageActivity, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         finish()
                     } else {

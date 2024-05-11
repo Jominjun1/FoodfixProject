@@ -156,7 +156,8 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            >
 
             <Button
                 android:id="@+id/orderButton"
@@ -184,6 +185,5 @@
                 android:layout_height="match_parent"
                 android:text="즐겨\n찾기" />
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

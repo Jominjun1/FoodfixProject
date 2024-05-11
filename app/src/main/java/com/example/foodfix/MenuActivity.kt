@@ -101,6 +101,7 @@ class MenuActivity : BaseActivity() {
             val intent = Intent(this@MenuActivity, TakeoutActivity::class.java)
             intent.putExtra("store_id", store_id)
             startActivity(intent)
+            finish()
         }
     }
 
