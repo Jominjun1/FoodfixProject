@@ -1,11 +1,13 @@
 package com.example.foodfix
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class PackingCardAdapter(val revervationitems: MutableList<PackingCardModel>) : RecyclerView.Adapter<PackingCardAdapter.ViewHolder>() {
@@ -53,6 +55,13 @@ class PackingCardAdapter(val revervationitems: MutableList<PackingCardModel>) : 
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val selectedItem = revervationitems[position]
+                    val menuItemDetails = selectedItem.menuItemDTOList?.joinToString(separator = "\n") {
+                        "${it.menu_name}: ${it.quantity}개 - ${it.menu_price}원"
+                    }
+
+                    // 메뉴 정보를 Toast 메시지로 표시
+                    Toast.makeText(itemView.context, "메뉴 정보:\n$menuItemDetails", Toast.LENGTH_LONG).show()
+
                     Log.d("PackingCardAdapter", "Selected Item's menuItemDTOList: ${selectedItem.menuItemDTOList}")
                 }
             }

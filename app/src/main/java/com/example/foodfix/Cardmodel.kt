@@ -13,11 +13,11 @@ data class ReviewCardModel(
 data class ReservationCardModel(
     val store_id: Long,
     val reservation_id: Long,
-    val reservation_date: String,
-    val reservation_time: String,
+    val reservation_date: String = " ",
+    val reservation_time: String = " ",
     val num_people: Int,
     val user_comments: String,
-    val reservation_status: String
+    val reservation_status: String?
 )
 data class PackingCardModel(
     val packing_id: Long,
