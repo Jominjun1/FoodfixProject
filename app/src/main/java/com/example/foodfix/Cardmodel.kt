@@ -32,13 +32,7 @@ data class PackingCardModel(
     val payment_type: String,
     val menuItemDTOList: List<MenuDTO>? = emptyList()
 )
-data class PackingMenuDto(
-    val menu_id: String,
-    val menu_price: String,
-    val menu_name: String,
-    val quantity: String,
-    val total_price: Double
-)
+
 data class StoreDTO(
     val store_id: Long,
     val store_name: String,
