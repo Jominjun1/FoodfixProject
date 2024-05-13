@@ -61,7 +61,8 @@
 
 # **4. 프로젝트 구조**
 
-![푸드픽스 구조](https://github.com/Jominjun1/FoodfixProject/assets/116476333/0a9a3a5c-2de4-44f6-a214-378f708b2e07)
+![푸드픽스 구조](https://github.com/Jominjun1/FoodfixProject/assets/116476333/2a6a22aa-ebc0-4874-a4fb-40d71ffcecff)
+
 
   
 # **5. 작품 소개 사진**
