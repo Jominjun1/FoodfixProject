@@ -8,7 +8,7 @@
 </div>
 
 
- [RESTful API 명세서](https://github.com/Jominjun1/FoodfixProject/RESTful_API_specification.md){:target="_blank"}
+ [RESTful API 명세서](https://github.com/Jominjun1/FoodfixProject/RESTful_API_specification.md)
 
 
 
