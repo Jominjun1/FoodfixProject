@@ -8,7 +8,8 @@
 </div>
 
 
-[API 명세서](https://github.com/Jominjun1/FoodfixProject/RESTful_API_specification.md)
+[API 명세서](https://raw.githubusercontent.com/Jominjun1/FoodfixProject/main/assets/116476333/a65a081c-191d-4599-a109-27df6a853870)
+
 
 # **0. 팀원 소개 및 역할**
 
