@@ -22,7 +22,8 @@ data class ReservationCardModel(
 data class PackingCardModel(
     val packing_id: Long,
     val store_id: Long,
-    val totalPrice: Double,
+    val store_name: String,
+    val total_price: Double,
     val packing_date: String,
     val packing_time: String,
     val minimumTime: Int,
@@ -30,6 +31,13 @@ data class PackingCardModel(
     val packing_status: String,
     val payment_type: String,
     val menuItemDTOList: List<MenuDTO>? = emptyList()
+)
+data class PackingMenuDto(
+    val menu_id: String,
+    val menu_price: String,
+    val menu_name: String,
+    val quantity: String,
+    val total_price: Double
 )
 data class StoreDTO(
     val store_id: Long,
@@ -68,9 +76,9 @@ data class PackingOrder(
 
 data class MenuDTO(
     val menu_id: String,
-    var menu_price: String,
+    val menu_price: String,
     val menu_name: String,
-    var quantity: String,
+    val quantity: String
 )
 
 data class MenuItemDTO(

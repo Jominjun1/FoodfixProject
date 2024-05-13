@@ -149,7 +149,7 @@ class TakeoutActivity : BaseActivity(){
             for (item in itemList) {
                 val newMenu = MenuDTO(
                     menu_id = item.menu_id.toString(),
-                    menu_price = item.initialPrice.toString(),
+                    menu_price = item.menu_price.toString(),
                     menu_name = item.menu_name,
                     quantity = item.quantity.toString()
                 )
@@ -182,11 +182,11 @@ class TakeoutActivity : BaseActivity(){
             }
             else {
                 service.createPackingOrder(packingOrder).enqueue(object : Callback<ResponseBody>{
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>){
-                        if (response.isSuccessful){
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        if (response.isSuccessful) {
                             // 포장 성공 처리
-                            response.body()?.let { responseBody ->
-                                val responseString = responseBody.string() // 응답을 문자열로 변환
+                            response.body()?.use { responseBody ->
+                                val responseString = responseBody.string() // 응답을 문자열로 변환, 자동으로 리소스 해제
                                 if (responseString.contains("포장 주문 성공")) {
                                     Toast.makeText(this@TakeoutActivity, "성공: $responseString", Toast.LENGTH_LONG).show()
                                     val intent = Intent(this@TakeoutActivity, PackingstatusActivity::class.java)
@@ -198,13 +198,16 @@ class TakeoutActivity : BaseActivity(){
                                     Toast.makeText(this@TakeoutActivity, "응답: $responseString", Toast.LENGTH_LONG).show()
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             // 예약 실패 처리
-                            val errorMessage = response.errorBody()?.string()
-                            Log.e("Packing", "포장 실패: $errorMessage")
+                            response.errorBody()?.use { errorBody ->
+                                val errorMessage = errorBody.string()
+                                Log.e("Packing", "포장 실패: $errorMessage")
+                                Toast.makeText(this@TakeoutActivity, "포장 실패: $errorMessage", Toast.LENGTH_LONG).show()
+                            }
                         }
                     }
+
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         // 네트워크 오류 처리
                         Log.e("Packing", "네트워크 오류: ${t.message}")
@@ -235,8 +238,9 @@ class TakeoutActivity : BaseActivity(){
             editor.apply()
             val intent = Intent(this, RestaurantActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP // 현재 스택에 있는 1번 액티비티를 재사용
+            intent.putExtra("store_id", store_id)
             startActivity(intent)
-            finish()
+            //finish()
         }
     }
 

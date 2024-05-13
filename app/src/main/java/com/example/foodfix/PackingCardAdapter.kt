@@ -78,12 +78,13 @@ class PackingCardAdapter(val revervationitems: MutableList<PackingCardModel>) : 
             val packingstatus = itemView.findViewById<TextView>(R.id.packingstatus)
 
             val menuItemDTOList = packingCardModel.menuItemDTOList
+            val store_name = packingCardModel.store_name
 
             packing_id.text = packingCardModel.packing_id.toString()
             store_id.text = packingCardModel.store_id.toString()
             date.text = packingCardModel.packing_date
             time.text = packingCardModel.packing_time
-            price.text = packingCardModel.totalPrice.toString()
+            price.text = packingCardModel.total_price.toString()
             payment_type.text = packingCardModel.payment_type
             packingcomment.text = packingCardModel.user_comments
             packingstatus.text = packingCardModel.packing_status
