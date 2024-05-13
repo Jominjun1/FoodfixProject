@@ -1,5 +1,5 @@
 <div align="center">
- # <font size=15>FoodFix</font>
+ <font size=15>FoodFix</font>
 <br>2024 Capstone Project
 <br>당신의 맛있는 한줄
 </div>
