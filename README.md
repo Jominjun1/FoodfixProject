@@ -1,8 +1,8 @@
 <div align="center">
 
 # FoodFix
-## 2024 Capstone Project
-### 당신의 맛있는 한 줄
+ 2024 Capstone Project
+ 당신의 맛있는 한 줄
 
 </div>
 
