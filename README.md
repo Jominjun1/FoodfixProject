@@ -1,8 +1,7 @@
 <div align="center">
  # <span>FoodFix </span>
-* * *
-    2024 Capstone Project
-    당신의 맛있는 한줄
+<br>2024 Capstone Project
+<br>당신의 맛있는 한줄
 </div>
 ---
 
