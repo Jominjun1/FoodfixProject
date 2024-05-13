@@ -1,5 +1,11 @@
-### FoodFix Project
+<div align="center">
+ ### <span>FoodFix </span>
+ 2024 Capstone Project
+ 당신의 맛있는 한줄
+</div>
 ---
+
+#FOOD FIX RESTful API 명세서 >> 
 
 # **0. 팀원 소개 및 역할**
 
