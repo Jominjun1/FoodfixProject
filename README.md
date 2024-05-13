@@ -1,11 +1,11 @@
 <div align="center">
- <font size=15>FoodFix</font>
+ <font size=30>FoodFix</font>
 <br>2024 Capstone Project
 <br>당신의 맛있는 한줄
 </div>
 ---
 
-#FOOD FIX RESTful API 명세서 >> 
+#RESTful API 명세서 >> 
 
 # **0. 팀원 소개 및 역할**
 
