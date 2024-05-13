@@ -1,6 +1,7 @@
 <div align="center">
 
-# FoodFix
+#![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/dfee9127-fb5e-4211-a328-032170c74449)
+ FoodFix
  2024 Capstone Project<br>
  당신의 맛있는 한 줄
 
