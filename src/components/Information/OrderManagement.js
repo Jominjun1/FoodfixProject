@@ -34,12 +34,6 @@ const OrderManagement = () => {
     }, []);
 
     const updateOrderStatus = async (packing_id, packing_status) => {
-        const updatedOrders = orders.map(order =>
-            order.packing_id === packing_id ? { ...order, packing_status } : order
-        );
-
-        setOrders(updatedOrders);
-
         try {
             const token = sessionStorage.getItem('token');
             await axios.put(`${process.env.REACT_APP_SERVER_URL}/admin/updatePacking`, {
@@ -50,11 +44,20 @@ const OrderManagement = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+    
+            const updatedOrders = orders.map(order =>
+                order.packing_id === packing_id ? { ...order, packing_status } : order
+            );
+    
+            setOrders(updatedOrders);
+            
+            fetchOrders();
         } catch (error) {
             console.error('Error updating order status:', error);
             fetchOrders();
         }
     };
+    
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -77,7 +80,7 @@ const OrderManagement = () => {
     return (
         <div>
             <div className='plus-info-add-button'>
-                <button onClick={openModal}>+</button>
+                <button onClick={openModal}>=</button>
             </div>
 
             <div className='order-info-view'>
@@ -113,7 +116,7 @@ const OrderManagement = () => {
                         <span className='order-plus-info-modal-close' onClick={closeModal}>&times;</span>
                         {orders.map(order => (
                             (order.packing_status === "2" || order.packing_status === "3") && 
-                            <div className='order-items-container' key={order.packing_id}>
+                            <div className='order-items-container-modal' key={order.packing_id}>
                                 <p>주문 번호: {order.packing_id}</p>
                                 <p>고객 정보: {order.user_id} ({order.user_phone})</p>
                                 <p>상태: {order.packing_status === "2" ? "취소" : "완료"}</p>

@@ -34,12 +34,6 @@ const ResManagement = () => {
     }, []);
 
     const updateReservationStatus = async (reservation_id, reservation_status) => {
-        const updatedReservations = reservations.map(reservation =>
-            reservation.reservation_id === reservation_id ? { ...reservation, reservation_status } : reservation
-        );
-
-        setReservations(updatedReservations);
-
         try {
             const token = sessionStorage.getItem('token');
             await axios.put(`${process.env.REACT_APP_SERVER_URL}/admin/updateReservation`, {
@@ -50,6 +44,14 @@ const ResManagement = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+
+            const updatedReservations = reservations.map(reservation =>
+                reservation.reservation_id === reservation_id ? { ...reservation, reservation_status } : reservation
+            );
+            
+            setReservations(updatedReservations);
+            fetchReservations();
+
         } catch (error) {
             console.error('Error updating order status:', error);
             fetchReservations();
@@ -67,7 +69,7 @@ const ResManagement = () => {
     return (
         <div>
             <div className='plus-info-add-button'>
-                <button onClick={openModal}>+</button>
+                <button onClick={openModal}>=</button>
             </div>
 
             <div className='res-info-view'>

@@ -35,7 +35,6 @@ const Header = () => {
                 </div>
 
                 <div className='nav-buttons'>
-                    <button className='nav-button' onClick={() => handleScrollToSection('main')}>푸드픽스 소개</button>
                     <button className='nav-button' onClick={() => handleScrollToSection('restaurant')}>식당 등록 및 관리</button>
                     <button className='nav-button' onClick={() => handleScrollToSection('menu')}>메뉴 등록 및 관리</button>
                     <button className='nav-button' onClick={() => handleScrollToSection('info')}>예약&주문 관리</button>

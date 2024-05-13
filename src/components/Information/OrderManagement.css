@@ -23,6 +23,9 @@
     font-family: 'TAEBAEKmilkyway';
     font-weight: bold;
     margin-bottom: 30px;
+    min-width: 350px;
+    max-width: 300px; 
+    margin: auto;
 }
 
 .order-items {
@@ -126,6 +129,19 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
     text-align: center;
+}
+
+.order-items-container-modal {
+    position: relative;
+    background-color: #f1f1f1;
+    border: 1px solid #f1f1f1;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-family: 'TAEBAEKmilkyway';
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .order-modal-button {

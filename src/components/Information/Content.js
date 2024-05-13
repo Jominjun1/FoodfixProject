@@ -8,10 +8,7 @@ import axios from 'axios';
 const Content = () => {
     const initialTab = localStorage.getItem('selectedTab') || 'resManagement';
     const [selectedTab, setSelectedTab] = useState(initialTab);
-    const [isWebSocketConnected, setWebSocketConnected] = useState(false);
     const navigate = useNavigate();
-    const [audio] = useState(new Audio('/images/alarm.mp3')); 
-
 
     useEffect(() => {
         let webSocket;
@@ -30,7 +27,6 @@ const Content = () => {
         
                 webSocket.onopen = () => {
                     console.log('웹 소켓 연결 성공.');
-                    setWebSocketConnected(true);
                     webSocket.send(JSON.stringify({ type: 'store_id', store_id: storeId }));
                     console.log('store_id를 서버로 전송했습니다:', storeId);
                 };
@@ -56,17 +52,6 @@ const Content = () => {
         };
     }, []);
 
-    useEffect(() => {
-        if (isWebSocketConnected) {
-            const playNotificationSound = () => {
-                audio.currentTime = 0;
-                audio.play();
-            };
-            
-            playNotificationSound();
-        }
-    }, [isWebSocketConnected, audio]);
-
     const handleTabSelect = (tabName) => {
         setSelectedTab(tabName);
         localStorage.setItem('selectedTab', tabName);
@@ -78,8 +63,8 @@ const Content = () => {
     
     return (
         <div>
-            <div className='header-content'>
-                <img src='/images/logo.png' alt="푸드픽스 로고" className='logo' onClick={handleHomeClick} />
+            <div className="header-content">
+                <img src='/images/logo.png' alt="푸드픽스 로고" className="logo" onClick={handleHomeClick} />
                 <div className="tab-buttons">
                     <button onClick={() => handleTabSelect('resManagement')} className={selectedTab === 'resManagement' ? 'selected' : ''}>
                         예약 관리
@@ -90,7 +75,7 @@ const Content = () => {
                 </div>
             </div>
 
-            <div className='content-area'>
+            <div className="content-area">
                 {selectedTab === 'resManagement' && <ResManagement />}
                 {selectedTab === 'orderManagement' && <OrderManagement />}
             </div>

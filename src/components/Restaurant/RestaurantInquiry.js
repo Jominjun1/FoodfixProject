@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './RestaurantInquiry.css'; 
+import { useNavigate } from 'react-router-dom';
 
 const RestaurantInquiry = () => {
+    const navigate = useNavigate();
+
     const [storeInfo, setStoreInfo] = useState(null);
     const [storeImageSrc, setStoreImageSrc] = useState('');
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -20,6 +23,7 @@ const RestaurantInquiry = () => {
         res_max: '',
         reservationCancel: '',
     });
+    const [reservationsAllowed, setReservationsAllowed] = useState(false);
 
     const handleOpenModal = () => {
         setEditModalOpen(true); 
@@ -42,6 +46,8 @@ const RestaurantInquiry = () => {
                 const store = response.data;
                 setStoreInfo(store);
                 setRestaurantInfo(response.data);
+
+                setReservationsAllowed(store.res_status === '1');
 
                 const imagePath = store.imagePath;
                 if (imagePath) {
@@ -89,9 +95,9 @@ const RestaurantInquiry = () => {
             formData.append('openTime', restaurantInfo.openTime);
             formData.append('closeTime', restaurantInfo.closeTime);
             formData.append('minimumTime', restaurantInfo.minimumTime);
-            formData.append('res_status', restaurantInfo.res_status);
-            formData.append('res_max', restaurantInfo.res_max);
-            formData.append('reservationCancel', restaurantInfo.reservationCancel);
+            formData.append('res_status', reservationsAllowed ? "1" : "0");
+            formData.append('res_max', reservationsAllowed ? restaurantInfo.res_max : 0);
+            formData.append('reservationCancel', reservationsAllowed ? restaurantInfo.reservationCancel : '00:00');
 
             await axios.put(`${process.env.REACT_APP_SERVER_URL}/admin/updatestore`, formData, {
                 headers: {
@@ -126,6 +132,7 @@ const RestaurantInquiry = () => {
                 if (response.status === 200) {
                     console.log('Restaurant deletion successful');
                     alert('식당이 삭제되었습니다.');
+                    navigate('/');
 
                     setStoreInfo(null);
                 } else {
@@ -176,7 +183,7 @@ const RestaurantInquiry = () => {
                             <p>포장 최소 준비 시간</p><span>{storeInfo.minimumTime}분</span>
                         </div>
                         <p className='reservation-text'>예약 가능 여부 / 예약 최대 가능팀 / 예약 취소 가능 시간</p>
-                        <span className='right-container-span'>{storeInfo.res_status === '1' ? '가능' : '불가능'} / {storeInfo.res_max}팀 / 예약시간 {cancelHour}시 {cancelMinute}분전까지 가능</span>
+                        <span className='right-container-span'>{storeInfo.res_status === '1' ? '가능' : '불가능'} / {storeInfo.res_max}팀 / 예약시간 {cancelHour}시간 {cancelMinute}분전까지 가능</span>
                     </div>
                 </div>
             </div>
@@ -230,10 +237,15 @@ const RestaurantInquiry = () => {
                         </select><br />
                 
                         <label htmlFor="res_status">예약 가능 여부</label><br />
-                        <input type="checkbox" id="res_status" name="res_status" checked={restaurantInfo.res_status} onChange={() => setRestaurantInfo({ ...restaurantInfo, res_status: !restaurantInfo.res_status })} /><br />
-
+                        <input 
+                            type="checkbox" 
+                            id="res_status" 
+                            name="res_status" 
+                            checked={reservationsAllowed} 
+                            onChange={() => setReservationsAllowed(!reservationsAllowed)} 
+                        /><br />
                 
-                        {restaurantInfo.res_status && (
+                        {reservationsAllowed && (
                             <div className='reservation-input-container'>
                                 <label htmlFor="res_max">예약 최대 가능 팀</label><br />
                                 <input type="number" id="res_max" name="res_max" value={restaurantInfo.res_max} onChange={handleInputChange} /><br />

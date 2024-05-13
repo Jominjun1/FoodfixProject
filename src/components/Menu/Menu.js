@@ -12,8 +12,6 @@ const Menu = () => {
     const [editMenuImagePreview, setEditMenuImagePreview] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const noImage = '/images/no_image.png';
-
     const [storeInfo, setStoreInfo] = useState(null);
     const [menuList, setMenuList] = useState([]);
     const [editMenu, setEditMenu] = useState(null);
@@ -52,6 +50,11 @@ const Menu = () => {
     };
 
     const handleSubmit = async () => {
+        if (!menuName || !menuPrice || !menuImage) {
+            alert('메뉴 사진, 이름, 가격은 필수 입력 사항입니다.');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('imageFile', menuImage);
         formData.append('menu_name', menuName);
@@ -67,7 +70,6 @@ const Menu = () => {
                 }
             });
             console.log('Success:', response.data);
-            alert('메뉴가 등록되었습니다.');
             closeModal(); 
             fetchMenuData();
         } catch (error) {
@@ -86,7 +88,7 @@ const Menu = () => {
             });
             const menuDataWithImages = await Promise.all(response.data.map(async (menu) => {
                 const imageName = menu.imagePath ? menu.imagePath.split('/').pop() : null;
-                const imageUrl = imageName ? `http://54.180.213.178:8080/images/${imageName}` : noImage;
+                const imageUrl = imageName && `http://54.180.213.178:8080/images/${imageName}`;
                 return { ...menu, menu_image: imageUrl };
             }));
             setMenuList(menuDataWithImages);
@@ -159,18 +161,21 @@ const Menu = () => {
     
 
     const handleDelete = async (menu_id) => {
-        try {
-            const token = sessionStorage.getItem('token');
-            await axios.delete(`${process.env.REACT_APP_SERVER_URL}/admin/deletemenu/${menu_id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            console.log('Delete menu:', menu_id);
-            fetchMenuData();
-        } catch (error) {
-            console.error('메뉴 삭제 중 에러:', error);
-        }
+        const confirmDelete = window.confirm('메뉴를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.');
+        if(confirmDelete){
+            try {
+                const token = sessionStorage.getItem('token');
+                await axios.delete(`${process.env.REACT_APP_SERVER_URL}/admin/deletemenu/${menu_id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                console.log('Delete menu:', menu_id);
+                fetchMenuData();
+            } catch (error) {
+                console.error('메뉴 삭제 중 에러:', error);
+            }
+        } 
     };
 
     const toggleDescription = (menuId) => {

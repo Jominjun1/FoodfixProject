@@ -33,20 +33,34 @@ const RestaurantInfo = () => {
     };
 
     const handleSubmit = async () => {
+        if (!restaurantName || !phoneNumber || !address) {
+            alert('식당 사진, 이름, 전화번호, 주소는 필수 입력 사항입니다.');
+            return;
+        }
+
+        const resMax = reservationsAllowed ? maxReservations : '0';
+        const resCancelTime = reservationsAllowed ? reservationCancelTime : '00:00';
+    
+        const foodCategoryValue = foodCategory || '정보 없음';
+        const openTimeValue = openTime || '00:00';
+        const closeTimeValue = closeTime || '00:00';
+        const timeCategoryValue = timeCategory || '00';
+        const storeDescriptionValue = storeDescription || '정보 없음';
+    
         const formData = new FormData();
         formData.append('imageFile', storeImage);
         formData.append('store_name', restaurantName);
         formData.append('store_phone', phoneNumber);
         formData.append('store_address', address);
-        formData.append('store_category', foodCategory);
-        formData.append('openTime', openTime);
-        formData.append('closeTime', closeTime);
-        formData.append('minimumTime', timeCategory);
+        formData.append('store_category', foodCategoryValue);
+        formData.append('openTime', openTimeValue);
+        formData.append('closeTime', closeTimeValue);
+        formData.append('minimumTime', timeCategoryValue);
         formData.append('res_status', reservationsAllowed ? "1" : "0");
-        formData.append('res_max', maxReservations);
-        formData.append('reservationCancel', reservationCancelTime);
-        formData.append('store_intro', storeDescription);
-
+        formData.append('res_max', resMax);
+        formData.append('reservationCancel', resCancelTime);
+        formData.append('store_intro', storeDescriptionValue);
+    
         try {
             const token = sessionStorage.getItem('token');
             const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/admin/newstore`, formData, {
@@ -65,6 +79,7 @@ const RestaurantInfo = () => {
             }
         }
     };
+    
 
     return (
         <div className='res-register-full-container'>
