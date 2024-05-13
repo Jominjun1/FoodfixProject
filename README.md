@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/dfee9127-fb5e-4211-a328-032170c74449" width="25%" height="25%">
+![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/6618c55f-f7af-4a78-a6a7-c91459636c78)
 
  #FoodFix
  2024 Capstone Project<br>
