@@ -8,8 +8,11 @@
 </div>
 
 
-[API 명세서]([https://raw.githubusercontent.com/Jominjun1/FoodfixProject/main/assets/116476333/a65a081c-191d-4599-a109-27df6a853870](https://github-production-user-asset-6210df.s3.amazonaws.com/116476333/330041422-a65a081c-191d-4599-a109-27df6a853870.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240513%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240513T114450Z&X-Amz-Expires=300&X-Amz-Signature=2fd1507d329c02cc8faab7f28918e31cc34b36857ad7911c76d5d39e9d2a2e77&X-Amz-SignedHeaders=host&actor_id=116476333&key_id=0&repo_id=763922415))
-
+<details>
+  <summary>푸드픽스 API 이미지 보기</summary>
+  
+  ![푸드픽스 API](https://github.com/Jominjun1/FoodfixProject/assets/116476333/a65a081c-191d-4599-a109-27df6a853870)
+</details>
 
 # **0. 팀원 소개 및 역할**
 
