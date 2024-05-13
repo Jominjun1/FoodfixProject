@@ -53,16 +53,16 @@
 
 "푸드픽스 관리 시스템"은 매장을 관리하는 사용자가 식당 운영을 더욱 효율적으로 관리할 수 있는 장점을 가지고 있습니다.
 
-# **3. 주요 적용 기술 및 구조**
+# **4. 프로젝트 구조 및 주요 적용 기술**
 
 * 개발 언어 : JavaScript, HTML, CSS, Java, Kotlin 
 * 개발 도구 : Visual Code, IntelliJ IDEA, Android Studio, Postman 
 * 주요 기술 : React, Spring boot, Spring Data JPA, RESTful API, MySQL
 
-# **4. 프로젝트 구조**
-
+<details>
+  <summary>푸드픽스 구조 보기</summary>
 ![푸드픽스 구조](https://github.com/Jominjun1/FoodfixProject/assets/116476333/2a6a22aa-ebc0-4874-a4fb-40d71ffcecff)
-
+</details>
 
   
 # **5. 작품 소개 사진**
