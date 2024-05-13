@@ -61,7 +61,9 @@
 
 <details>
   <summary>푸드픽스 구조 보기</summary>
-![푸드픽스 구조](https://github.com/Jominjun1/FoodfixProject/assets/116476333/2a6a22aa-ebc0-4874-a4fb-40d71ffcecff)
+ 
+![스크린샷 2024-05-13 204815](https://github.com/Jominjun1/FoodfixProject/assets/116476333/a06a1807-5c40-4943-b0cb-725292d5e00d)
+
 </details>
 
   
