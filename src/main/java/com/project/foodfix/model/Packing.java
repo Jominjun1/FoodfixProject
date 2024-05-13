@@ -19,7 +19,6 @@ public class Packing {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long packing_id; // 포장 번호
 
-    private Double totalPrice; // 총 가격
     private LocalDate packing_date; // 포장일
     private LocalTime packing_time; // 포장시간
     private String user_comments; // 사용자 요구사항
@@ -37,7 +36,10 @@ public class Packing {
     @JoinColumn(name = "store_id", nullable = false)
     private Store store; // 포장한 매장
 
-    @OneToMany(mappedBy = "packing", cascade = CascadeType.ALL)
-    private List<MenuItem> menus = new ArrayList<>();
+    @OneToMany(mappedBy = "packing")
+    private List<MenuItem> menuitem = new ArrayList<>();
+
+    @Transient
+    private String store_name;
 
 }

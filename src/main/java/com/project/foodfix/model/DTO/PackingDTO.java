@@ -20,6 +20,7 @@ public class PackingDTO {
 
     // 매장 정보
     private String store_phone;
+    private String store_name;
     private Long store_id;
     private Integer minimumTime;
 

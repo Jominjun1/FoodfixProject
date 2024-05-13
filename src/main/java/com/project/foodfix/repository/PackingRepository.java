@@ -21,6 +21,11 @@ public interface PackingRepository extends JpaRepository<Packing,Long> {
 
     @Transactional
     @Modifying
+    @Query("SELECT p FROM Packing p where p.user.id = :user_id")
+    List<Packing> findByUserId(@Param("user_id")String user_id);
+
+    @Transactional
+    @Modifying
     @Query("DELETE FROM Packing p WHERE p.store.store_id = :store_id")
     void deleteByStoreId(@Param("store_id") Long store_id);
 }

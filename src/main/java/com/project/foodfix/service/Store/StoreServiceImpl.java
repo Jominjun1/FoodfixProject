@@ -2,10 +2,7 @@ package com.project.foodfix.service.Store;
 
 import com.project.foodfix.model.*;
 import com.project.foodfix.model.DTO.*;
-import com.project.foodfix.repository.PackingRepository;
-import com.project.foodfix.repository.ReservationRepository;
-import com.project.foodfix.repository.StoreRepository;
-import com.project.foodfix.repository.UserRepository;
+import com.project.foodfix.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,57 +13,55 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreRepository storeRepository;
     private final ReservationRepository reservationRepository;
-
     private final UserRepository userRepository;
     private final PackingRepository packingRepository;
+    private final MenuItemRepository menuItemRepository;
+
     @Autowired
-    public StoreServiceImpl(StoreRepository storeRepository, ReservationRepository reservationRepository, UserRepository userRepository, PackingRepository packingRepository) {
+    public StoreServiceImpl(StoreRepository storeRepository, ReservationRepository reservationRepository, UserRepository userRepository, PackingRepository packingRepository, MenuItemRepository menuItemRepository) {
         this.storeRepository = storeRepository;
         this.reservationRepository = reservationRepository;
         this.userRepository = userRepository;
         this.packingRepository = packingRepository;
+        this.menuItemRepository = menuItemRepository;
     }
     /////// 포장 /////////
     @Override
     public List<PackingDTO> packingStore(PackingDTO packingDTO) {
-        double totalMenuPrice = 0.0; // 메뉴 총 가격
         User user = userRepository.findById(packingDTO.getUser_id()).orElse(null);
+        Store store = storeRepository.findById(packingDTO.getStore_id()).orElse(null);
 
         Packing packing = new Packing();
-
+        packing.setUser(user);
+        packing.setStore(store);
         packing.setPacking_date(packingDTO.getPacking_date());
         packing.setPacking_time(packingDTO.getPacking_time());
         packing.setUser_comments(packingDTO.getUser_comments());
         packing.setPayment_type(packingDTO.getPayment_type());
         packing.setPacking_status("0");
 
+        Packing savedPacking = packingRepository.save(packing);
+
+        List<MenuItemDTO> menuItemDTOList = packingDTO.getMenuItemDTOList();
+
         // 메뉴 정보 설정
-        for (MenuItemDTO menuItemDTO : packingDTO.getMenuItemDTOList()) {
+        for (MenuItemDTO menuItemDTO : menuItemDTOList) {
+            double totalMenuPrice = 0.0;
             MenuItem menuItem = new MenuItem();
             menuItem.setMenu_name(menuItemDTO.getMenu_name());
             menuItem.setMenu_price(menuItemDTO.getMenu_price());
             menuItem.setQuantity(menuItemDTO.getQuantity());
-            menuItem.setPacking(packing);
-
-            packing.getMenus().add(menuItem); // 포장에 메뉴 정보 추가
+            menuItem.setPacking(savedPacking);
             // 메뉴 가격 누적
             totalMenuPrice += menuItem.getMenu_price() * menuItem.getQuantity();
+            menuItem.setTotalPrice(totalMenuPrice);
+            menuItemRepository.save(menuItem);
         }
-        packing.setTotalPrice(totalMenuPrice);
-
-        // 사용자 정보 설정
-        packing.setUser(user);
-
-        // 매장 정보 설정
-        Store store = new Store();
-        store.setStore_id(packingDTO.getStore_id());
-        packing.setStore(store);
 
         // 저장된 예약을 반환
-        Packing savedPacking = packingRepository.save(packing);
-
         return Collections.singletonList(returnPackingDTO(savedPacking));
     }
+
     @Override
     public List<PackingDTO> getPacking(Long store_id) {
         List<Packing> packings = packingRepository.findByStoreId(store_id);
@@ -178,11 +173,13 @@ public class StoreServiceImpl implements StoreService {
         // 매장 정보 설정
         reservationDTO.setStore_id(reservation.getStore().getStore_id());
         reservationDTO.setStore_phone(reservation.getStore().getStore_phone());
+        reservationDTO.setStore_name(reservation.getStore().getStore_name());
 
         // 예약 날짜 설정
         reservationDTO.setReservation_date(reservation.getReservation_date());
         reservationDTO.setReservation_time(reservation.getReservation_time());
 
+        reservationDTO.setStore_name(reservation.getStore().getStore_name());
         return reservationDTO;
     }
     // Packing -> PackingDTO 변환
@@ -204,18 +201,55 @@ public class StoreServiceImpl implements StoreService {
         // 매장 정보 설정
         packingDTO.setStore_id(packing.getStore().getStore_id());
         packingDTO.setStore_phone(packing.getStore().getStore_phone());
+        packingDTO.setStore_name(packing.getStore().getStore_name());
 
         // 메뉴 정보 설정
         List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
-        for (MenuItem menuItem : packing.getMenus()) {
+        for (MenuItem menuItem : packing.getMenuitem()) {
             MenuItemDTO menuItemDTO = new MenuItemDTO(
-                    menuItem.getId(),
+                    menuItem.getMenuitem_id(),
                     menuItem.getMenu_price(),
+                    menuItem.getTotalPrice(),
                     menuItem.getMenu_name(),
-                    menuItem.getQuantity()
+                    menuItem.getQuantity(),
+                    menuItem.getPacking()
             );
             menuItemDTOList.add(menuItemDTO);
         }
+        packingDTO.setStore_name(packing.getStore().getStore_name());
+        packingDTO.setMenuItemDTOList(menuItemDTOList);
+        return packingDTO;
+    }
+    public PackingDTO PackingList(Packing packing) {
+        PackingDTO packingDTO = new PackingDTO();
+
+        packingDTO.setPacking_id(packing.getPacking_id());
+        packingDTO.setPacking_status(packing.getPacking_status());
+        packingDTO.setPacking_time(packing.getPacking_time());
+        packingDTO.setPacking_date(packing.getPacking_date());
+        packingDTO.setUser_comments(packing.getUser_comments());
+        packingDTO.setPayment_type(packing.getPayment_type());
+
+        packingDTO.setUser_id(packing.getUser().getUser_id());
+        packingDTO.setUser_phone(packing.getUser().getUser_phone());
+
+
+        packingDTO.setStore_id(packing.getStore().getStore_id());
+        packingDTO.setStore_phone(packing.getStore().getStore_phone());
+        packingDTO.setStore_name(packing.getStore().getStore_name());
+
+        List<MenuItemDTO> menuItemDTOList = new ArrayList<>();
+        List<MenuItem> menuItems = packing.getMenuitem();
+        for (MenuItem menuItem : menuItems) {
+            MenuItemDTO menuItemDTO = new MenuItemDTO();
+            menuItemDTO.setMenu_id(menuItem.getMenuitem_id());
+            menuItemDTO.setMenu_name(menuItem.getMenu_name());
+            menuItemDTO.setMenu_price(menuItem.getMenu_price());
+            menuItemDTO.setTotalPrice(menuItem.getTotalPrice());
+            menuItemDTO.setQuantity(menuItem.getQuantity());
+            menuItemDTOList.add(menuItemDTO);
+        }
+        packingDTO.setStore_name(packing.getStore().getStore_name());
         packingDTO.setMenuItemDTOList(menuItemDTOList);
 
         return packingDTO;

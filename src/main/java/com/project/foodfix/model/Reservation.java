@@ -33,4 +33,7 @@ public class Reservation {
     @JsonIgnore
     @JoinColumn(name = "store_id", nullable = false)
     private Store store; // 예약한 매장
+
+    @Transient
+    private String store_name;
 }

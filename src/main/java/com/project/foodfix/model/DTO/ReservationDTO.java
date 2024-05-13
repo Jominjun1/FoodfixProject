@@ -9,19 +9,20 @@ import java.time.LocalTime;
 @Setter
 public class ReservationDTO {
     // 사용자측 정보
-    private String user_id; // 사용자 ID
-    private String user_phone; // 사용자 전화번호
-    private String user_comments; // 사용자 요구사항
-    private LocalDate reservation_date; // 예약 날짜
-    private LocalTime reservation_time; // 예약 시간
-    private int people_cnt; // 예약 인원
+    private String user_id;
+    private String user_phone;
+    private String user_comments;
+    private LocalDate reservation_date;
+    private LocalTime reservation_time;
+    private int people_cnt;
 
     // 매장측 정보
-    private String store_phone; // 매장 전화번호
-    private Long store_id; // 매장 ID
+    private String store_phone;
+    private String store_name;
+    private Long store_id;
 
     // 예약 정보
-    private Long reservation_id; // 예약 ID
-    private String reservation_status; // 예약 상태
+    private Long reservation_id;
+    private String reservation_status;
 
 }

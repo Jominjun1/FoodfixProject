@@ -3,11 +3,14 @@ package com.project.foodfix.controller;
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
 import com.project.foodfix.model.DTO.MenuDTO;
+import com.project.foodfix.model.DTO.PackingDTO;
 import com.project.foodfix.model.Menu;
+import com.project.foodfix.model.Packing;
 import com.project.foodfix.model.Store;
 import com.project.foodfix.model.User;
 import com.project.foodfix.repository.StoreRepository;
 import com.project.foodfix.service.AuthService;
+import com.project.foodfix.service.Store.StoreServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
@@ -22,12 +25,14 @@ public class UserController {
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
     private final StoreRepository storeRepository;
+    private final StoreServiceImpl storeServiceImpl;
 
     @Autowired
-    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository) {
+    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, StoreServiceImpl storeServiceImpl) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.storeRepository = storeRepository;
+        this.storeServiceImpl = storeServiceImpl;
     }
     // 사용자 프로필 조회 API
     @GetMapping("/profile")
@@ -101,7 +106,13 @@ public class UserController {
 
         User user = (User) authService.getUser(user_id, UserType.USER);
         if (user != null) {
-            return ResponseEntity.ok(user.getPackings());
+            List<PackingDTO> packingDTOs = new ArrayList<>();
+            List<Packing> userPackings = user.getPackings();
+            for (Packing packing : userPackings) {
+                PackingDTO packingDTO = storeServiceImpl.PackingList(packing);
+                packingDTOs.add(packingDTO);
+            }
+            return ResponseEntity.ok(packingDTOs);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
