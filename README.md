@@ -8,9 +8,7 @@
 </div>
 
 
-# RESTful API 명세서
-
-[![푸드픽스 API](https://github.com/Jominjun1/FoodfixProject/assets/116476333/85053256-2c0f-4386-8c8e-7ef24e1f4ab5)](https://github.com/Jominjun1/FoodfixProject/RESTful_API_specification.md)
+# RESTful API 명세서 [![푸드픽스 API](https://github.com/Jominjun1/FoodfixProject/assets/116476333/85053256-2c0f-4386-8c8e-7ef24e1f4ab5)](https://github.com/Jominjun1/FoodfixProject/RESTful_API_specification.md)
 
 
 
