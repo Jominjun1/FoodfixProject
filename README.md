@@ -3,7 +3,6 @@
 ![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/6618c55f-f7af-4a78-a6a7-c91459636c78)
 
  2024 Capstone Project<br>
- 당신의 맛있는 한 줄
 
 </div>
 
