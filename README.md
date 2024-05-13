@@ -1,8 +1,8 @@
-
-# <span style="font-size:50px">FoodFix</span>
+<center>
+# <span style="font-size:50px";>FoodFix</span>
 <br>2024 Capstone Project
 <br>당신의 맛있는 한줄
-
+</center>
 ---
 
 #RESTful API 명세서 >> 
