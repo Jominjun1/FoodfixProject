@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="로그인"
-        android:background="@color/foodfix_green"
+        android:background="@drawable/home_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_pw" />
@@ -59,7 +59,7 @@
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/foodfix_green"
+        android:background="@drawable/home_button"
         android:text="회원가입"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

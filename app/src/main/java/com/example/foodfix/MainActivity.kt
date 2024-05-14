@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -80,13 +82,14 @@ class MainActivity : BaseActivity() {
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
 
-        findViewById<Button>(R.id.korean).setOnClickListener {
+
+        findViewById<ImageView>(R.id.korean).setOnClickListener {
             findViewById<TextView>(R.id.storeCate).text = "한식"
         }
-        findViewById<Button>(R.id.chicken).setOnClickListener {
+        findViewById<ImageView>(R.id.chicken).setOnClickListener {
             findViewById<TextView>(R.id.storeCate).text = "치킨"
         }
-        findViewById<Button>(R.id.western).setOnClickListener {
+        findViewById<ImageView>(R.id.western).setOnClickListener {
             findViewById<TextView>(R.id.storeCate).text = "양식"
         }
 
