@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#CECDCD</color>
     <color name="red">#F44336</color>
+    <color name="foodfix_light_green">#C1E399</color>
+    <color name="foodfix_green">#8BC34A</color>
 </resources>
