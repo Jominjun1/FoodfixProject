@@ -13,16 +13,17 @@ data class ReviewCardModel(
 data class ReservationCardModel(
     val store_id: Long,
     val reservation_id: Long,
-    val reservation_date: String,
-    val reservation_time: String,
+    val reservation_date: String = " ",
+    val reservation_time: String = " ",
     val num_people: Int,
     val user_comments: String,
-    val reservation_status: String
+    val reservation_status: String?
 )
 data class PackingCardModel(
     val packing_id: Long,
     val store_id: Long,
-    val totalPrice: Double,
+    val store_name: String,
+    val total_price: Double,
     val packing_date: String,
     val packing_time: String,
     val minimumTime: Int,
@@ -31,6 +32,7 @@ data class PackingCardModel(
     val payment_type: String,
     val menuItemDTOList: List<MenuDTO>? = emptyList()
 )
+
 data class StoreDTO(
     val store_id: Long,
     val store_name: String,
@@ -68,9 +70,9 @@ data class PackingOrder(
 
 data class MenuDTO(
     val menu_id: String,
-    var menu_price: String,
+    val menu_price: String,
     val menu_name: String,
-    var quantity: String,
+    val quantity: String
 )
 
 data class MenuItemDTO(

@@ -11,7 +11,7 @@
             android:id="@+id/maintoolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
+            android:background="@color/foodfix_green"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -37,7 +37,8 @@
         <HorizontalScrollView
             android:id="@+id/menu_scroll"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
+            android:background="@color/foodfix_light_green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/maintoolbar">
@@ -48,25 +49,78 @@
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/korean"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_vertical"
-                    android:text="한식" />
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
 
-                <Button
-                    android:id="@+id/chicken"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
+                    <ImageView
+                        android:id="@+id/korean"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/korean_food"
+                        android:scaleType="centerInside"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="한식"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_vertical"
-                    android:text="치킨" />
-                <Button
-                    android:id="@+id/western"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/chicken"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/chicken"
+                        android:scaleType="centerInside"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="치킨"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="양식" />
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/western"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/western"
+                        android:scaleType="centerInside"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="양식"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/button4"
                     android:layout_gravity="center_vertical"
@@ -99,6 +153,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="80dp"
+            android:background="@color/foodfix_light_green"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menu_scroll">
@@ -130,7 +185,9 @@
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+
                 android:text="검색"
+                android:background="@color/foodfix_green"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Filter"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -141,6 +198,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/foodfix_light_green"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -152,6 +210,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginBottom="1dp"
+            android:background="@color/foodfix_light_green"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -161,28 +220,38 @@
 
             <Button
                 android:id="@+id/orderButton"
-                android:layout_width="80dp"
+                android:layout_width="74dp"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:background="@color/foodfix_green"
                 android:text="포장\n주문" />
             <Button
                 android:id="@+id/reservationButton"
-                android:layout_width="80dp"
+                android:layout_width="74dp"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:background="@color/foodfix_green"
                 android:text="식당\n예약" />
             <Button
                 android:id="@+id/mapbutton"
-                android:layout_width="80dp"
+                android:layout_width="74dp"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:background="@color/foodfix_green"
                 android:text="지도" />
             <Button
                 android:id="@+id/Orderdetailsbutton"
-                android:layout_width="80dp"
+                android:layout_width="74dp"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:background="@color/foodfix_green"
                 android:text="주문\n내역" />
             <Button
                 android:id="@+id/Favoritesbutton"
-                android:layout_width="80dp"
+                android:layout_width="74dp"
                 android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:background="@color/foodfix_green"
                 android:text="즐겨\n찾기" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

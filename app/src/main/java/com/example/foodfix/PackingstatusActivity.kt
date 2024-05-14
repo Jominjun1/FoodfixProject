@@ -73,14 +73,25 @@ class PackingstatusActivity : BaseActivity() {
             override fun onResponse(call: Call<List<PackingCardModel>>, response: Response<List<PackingCardModel>>) {
                 if (response.isSuccessful) {
                     val packing = response.body() ?: emptyList()
+                    Log.d("---------------PackingState: ", "$packing")
                     val cardItems = packing.map { dto ->
+
+                        var total = 0.0 // 총합을 저장할 변수 초기화
+
+                        dto.menuItemDTOList?.forEach { item ->
+                            val price = item.menu_price.toDoubleOrNull() ?: 0.0 // total_price를 Double로 안전하게 변환
+                            val quantity = item.quantity.toDoubleOrNull() ?: 0.0 // quantity를 Double로 안전하게 변환
+                            total += price * quantity // 각 항목의 가격과 수량을 곱하여 total에 누적
+                        }
+
                         PackingCardModel(
                             packing_id = dto.packing_id,
                             store_id = dto.store_id,
+                            store_name = dto.store_name,
+                            total_price = total,
                             packing_date = dto.packing_date,
                             packing_time = dto.packing_time,
                             minimumTime = dto.minimumTime,
-                            totalPrice = dto.totalPrice,
                             user_comments = dto.user_comments,
                             payment_type = when (dto.payment_type) {
                                 "0" -> "앱결제"

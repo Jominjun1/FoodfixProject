@@ -77,11 +77,11 @@ class ReservationstatusActivity : BaseActivity() {
                         ReservationCardModel(
                             reservation_id = dto.reservation_id,
                             store_id = dto.store_id,
-                            reservation_date = dto.reservation_date,
-                            reservation_time = dto.reservation_time,
+                            reservation_date = dto.reservation_date ?: "날짜 없음",
+                            reservation_time = dto.reservation_time ?: "시간 없음",
                             num_people = dto.num_people,
-                            user_comments = dto.user_comments,
-                            reservation_status = when (dto.reservation_status) {
+                            user_comments = dto.user_comments ?: "요청사항 없음",
+                            reservation_status = when (dto.reservation_status ?: "5") {
                                 "0" -> "예약 대기"
                                 "1" -> "예약 성공"
                                 "2" -> "예약 취소"
