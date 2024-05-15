@@ -141,7 +141,7 @@ class RestaurantActivity : BaseActivity() {
             }
         })
 
-        findViewById<Button>(R.id.restaurant_detailBackButton).setOnClickListener {
+        findViewById<ImageView>(R.id.restaurant_detailBack).setOnClickListener {
             val intent = Intent(this@RestaurantActivity, MainActivity::class.java)
             startActivity(intent)
             finish()

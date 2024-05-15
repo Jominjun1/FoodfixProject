@@ -33,7 +33,7 @@ class MenuActivity : BaseActivity() {
             .error(R.drawable.ic_launcher_background) // 로딩 에러 발생 시 표시될 이미지
             .into(imageArea)
 
-        findViewById<Button>(R.id.menu_detailBackButton).setOnClickListener {
+        findViewById<ImageView>(R.id.menu_detailBack).setOnClickListener {
             finish()
         }
 

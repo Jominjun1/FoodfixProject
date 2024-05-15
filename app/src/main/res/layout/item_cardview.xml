@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/foodfix_green"
+    app:cardBackgroundColor="@color/white"
     android:padding="10dp"
     app:cardCornerRadius="12dp"
     android:clickable="true"
@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/home_button"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <ImageView
@@ -25,6 +25,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
+            android:background="@drawable/cardview"
             android:scaleType="centerCrop" />
 
         <LinearLayout

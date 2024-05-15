@@ -109,5 +109,4 @@ class TakeoutmenuAdapter( private val items: MutableList<MenuItemDTO>,
             }
         }
     }
-
 }

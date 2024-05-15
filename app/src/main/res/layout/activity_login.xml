@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/foodfix_light_green">
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/imageView3"
@@ -49,6 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="로그인"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         android:background="@drawable/home_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +63,8 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/home_button"
         android:text="회원가입"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />

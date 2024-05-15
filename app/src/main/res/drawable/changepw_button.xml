@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle"> <!-- 모양을 직사각형으로 설정 -->
-    <solid android:color="@color/foodfix_dark_green"/> <!-- 배경색 설정 -->
+    <solid android:color="#BC291F"/> <!-- 배경색 설정 -->
     <corners android:radius="12dp"/> <!-- 모서리를 둥글게 설정 -->
-
 </shape>

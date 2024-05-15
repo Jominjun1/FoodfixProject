@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,7 +50,7 @@ class FavoritesActivity : BaseActivity() {
 
         findViewById<TextView>(R.id.showlisttext).text = "즐겨 찾기"
 
-        findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
+        findViewById<ImageView>(R.id.showlistBack).setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
