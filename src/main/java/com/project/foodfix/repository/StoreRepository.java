@@ -41,4 +41,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Modifying
     @Query("DELETE FROM Store s WHERE s.store_id = :store_id")
     void deleteById(Long store_id);
+
+    @Transactional
+    @Modifying
+    @Query("SELECT s FROM Store s WHERE s.admin.admin_id = :admin_id")
+    List<Store> findByAdminId(String admin_id);
 }

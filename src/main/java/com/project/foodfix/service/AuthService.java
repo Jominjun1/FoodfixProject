@@ -23,9 +23,10 @@ public class AuthService {
     private final ReservationRepository reservationRepository;
     private final PackingRepository packingRepository;
     private final ImageService imageService;
+    private final MenuItemRepository menuItemRepository;
 
     @Autowired
-    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, PhotoRepository photoRepository, ReservationRepository reservationRepository, PackingRepository packingRepository, ImageService imageService) {
+    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, PhotoRepository photoRepository, ReservationRepository reservationRepository, PackingRepository packingRepository, ImageService imageService, MenuItemRepository menuItemRepository) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -35,6 +36,7 @@ public class AuthService {
         this.reservationRepository = reservationRepository;
         this.packingRepository = packingRepository;
         this.imageService = imageService;
+        this.menuItemRepository = menuItemRepository;
     }
     // 회원가입 기능
     public ResponseEntity<String> signup(Object user, UserType userType) {
@@ -122,11 +124,18 @@ public class AuthService {
             if (userType == UserType.USER) {
                 userRepository.deleteById(user_id);
             } else if (userType == UserType.ADMIN) {
-                adminRepository.deleteById(user_id);
+                Optional<Admin> adminDel = adminRepository.findById(user_id);
+                if (adminDel.isPresent()) {
+                    Admin admin = adminDel.get();
+                    Store store = admin.getStore();
+                    if (store != null) {
+                        deleteStore(store.getStore_id());
+                    }
+                }
+                ResponseEntity.ok("회원 탈퇴 성공");
+            } else {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("정보를 찾을 수 없음");
             }
-            ResponseEntity.ok("회원 탈퇴 성공");
-        } else {
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body("정보를 찾을 수 없음");
         }
     }
     // 매장 삭제
@@ -142,6 +151,7 @@ public class AuthService {
                     photoRepository.save(photo);
                 }
             }
+            packingRepository.deleteMenuItemsByStoreId(store_id);
             packingRepository.deleteByStoreId(store_id);
             reservationRepository.deleteByStoreId(store_id);
             // 매장과 연관된 메뉴들 삭제
@@ -237,6 +247,9 @@ public class AuthService {
         } else {
             adminRepository.save((Admin) user);
         }
+    }
+    private List<Store> findStoreByAdminId(String admin_id) {
+        return storeRepository.findByAdminId(admin_id);
     }
 }
 

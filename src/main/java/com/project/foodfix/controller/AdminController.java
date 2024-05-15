@@ -125,6 +125,7 @@ public class AdminController {
         if (admin != null) {
             authService.logout(admin_id, UserType.ADMIN);
             authService.deleteUser(admin_id, UserType.ADMIN);
+
             return ResponseEntity.ok("관리자 회원 탈퇴 성공");
         }
         return notFoundResponse();
