@@ -216,7 +216,7 @@ class TakeoutActivity : BaseActivity(){
             }
         }
 
-        findViewById<Button>(R.id.take_outBackButton).setOnClickListener {
+        findViewById<ImageView>(R.id.take_outBack).setOnClickListener {
 
             // itemList를 사용하여 새로운 데이터를 만듭니다.
             val takemenuList = mutableListOf<MenuItemDTO>()

@@ -3,6 +3,7 @@ package com.example.foodfix
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +26,7 @@ class RestaurantReviews : BaseActivity() {
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
-        findViewById<Button>(R.id.rest_reviewBackButton).setOnClickListener {
+        findViewById<ImageView>(R.id.rest_reviewBack).setOnClickListener {
             finish()
         }
     }

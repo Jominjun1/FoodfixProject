@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -106,9 +107,7 @@ class ReservationstatusActivity : BaseActivity() {
 
         findViewById<TextView>(R.id.showlisttext).text = "식당 예약 현황"
 
-        findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
-            val intent = Intent(this, MypageActivity::class.java)
-            startActivity(intent)
+        findViewById<ImageView>(R.id.showlistBack).setOnClickListener {
             finish()
         }
     }

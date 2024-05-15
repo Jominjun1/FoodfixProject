@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -122,7 +123,7 @@ class PackingstatusActivity : BaseActivity() {
             }
         })
 
-        findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
+        findViewById<ImageView>(R.id.showlistBack).setOnClickListener {
             val intent = Intent(this@PackingstatusActivity, MainActivity::class.java)
             startActivity(intent)
             finish()

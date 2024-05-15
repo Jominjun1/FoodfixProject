@@ -9,7 +9,7 @@
         android:id="@+id/profilemngtoolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="@color/foodfix_dark_green"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -19,15 +19,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="프로필 수정"
+            android:textColor="@color/white"
             android:textSize="22dp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/profilemngbackbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/profilemngback"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:layout_gravity="start"
-            android:text="나가기" />
+            android:background="@drawable/exit_button"
+            android:src="@drawable/icons_exit"/>
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
@@ -37,6 +39,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="30dp"
         android:text="탈퇴하기"
+        android:textColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilemngtoolbar" />
 
@@ -127,7 +130,10 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:background="@drawable/changepw_button"
         android:text="비밀번호 변경하기"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilemngaddress" />
@@ -138,6 +144,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
         android:text="저장"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@drawable/exit_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

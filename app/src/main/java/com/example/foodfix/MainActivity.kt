@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.ActivityMainBinding
@@ -81,24 +82,30 @@ class MainActivity : BaseActivity() {
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
 
+        val koreanLayout = findViewById<LinearLayout>(R.id.korean)
+        val chickenLayout = findViewById<LinearLayout>(R.id.chicken)
+        val westernLayout = findViewById<LinearLayout>(R.id.western)
 
+        val koreanText = findViewById<TextView>(R.id.text_korean)
+        val chickenText = findViewById<TextView>(R.id.text_chicken)
+        val westernText = findViewById<TextView>(R.id.text_western)
 
-        findViewById<ImageView>(R.id.korean).setOnClickListener {
-            findViewById<TextView>(R.id.storeCate).text = "한식"
-        }
-        findViewById<ImageView>(R.id.chicken).setOnClickListener {
-            findViewById<TextView>(R.id.storeCate).text = "치킨"
-        }
-        findViewById<ImageView>(R.id.western).setOnClickListener {
-            findViewById<TextView>(R.id.storeCate).text = "양식"
+        val layouts = listOf(koreanLayout, chickenLayout, westernLayout)
+        val texts = listOf(koreanText, chickenText, westernText)
+
+        layouts.zip(texts).forEach { (layout, text) ->
+            layout.setOnClickListener {
+                selectLayout(layout, layouts)
+                findViewById<TextView>(R.id.storeCate).text = text.text.toString()
+            }
         }
 
-        findViewById<Button>(R.id.reservationButton).setOnClickListener {
-            findViewById<TextView>(R.id.Filter).text = "예약"
-        }
-
-        findViewById<Button>(R.id.orderButton).setOnClickListener {
+        findViewById<LinearLayout>(R.id.orderButton).setOnClickListener {
             findViewById<TextView>(R.id.Filter).text = "포장"
+        }
+
+        findViewById<LinearLayout>(R.id.reservationButton).setOnClickListener {
+            findViewById<TextView>(R.id.Filter).text = "예약"
         }
 
         findViewById<Button>(R.id.searchButton).setOnClickListener {
@@ -265,16 +272,17 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        findViewById<Button>(R.id.mapbutton).setOnClickListener {
-
-        }
-
-        findViewById<Button>(R.id.Orderdetailsbutton).setOnClickListener {
+        findViewById<LinearLayout>(R.id.packingstatebutton).setOnClickListener {
             val intent = Intent(this, PackingstatusActivity::class.java)
             resultLauncher.launch(intent)
         }
 
-        findViewById<Button>(R.id.Favoritesbutton).setOnClickListener {
+        findViewById<LinearLayout>(R.id.reservationsstatebutton).setOnClickListener {
+            val intent = Intent(this, ReservationstatusActivity::class.java)
+            resultLauncher.launch(intent)
+        }
+
+        findViewById<LinearLayout>(R.id.Favoritesbutton).setOnClickListener {
             val intent = Intent(this, FavoritesActivity::class.java)
             startActivity(intent)
             finish()
@@ -285,6 +293,15 @@ class MainActivity : BaseActivity() {
             val intent = Intent(this, MypageActivity::class.java)
             startActivity(intent)
             finish()
+        }
+    }
+    private fun selectLayout(selectedLayout: LinearLayout, layouts: List<LinearLayout>) {
+        layouts.forEach {
+            it.background = if (it == selectedLayout) {
+                ContextCompat.getDrawable(this, R.drawable.select_button)
+            } else {
+                ContextCompat.getDrawable(this, R.drawable.cardview)
+            }
         }
     }
 }

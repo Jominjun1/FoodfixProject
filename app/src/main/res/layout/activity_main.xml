@@ -3,26 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#EFEFEF">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/maintoolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/foodfix_green"
+            android:background="@color/foodfix_dark_green"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="푸드픽스"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+                android:src="@drawable/foodfix_text_mainactivity" />
 
             <TextView
                 android:id="@+id/MyInf"
@@ -30,7 +28,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginRight="10dp"
-                android:text="내정보"/>
+                android:text="내정보"
+                android:textColor="#FDFDFD"
+                android:textStyle="bold"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -38,7 +38,8 @@
             android:id="@+id/menu_scroll"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@color/foodfix_light_green"
+            android:background="@drawable/cardview"
+            android:layout_margin="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/maintoolbar">
@@ -50,101 +51,84 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/korean"
                     android:layout_width="80dp"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical"
                     android:gravity="center_horizontal">
 
                     <ImageView
-                        android:id="@+id/korean"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
+                        android:layout_margin="6dp"
                         android:src="@drawable/korean_food"
                         android:scaleType="centerInside"/>
 
                     <TextView
+                        android:id="@+id/text_korean"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="한식"
                         android:textStyle="bold"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="6dp"
                         android:textAlignment="center"/>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/chicken"
                     android:layout_width="80dp"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
+
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical"
                     android:gravity="center_horizontal">
 
                     <ImageView
-                        android:id="@+id/chicken"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
+                        android:layout_margin="6dp"
                         android:src="@drawable/chicken"
                         android:scaleType="centerInside"/>
 
                     <TextView
+                        android:id="@+id/text_chicken"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="치킨"
                         android:textStyle="bold"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="6dp"
                         android:textAlignment="center"/>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/western"
                     android:layout_width="80dp"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:layout_gravity="center_vertical"
                     android:orientation="vertical"
                     android:gravity="center_horizontal">
 
                     <ImageView
-                        android:id="@+id/western"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
+                        android:layout_margin="6dp"
                         android:layout_weight="1"
-                        android:background="@drawable/western"
+                        android:src="@drawable/western"
                         android:scaleType="centerInside"/>
 
                     <TextView
+                        android:id="@+id/text_western"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="양식"
                         android:textStyle="bold"
-                        android:layout_marginBottom="4dp"
+                        android:layout_marginBottom="6dp"
                         android:textAlignment="center"/>
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="Button" />
-                <Button
-                    android:id="@+id/button5"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="Button" />
-                <Button
-                    android:id="@+id/button6"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="Button" />
-                <Button
-                    android:id="@+id/button7"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="Button" />
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -153,7 +137,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@color/foodfix_light_green"
+            android:background="#EFEFEF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menu_scroll">
@@ -165,6 +149,7 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="28dp"
                 android:text="카테고리"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -175,6 +160,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="28dp"
                 android:text="포장/예약"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/storeCate"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -185,9 +171,8 @@
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-
                 android:text="검색"
-                android:background="@color/foodfix_green"
+                android:background="@drawable/cardview"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Filter"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -198,7 +183,7 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/foodfix_light_green"
+            android:background="#EFEFEF"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -210,7 +195,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginBottom="1dp"
-            android:background="@color/foodfix_light_green"
+            android:background="@color/foodfix_dark_green"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -218,41 +203,137 @@
             app:layout_constraintStart_toStartOf="parent"
             >
 
-            <Button
+            <LinearLayout
                 android:id="@+id/orderButton"
-                android:layout_width="74dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:background="@color/foodfix_green"
-                android:text="포장\n주문" />
-            <Button
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/foodfix_dark_green"
+                android:text="포장\n주문" >
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/icons_packing"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="4dp"
+                    android:text="포장 주문"
+                    android:textStyle="bold"
+                    android:textColor="@color/white">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/reservationButton"
-                android:layout_width="74dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:background="@color/foodfix_green"
-                android:text="식당\n예약" />
-            <Button
-                android:id="@+id/mapbutton"
-                android:layout_width="74dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/foodfix_dark_green">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/icons_reservation"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="4dp"
+                    android:text="식당 예약"
+                    android:textStyle="bold"
+                    android:textColor="@color/white">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/packingstatebutton"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:background="@color/foodfix_green"
-                android:text="지도" />
-            <Button
-                android:id="@+id/Orderdetailsbutton"
-                android:layout_width="74dp"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/foodfix_dark_green">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/icons_state"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="4dp"
+                    android:text="포장 현황"
+                    android:textStyle="bold"
+                    android:textColor="@color/white">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/reservationsstatebutton"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:background="@color/foodfix_green"
-                android:text="주문\n내역" />
-            <Button
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/foodfix_dark_green">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/icons_state"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="4dp"
+                    android:text="예약 현황"
+                    android:textStyle="bold"
+                    android:textColor="@color/white">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/Favoritesbutton"
-                android:layout_width="74dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:background="@color/foodfix_green"
-                android:text="즐겨\n찾기" />
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:background="@color/foodfix_dark_green">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
+                    android:src="@drawable/icons_heart"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_marginBottom="4dp"
+                    android:text="즐겨 찾기"
+                    android:textStyle="bold"
+                    android:textColor="@color/white">
+                </TextView>
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

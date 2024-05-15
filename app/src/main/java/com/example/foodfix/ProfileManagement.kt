@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -68,7 +69,7 @@ class ProfileManagement : BaseActivity() {
         })
 
         //뒤로가기 버튼
-        findViewById<Button>(R.id.profilemngbackbutton).setOnClickListener {
+        findViewById<ImageView>(R.id.profilemngback).setOnClickListener {
             // 다이얼로그를 생성하고 설정합니다.
             val builder = AlertDialog.Builder(this)
             builder.setTitle("변경된 내용이 저장되지 않습니다")

@@ -10,7 +10,7 @@
         android:id="@+id/restaurantToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="@color/foodfix_dark_green"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -20,15 +20,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="포장주문"
+            android:textColor="@color/white"
             android:textSize="22dp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/restaurant_detailBackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/restaurant_detailBack"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:layout_gravity="start"
-            android:text="나가기" />
+            android:background="@drawable/exit_button"
+            android:src="@drawable/icons_exit"/>
     </androidx.appcompat.widget.Toolbar>
 
 
@@ -48,7 +50,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_launcher_foreground" />
+            tools:srcCompat="@drawable/ic_launcher_foreground"
+            android:scaleType="centerCrop"/>
 
         <ImageView
             android:id="@+id/imageView2"
@@ -138,7 +141,11 @@
         android:id="@+id/includedMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/exit_button"
         android:text="담은 메뉴 보기"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

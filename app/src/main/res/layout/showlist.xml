@@ -10,7 +10,7 @@
         android:id="@+id/showlisttoolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="@color/foodfix_dark_green"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -21,15 +21,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="리스트 보기"
+            android:textColor="@color/white"
             android:textSize="22dp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/showlistBackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/showlistBack"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:layout_gravity="start"
-            android:text="나가기" />
+            android:background="@drawable/exit_button"
+            android:src="@drawable/icons_exit" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

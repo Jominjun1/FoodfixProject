@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -61,7 +62,7 @@ class MypageActivity : BaseActivity() {
             }
         })
 
-        findViewById<Button>(R.id.mypageBackButton).setOnClickListener{
+        findViewById<ImageView>(R.id.mypageBack).setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -72,14 +73,13 @@ class MypageActivity : BaseActivity() {
             resultLauncher.launch(intent)
         }
 
-        findViewById<Button>(R.id.mypage2myReview).setOnClickListener {
-            val intent = Intent(this, MyreviewActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
         findViewById<Button>(R.id.mypage2reservation).setOnClickListener {
             val intent = Intent(this, ReservationstatusActivity::class.java)
+            resultLauncher.launch(intent)
+        }
+
+        findViewById<Button>(R.id.mypage2myReview).setOnClickListener {
+            val intent = Intent(this, MyreviewActivity::class.java)
             startActivity(intent)
             finish()
         }

@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -61,7 +62,7 @@ class RestaurantReservation : BaseActivity() {
 
         findViewById<TextView>(R.id.restaurantName).text = store_name
 
-        findViewById<Button>(R.id.restaurnatReservationBackButton).setOnClickListener {
+        findViewById<ImageView>(R.id.restaurnatReservationBack).setOnClickListener {
             // 웹소켓 해제
             val clearWebSocket = WebSocketManager.getWebSocket()
             clearWebSocket?.let {

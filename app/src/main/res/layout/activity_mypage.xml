@@ -9,7 +9,7 @@
         android:id="@+id/mypagetoolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="@color/foodfix_dark_green"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
@@ -20,14 +20,16 @@
             android:layout_gravity="center"
             android:text="마이페이지"
             android:textSize="22dp"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/mypageBackButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/mypageBack"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:layout_gravity="start"
-            android:text="나가기" />
+            android:background="@drawable/exit_button"
+            android:src="@drawable/icons_exit" />
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
@@ -38,6 +40,7 @@
         android:layout_marginBottom="50dp"
         android:textSize="18dp"
         android:textStyle="bold"
+        android:textColor="@color/red"
         android:text="로그아웃"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,6 +53,8 @@
         android:layout_marginTop="80dp"
         android:text="닉네임"
         android:textSize="20sp"
+        android:textColor="@color/foodfix_dark_green"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mypagetoolbar" />
@@ -59,7 +64,10 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:text="주문내역"
+        android:text="포장 현황 확인"
+        android:background="@drawable/exit_button"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mypageNickname" />
@@ -70,9 +78,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="내가 작성한 리뷰"
+        android:background="@drawable/exit_button"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mypage2orderHistory" />
+        app:layout_constraintTop_toBottomOf="@+id/mypage2reservation" />
 
     <Button
         android:id="@+id/mypage2reservation"
@@ -80,9 +91,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="예약 현황 확인"
+        android:background="@drawable/exit_button"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mypage2myReview" />
+        app:layout_constraintTop_toBottomOf="@+id/mypage2orderHistory" />
 
     <Button
         android:id="@+id/mypage2changeProfile"
@@ -90,8 +104,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="프로필 관리"
+        android:background="@drawable/exit_button"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mypage2reservation" />
+        app:layout_constraintTop_toBottomOf="@+id/mypage2myReview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

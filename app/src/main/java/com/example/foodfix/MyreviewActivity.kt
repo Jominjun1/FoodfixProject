@@ -3,6 +3,7 @@ package com.example.foodfix
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -30,7 +31,7 @@ class MyreviewActivity : BaseActivity() {
 
         findViewById<TextView>(R.id.showlisttext).text = "내가 작성한 리뷰"
 
-        findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
+        findViewById<ImageView>(R.id.showlistBack).setOnClickListener {
             val intent = Intent(this, MypageActivity::class.java)
             startActivity(intent)
             finish()
