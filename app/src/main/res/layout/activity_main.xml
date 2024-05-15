@@ -16,13 +16,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <TextView
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="푸드픽스"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+                android:src="@drawable/foodfix_text_mainactivity" />
 
             <TextView
                 android:id="@+id/MyInf"
@@ -30,7 +28,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginRight="10dp"
-                android:text="내정보"/>
+                android:text="내정보"
+                android:textStyle="bold"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -120,31 +119,6 @@
                         android:layout_marginBottom="4dp"
                         android:textAlignment="center"/>
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="Button" />
-                <Button
-                    android:id="@+id/button5"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="Button" />
-                <Button
-                    android:id="@+id/button6"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="Button" />
-                <Button
-                    android:id="@+id/button7"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="70dp"
-                    android:text="Button" />
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -165,6 +139,7 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="28dp"
                 android:text="카테고리"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -175,6 +150,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="28dp"
                 android:text="포장/예약"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/storeCate"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -187,7 +163,7 @@
                 android:layout_marginBottom="16dp"
 
                 android:text="검색"
-                android:background="@color/foodfix_green"
+                android:background="@drawable/home_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Filter"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -233,19 +209,19 @@
                 android:background="@color/foodfix_green"
                 android:text="식당\n예약" />
             <Button
-                android:id="@+id/mapbutton"
+                android:id="@+id/packingstatebutton"
                 android:layout_width="74dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:background="@color/foodfix_green"
-                android:text="지도" />
+                android:text="포장\n현황" />
             <Button
-                android:id="@+id/Orderdetailsbutton"
+                android:id="@+id/reservationsstatebutton"
                 android:layout_width="74dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:background="@color/foodfix_green"
-                android:text="주문\n내역" />
+                android:text="예약\n현황" />
             <Button
                 android:id="@+id/Favoritesbutton"
                 android:layout_width="74dp"

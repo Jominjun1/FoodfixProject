@@ -72,14 +72,13 @@ class MypageActivity : BaseActivity() {
             resultLauncher.launch(intent)
         }
 
-        findViewById<Button>(R.id.mypage2myReview).setOnClickListener {
-            val intent = Intent(this, MyreviewActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
         findViewById<Button>(R.id.mypage2reservation).setOnClickListener {
             val intent = Intent(this, ReservationstatusActivity::class.java)
+            resultLauncher.launch(intent)
+        }
+
+        findViewById<Button>(R.id.mypage2myReview).setOnClickListener {
+            val intent = Intent(this, MyreviewActivity::class.java)
             startActivity(intent)
             finish()
         }

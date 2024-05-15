@@ -107,8 +107,6 @@ class ReservationstatusActivity : BaseActivity() {
         findViewById<TextView>(R.id.showlisttext).text = "식당 예약 현황"
 
         findViewById<Button>(R.id.showlistBackButton).setOnClickListener {
-            val intent = Intent(this, MypageActivity::class.java)
-            startActivity(intent)
             finish()
         }
     }

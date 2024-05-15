@@ -59,7 +59,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:text="주문내역"
+        android:text="포장 현황 확인"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mypageNickname" />
@@ -72,7 +72,7 @@
         android:text="내가 작성한 리뷰"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mypage2orderHistory" />
+        app:layout_constraintTop_toBottomOf="@+id/mypage2reservation" />
 
     <Button
         android:id="@+id/mypage2reservation"
@@ -82,7 +82,7 @@
         android:text="예약 현황 확인"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mypage2myReview" />
+        app:layout_constraintTop_toBottomOf="@+id/mypage2orderHistory" />
 
     <Button
         android:id="@+id/mypage2changeProfile"
@@ -92,6 +92,6 @@
         android:text="프로필 관리"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mypage2reservation" />
+        app:layout_constraintTop_toBottomOf="@+id/mypage2myReview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

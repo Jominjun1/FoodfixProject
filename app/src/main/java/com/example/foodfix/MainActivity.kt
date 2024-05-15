@@ -265,12 +265,13 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        findViewById<Button>(R.id.mapbutton).setOnClickListener {
-
+        findViewById<Button>(R.id.packingstatebutton).setOnClickListener {
+            val intent = Intent(this, PackingstatusActivity::class.java)
+            resultLauncher.launch(intent)
         }
 
-        findViewById<Button>(R.id.Orderdetailsbutton).setOnClickListener {
-            val intent = Intent(this, PackingstatusActivity::class.java)
+        findViewById<Button>(R.id.reservationsstatebutton).setOnClickListener {
+            val intent = Intent(this, ReservationstatusActivity::class.java)
             resultLauncher.launch(intent)
         }
 
