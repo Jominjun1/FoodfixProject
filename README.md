@@ -69,13 +69,10 @@
   
 # **4. 작품 소개 사진**
 
-* 안드로이드 포장 주문 화면 ![41조_이미지_작품 소개 사진(안드로이드)](https://github.com/Jominjun1/FoodfixProject/assets/116476333/ec9930fb-76d5-43eb-a414-64efa97a9f44) 
+* 안드로이드 포장 주문 화면 ![41조_이미지_작품 소개 사진(안드로이드)](https://github.com/Jominjun1/FoodfixProject/assets/116476333/12e3233e-5cef-4349-803d-cea302f45aeb)
+ 아이폰 예약 주문 화면 ![41조_이미지_작품 소개 사진(아이폰)](https://github.com/Jominjun1/FoodfixProject/assets/116476333/e7caa497-aeec-43ff-80b7-73a36abe642e)
 
-* 아이폰 예약 주문 화면  ![41조_이미지_작품 소개 사진(아이폰)](https://github.com/Jominjun1/FoodfixProject/assets/116476333/d0110400-1544-42c0-b35d-f1695487e30d) <br>
-
-* 웹 관리시스템 화면 ( 매장 관리 / 주문 내역 확인 ) ![41조_이미지_작품 소개 사진(웹)](https://github.com/Jominjun1/FoodfixProject/assets/116476333/2763e1b5-a976-4888-a7c3-f59224da1059)
-   ![41조_이미지_작품 소개 사진2(웹)](https://github.com/Jominjun1/FoodfixProject/assets/116476333/c097682b-e7c5-483f-8d62-5d283e17e1d0)
-
+* 웹 관리시스템 화면 ( 매장 관리 / 주문 내역 확인 ) 
 
 
 # **5. 기대 효과**
