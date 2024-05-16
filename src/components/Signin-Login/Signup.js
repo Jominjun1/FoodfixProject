@@ -72,7 +72,7 @@ const Signup = () => {
     return (
         <div className='full-container'>
             <div className='login-logo'>
-                <img src='/images/logo.png' alt="푸드픽스 로고" onClick={handleHomeClick} />
+                <img src='/images/logo2.png' alt="푸드픽스 로고" width={180} height={45} onClick={handleHomeClick} />
             </div>
 
             <div className='signup-container'>

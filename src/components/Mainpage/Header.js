@@ -31,7 +31,7 @@ const Header = () => {
         <div className='header-container'>
             <div className='section'>
                 <div className='logo-container'>
-                    <img src='/images/logo.png' alt="푸드픽스 로고" />
+                    <img src='/images/logo2.png' alt="푸드픽스 로고" width={180} height={45}/>
                 </div>
 
                 <div className='nav-buttons'>

@@ -9,10 +9,17 @@ const Content = () => {
     const initialTab = localStorage.getItem('selectedTab') || 'resManagement';
     const [selectedTab, setSelectedTab] = useState(initialTab);
     const navigate = useNavigate();
+    const [audio] = useState(new Audio('/images/alarm.mp3'));
 
     useEffect(() => {
         let webSocket;
         const fetchStoreIdAndConnectWebSocket = async () => {
+
+            const playNotificationSound = () => {
+                audio.currentTime = 0;
+                audio.play();
+            }
+
             try {
                 const token = sessionStorage.getItem('token');
                 const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/store`, {
@@ -34,6 +41,9 @@ const Content = () => {
                 webSocket.onmessage = (event) => {
                     console.log('서버 : ', event.data);
                     const sessionId = event.data;
+                    if(sessionId === "포장 주문 생성") {
+                        playNotificationSound();
+                    }
                     console.log('서버에서 세션 ID 수신:', sessionId);
                     localStorage.setItem('sessionId', sessionId); 
                 };
@@ -50,7 +60,7 @@ const Content = () => {
                 webSocket.close();
             }
         };
-    }, []);
+    }, [audio]);
 
     const handleTabSelect = (tabName) => {
         setSelectedTab(tabName);
@@ -64,7 +74,7 @@ const Content = () => {
     return (
         <div>
             <div className="header-content">
-                <img src='/images/logo.png' alt="푸드픽스 로고" className="logo" onClick={handleHomeClick} />
+                <img src='/images/logo2.png' alt="푸드픽스 로고" className="logo" width={180} height={45} onClick={handleHomeClick} />
                 <div className="tab-buttons">
                     <button onClick={() => handleTabSelect('resManagement')} className={selectedTab === 'resManagement' ? 'selected' : ''}>
                         예약 관리

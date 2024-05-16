@@ -88,7 +88,7 @@ const Side = ({ onEditClick, onInfoClick, onSaleClick }) => {
     
     return (
         <div className='side'>
-            <img src='/images/logo.png' alt='logo' className='profile' onClick={handleHomeClick} />
+            <img src='/images/logo2.png' alt='logo' className='profile' width={180} height={35} onClick={handleHomeClick} />
             <div className='user-info' onClick={onInfoClick}>회원 정보 조회</div> 
             <div className='edit-user' onClick={handleEditClick}>회원 정보 수정</div> 
             <div className='restaurant-sales' onClick={onSaleClick}>매장 매출 정보</div> 

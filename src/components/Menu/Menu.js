@@ -196,7 +196,7 @@ const Menu = () => {
         <div>
             <div className='menu-page-header'>
                 <div className='menu-top-logo'>
-                    <img src='/images/logo.png' alt="푸드픽스 로고" onClick={handleHomeClick} />
+                    <img src='/images/logo2.png' alt="푸드픽스 로고" width={180} height={45} onClick={handleHomeClick} />
                 </div>
                 <div className='menu-page-title'>
                     <span>메뉴 관리</span>
