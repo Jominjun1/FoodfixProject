@@ -23,10 +23,9 @@ public class AuthService {
     private final ReservationRepository reservationRepository;
     private final PackingRepository packingRepository;
     private final ImageService imageService;
-    private final MenuItemRepository menuItemRepository;
 
     @Autowired
-    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, PhotoRepository photoRepository, ReservationRepository reservationRepository, PackingRepository packingRepository, ImageService imageService, MenuItemRepository menuItemRepository) {
+    public AuthService(UserRepository userRepository, AdminRepository adminRepository, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, MenuRepository menuRepository, PhotoRepository photoRepository, ReservationRepository reservationRepository, PackingRepository packingRepository, ImageService imageService) {
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -36,7 +35,6 @@ public class AuthService {
         this.reservationRepository = reservationRepository;
         this.packingRepository = packingRepository;
         this.imageService = imageService;
-        this.menuItemRepository = menuItemRepository;
     }
     // 회원가입 기능
     public ResponseEntity<String> signup(Object user, UserType userType) {
@@ -122,6 +120,11 @@ public class AuthService {
         Optional<?> optionalUser = getUserById(user_id, userType);
         if (optionalUser.isPresent()) {
             if (userType == UserType.USER) {
+                Optional<User> userdel = userRepository.findById(user_id);
+                if(userdel.isPresent()) {
+                    User user = userdel.get();
+                    deleteOrder(user.getUser_id());
+                }
                 userRepository.deleteById(user_id);
             } else if (userType == UserType.ADMIN) {
                 Optional<Admin> adminDel = adminRepository.findById(user_id);
@@ -130,6 +133,7 @@ public class AuthService {
                     Store store = admin.getStore();
                     if (store != null) {
                         deleteStore(store.getStore_id());
+                        adminRepository.deleteByAdmin(admin.getAdmin_id());
                     }
                 }
                 ResponseEntity.ok("회원 탈퇴 성공");
@@ -158,6 +162,7 @@ public class AuthService {
             menuRepository.deleteMenusByStoreId(store_id);
             // 매장 삭제
             storeRepository.deleteById(store_id);
+
         } catch (Exception e) {
             // 오류 메시지 출력
             System.err.println("오류 발생: " + e.getMessage());
@@ -179,7 +184,15 @@ public class AuthService {
             System.err.println("오류 발생: " + e.getMessage());
         }
     }
-
+    // 주문 내역 삭제
+    public void deleteOrder(String user_id){
+        try{
+            packingRepository.deleteByUserId(user_id);
+            reservationRepository.deleteByUserId(user_id);
+        } catch (Exception e) {
+            System.err.println("오류 발생: " + e.getMessage());
+        }
+    }
     // 사용자 또는 관리자 ID에 따라 사용자 정보 조회
     private Optional<?> getUserById(String id, UserType userType) {
         return switch (userType) {
@@ -247,9 +260,6 @@ public class AuthService {
         } else {
             adminRepository.save((Admin) user);
         }
-    }
-    private List<Store> findStoreByAdminId(String admin_id) {
-        return storeRepository.findByAdminId(admin_id);
     }
 }
 

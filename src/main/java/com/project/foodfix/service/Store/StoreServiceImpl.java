@@ -249,9 +249,28 @@ public class StoreServiceImpl implements StoreService {
             menuItemDTO.setQuantity(menuItem.getQuantity());
             menuItemDTOList.add(menuItemDTO);
         }
-        packingDTO.setStore_name(packing.getStore().getStore_name());
         packingDTO.setMenuItemDTOList(menuItemDTOList);
 
         return packingDTO;
+    }
+
+    public ReservationDTO ReservationList(Reservation reservation) {
+        ReservationDTO reservationDTO = new ReservationDTO();
+
+        reservationDTO.setReservation_id(reservation.getReservation_id());
+        reservationDTO.setReservation_time(reservation.getReservation_time());
+        reservationDTO.setReservation_date(reservation.getReservation_date());
+        reservationDTO.setReservation_status(reservation.getReservation_status());
+        reservationDTO.setPeople_cnt(reservation.getNum_people());
+        reservationDTO.setUser_comments(reservation.getUser_comments());
+
+        reservationDTO.setStore_name(reservation.getStore().getStore_name());
+        reservationDTO.setStore_id(reservation.getStore().getStore_id());
+        reservationDTO.setStore_phone(reservation.getStore().getStore_phone());
+
+        reservationDTO.setUser_id(reservation.getUser().getUser_id());
+        reservationDTO.setUser_phone(reservation.getUser().getUser_phone());
+
+        return reservationDTO;
     }
 }

@@ -24,4 +24,5 @@ public interface StoreService {
     List<PackingDTO> getPacking(Long store_id);
     // 포장 주문 상태 변경
     void updatePacking(PackingDTO packingDTO);
+
 }

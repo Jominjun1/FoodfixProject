@@ -2,13 +2,12 @@ package com.project.foodfix.controller;
 
 import com.project.foodfix.UserType;
 import com.project.foodfix.config.JwtTokenProvider;
+import com.project.foodfix.model.*;
 import com.project.foodfix.model.DTO.MenuDTO;
 import com.project.foodfix.model.DTO.PackingDTO;
-import com.project.foodfix.model.Menu;
-import com.project.foodfix.model.Packing;
-import com.project.foodfix.model.Store;
-import com.project.foodfix.model.User;
+import com.project.foodfix.model.DTO.ReservationDTO;
 import com.project.foodfix.repository.StoreRepository;
+import com.project.foodfix.repository.UserRepository;
 import com.project.foodfix.service.AuthService;
 import com.project.foodfix.service.Store.StoreServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +25,15 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final StoreRepository storeRepository;
     private final StoreServiceImpl storeServiceImpl;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, StoreServiceImpl storeServiceImpl) {
+    public UserController(AuthService authService, JwtTokenProvider jwtTokenProvider, StoreRepository storeRepository, StoreServiceImpl storeServiceImpl, UserRepository userRepository) {
         this.authService = authService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.storeRepository = storeRepository;
         this.storeServiceImpl = storeServiceImpl;
+        this.userRepository = userRepository;
     }
     // 사용자 프로필 조회 API
     @GetMapping("/profile")
@@ -94,7 +95,13 @@ public class UserController {
 
         User user = (User) authService.getUser(user_id, UserType.USER);
         if (user != null) {
-            return ResponseEntity.ok(user.getReservations());
+            List<ReservationDTO> reservationDTOs = new ArrayList<>();
+            List<Reservation> userReservations = user.getReservations();
+            for(Reservation reservation : userReservations) {
+                ReservationDTO reservationDTO = storeServiceImpl.ReservationList(reservation);
+                reservationDTOs.add(reservationDTO);
+            }
+            return ResponseEntity.ok(reservationDTOs);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
@@ -188,7 +195,7 @@ public class UserController {
         // AuthService 통해 사용자 로그아웃 및 회원 탈퇴 처리
         authService.logout(user_id, UserType.USER);
         authService.deleteUser(user_id, UserType.USER);
-
+        userRepository.deleteById(user_id);
         return ResponseEntity.ok("사용자 회원 탈퇴 성공");
     }
     // 토큰 추출 메서드
