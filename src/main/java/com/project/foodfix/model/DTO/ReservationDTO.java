@@ -14,7 +14,7 @@ public class ReservationDTO {
     private String user_comments;
     private LocalDate reservation_date;
     private LocalTime reservation_time;
-    private int people_cnt;
+    private int num_people;
 
     // 매장측 정보
     private String store_phone;

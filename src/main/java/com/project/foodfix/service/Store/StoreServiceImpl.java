@@ -123,7 +123,7 @@ public class StoreServiceImpl implements StoreService {
         // ISO 8601 형식 문자열 -> LocalDateTime 변환
         reservation.setReservation_date(reservationDTO.getReservation_date());
         reservation.setReservation_time(reservationDTO.getReservation_time());
-        reservation.setNum_people(reservationDTO.getPeople_cnt());
+        reservation.setNum_people(reservationDTO.getNum_people());
         reservation.setUser_comments(reservationDTO.getUser_comments());
         reservation.setReservation_status("0"); // 예약 대기 상태로 초기화
 
@@ -163,7 +163,7 @@ public class StoreServiceImpl implements StoreService {
         reservationDTO.setReservation_status(reservation.getReservation_status());
         reservationDTO.setReservation_date(reservation.getReservation_date());
         reservationDTO.setReservation_time(reservation.getReservation_time());
-        reservationDTO.setPeople_cnt(reservation.getNum_people());
+        reservationDTO.setNum_people(reservation.getNum_people());
         reservationDTO.setUser_comments(reservation.getUser_comments());
 
         // 사용자 정보 설정
@@ -261,7 +261,7 @@ public class StoreServiceImpl implements StoreService {
         reservationDTO.setReservation_time(reservation.getReservation_time());
         reservationDTO.setReservation_date(reservation.getReservation_date());
         reservationDTO.setReservation_status(reservation.getReservation_status());
-        reservationDTO.setPeople_cnt(reservation.getNum_people());
+        reservationDTO.setNum_people(reservation.getNum_people());
         reservationDTO.setUser_comments(reservation.getUser_comments());
 
         reservationDTO.setStore_name(reservation.getStore().getStore_name());

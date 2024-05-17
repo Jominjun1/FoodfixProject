@@ -121,11 +121,10 @@ public class AuthService {
         if (optionalUser.isPresent()) {
             if (userType == UserType.USER) {
                 Optional<User> userdel = userRepository.findById(user_id);
-                if(userdel.isPresent()) {
-                    User user = userdel.get();
-                    deleteOrder(user.getUser_id());
+                if (userdel.isPresent()) {
+                    deleteOrder(user_id);
+                    userRepository.deleteById(user_id);
                 }
-                userRepository.deleteById(user_id);
             } else if (userType == UserType.ADMIN) {
                 Optional<Admin> adminDel = adminRepository.findById(user_id);
                 if (adminDel.isPresent()) {
@@ -187,6 +186,7 @@ public class AuthService {
     // 주문 내역 삭제
     public void deleteOrder(String user_id){
         try{
+            packingRepository.deleteMenuItemsByUserid(user_id);
             packingRepository.deleteByUserId(user_id);
             reservationRepository.deleteByUserId(user_id);
         } catch (Exception e) {
