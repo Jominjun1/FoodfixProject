@@ -61,18 +61,19 @@
 * 개발 도구 : Visual Code, IntelliJ IDEA, Android Studio, Postman , Xcode
 * 주요 기술 : React, Spring boot, Spring Data JPA, RESTful API, MySQL
 <br>
-
 ![스크린샷 2024-05-13 204815](https://github.com/Jominjun1/FoodfixProject/assets/116476333/a06a1807-5c40-4943-b0cb-725292d5e00d)
 
 # **4. 프로젝트 기능 구성도**
 <details>
  <summary>웹 사용자 기능 구성도</summary>
+ 
  ![웹 사용자 기능 구성도](https://github.com/Jominjun1/FoodfixProject/assets/116476333/45858ca6-f7ab-42ff-9e2b-a469f687b942)
 
 </details>
 <br>
 <details>
  <summary>앱 사용자 기능 구성도</summary>
+ 
  ![앱 사용자 기능 구성도](https://github.com/Jominjun1/FoodfixProject/assets/116476333/c8d355dc-1545-4f68-8f56-c6099a360a61)
 
 </details>
