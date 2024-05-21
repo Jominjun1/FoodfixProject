@@ -60,7 +60,7 @@
 * 개발 언어 : JavaScript, HTML, CSS, Java, Kotlin , Swift
 * 개발 도구 : Visual Code, IntelliJ IDEA, Android Studio, Postman , Xcode
 * 주요 기술 : React, Spring boot, Spring Data JPA, RESTful API, MySQL
-<br>
+
 ![스크린샷 2024-05-13 204815](https://github.com/Jominjun1/FoodfixProject/assets/116476333/a06a1807-5c40-4943-b0cb-725292d5e00d)
 
 # **4. 프로젝트 기능 구성도**
