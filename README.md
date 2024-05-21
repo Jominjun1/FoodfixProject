@@ -69,13 +69,17 @@
 </details>
 
 # **4. 프로젝트 기능 구성도**
-웹 사용자 기능 구성도
+<details>
+ <summary>웹 사용자 기능 구성도</summary>
 ![웹 사용자 기능 구성도](https://github.com/Jominjun1/FoodfixProject/assets/116476333/3891485c-f7b5-423a-baf1-3cf9d570c570)
-<br>
+</details>
+<br><br>
+<details>
+ <summary>앱 사용자 기능 구성도</summary>
+ ![웹 사용자 기능 구성도](https://github.com/Jominjun1/FoodfixProject/assets/116476333/3891485c-f7b5-423a-baf1-3cf9d570c570) 
+</details>
 앱 사용자 기능 구성도
-![앱 사용자 기능 구성도](https://github.com/Jominjun1/FoodfixProject/assets/116476333/54513b5f-9a05-486b-b7af-3bc771ff05f5)
 
-  
 # **5. 작품 소개 사진**
 <div align="center">
 
