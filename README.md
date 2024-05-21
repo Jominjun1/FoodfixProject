@@ -75,7 +75,7 @@
 <details>
  <summary>웹 사용자 기능 구성도</summary>
  
- ![웹 사용자 기능 구성도](https://github.com/Jominjun1/FoodfixProject/assets/116476333/45858ca6-f7ab-42ff-9e2b-a469f687b942)
+ ![웹 사용자 기능 구성도](https://github.com/Jominjun1/FoodfixProject/assets/116476333/45858ca6-f7ab-42ff-9e2b-a469f687b942){: width="80%" height="80%"}
 
 </details>
 <br>
