@@ -9,7 +9,7 @@
 
 
 <details>
-  <summary>푸드픽스 API 이미지 보기</summary>
+  <summary>푸드픽스 API 명세서 보기</summary>
   
   ![푸드픽스 API](https://github.com/Jominjun1/FoodfixProject/assets/116476333/a65a081c-191d-4599-a109-27df6a853870)
 </details>
