@@ -88,7 +88,7 @@
 
 ## 작품 소개 사진
 
-<img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/7d22e396-f5f3-4751-8e7f-e284cd673a78" width="600" height="1200"> <img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/9b20081c-dbd4-4553-9e5e-d02b1a8ab611" width="600" height="1200">
+<img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/7d22e396-f5f3-4751-8e7f-e284cd673a78" width="600" height="1000"> <img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/9b20081c-dbd4-4553-9e5e-d02b1a8ab611" width="600" height="1000">
 
 
 ## 기대 효과
