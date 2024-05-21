@@ -14,6 +14,8 @@
   ![푸드픽스 API](https://github.com/Jominjun1/FoodfixProject/assets/116476333/a65a081c-191d-4599-a109-27df6a853870)
 </details>
 
+# ** 목차 **
+
 # **0. 팀원 소개 및 역할**
 
 * 백엔드(Spring boot) : 1971281-조민준  이메일 : simpers@naver.com [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/backend)
