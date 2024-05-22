@@ -78,6 +78,7 @@ class ReservationstatusActivity : BaseActivity() {
                         ReservationCardModel(
                             reservation_id = dto.reservation_id,
                             store_id = dto.store_id,
+                            store_name = dto.store_name ?: "오류",
                             reservation_date = dto.reservation_date ?: "날짜 없음",
                             reservation_time = dto.reservation_time ?: "시간 없음",
                             num_people = dto.num_people,

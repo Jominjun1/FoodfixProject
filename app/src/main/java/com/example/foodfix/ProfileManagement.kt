@@ -235,10 +235,6 @@ class ProfileManagement : BaseActivity() {
             builder.setPositiveButton("확인") { dialog, which ->
                 // "확인" 버튼 클릭 시 실행할 코드
                 deleteUser()
-
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
             }
 
             // "취소" 버튼
@@ -265,6 +261,9 @@ class ProfileManagement : BaseActivity() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     // 회원 탈퇴 성공 처리
+                    val intent = Intent(this@ProfileManagement, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
                     Toast.makeText(applicationContext, "회원 탈퇴가 성공적으로 처리되었습니다.", Toast.LENGTH_SHORT).show()
                     // 탈퇴 후 로그인 화면 등으로 이동 처리
                 } else {
@@ -276,6 +275,7 @@ class ProfileManagement : BaseActivity() {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 // 네트워크 에러 처리
                 Toast.makeText(applicationContext, "네트워크 에러: ${t.localizedMessage}", Toast.LENGTH_LONG).show()
+                Log.d("-----------회원탈퇴 네트워크 오류", "${t.localizedMessage}")
             }
         })
     }

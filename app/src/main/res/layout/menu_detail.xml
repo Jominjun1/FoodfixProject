@@ -60,6 +60,7 @@
             android:layout_marginTop="18dp"
             android:text="음식 이름"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuimage" />
 
@@ -67,9 +68,9 @@
             android:id="@+id/menu_inf"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
-            android:text="알레르기 성분 표시"
+            android:text="음식 설명"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menuName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -90,6 +91,7 @@
             android:layout_marginEnd="150dp"
             android:text="가격:"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,6 +102,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="20dp"
             android:text="0000원"
+            android:textStyle="bold"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toTopOf="parent" />
@@ -111,6 +114,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="150dp"
             android:text="수량:"
+            android:textStyle="bold"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -122,6 +126,7 @@
             android:layout_marginStart="14dp"
             android:layout_marginTop="16dp"
             android:text="1"
+            android:textStyle="bold"
             android:inputType="number"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/downbutton"

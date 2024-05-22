@@ -51,6 +51,7 @@ class ReservationCardAdapter(val revervationitems: MutableList<ReservationCardMo
         fun bindItems(reservationCardModel: ReservationCardModel) {
             val reservation_id = itemView.findViewById<TextView>(R.id.reservationId)
             val store_id = itemView.findViewById<TextView>(R.id.storeId)
+            val store_name = itemView.findViewById<TextView>(R.id.storename)
             val date = itemView.findViewById<TextView>(R.id.reservationDate)
             val time = itemView.findViewById<TextView>(R.id.reservationTime)
             val peopleNum = itemView.findViewById<TextView>(R.id.peopleNum)
@@ -59,6 +60,7 @@ class ReservationCardAdapter(val revervationitems: MutableList<ReservationCardMo
 
             reservation_id.text = reservationCardModel.reservation_id.toString()
             store_id.text = reservationCardModel.store_id.toString()
+            store_name.text = reservationCardModel.store_name
             date.text = reservationCardModel.reservation_date
             time.text = reservationCardModel.reservation_time
             peopleNum.text = reservationCardModel.num_people.toString()

@@ -134,22 +134,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="#EFEFEF"
+            android:layout_height="10dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/foodfix_dark_green"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/menu_scroll">
 
-            <TextView
-                android:id="@+id/storeCate"
-                android:layout_width="wrap_content"
+            <!--
+            <EditText
+                android:id="@+id/searchstore"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="28dp"
-                android:text="카테고리"
-                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:hint="검색어 입력"
+                android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,11 +159,11 @@
                 android:id="@+id/Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="28dp"
                 android:text="포장/예약"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/storeCate"
+                app:layout_constraintStart_toEndOf="@+id/searchstore"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
@@ -172,10 +174,13 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="검색"
+                android:textStyle="bold"
+                android:textColor="@color/foodfix_dark_green"
                 android:background="@drawable/cardview"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/Filter"
                 app:layout_constraintTop_toTopOf="parent" />
+                -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -183,7 +188,8 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#EFEFEF"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/foodfix_main_icon_blackandwhite"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

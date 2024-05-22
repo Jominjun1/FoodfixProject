@@ -115,6 +115,7 @@ class RestaurantReservation : BaseActivity() {
                 currentlySelectedButton?.let {
                     // 이전에 선택된 버튼의 색상을 초기화
                     it.backgroundTintList = ContextCompat.getColorStateList(this, R.color.gray)
+                    it.setTextColor(ContextCompat.getColor(this, R.color.black))
                 }
                 // 현재 선택된 버튼을 강조 표시하고 저장
                 highlightSelectedButton(it as Button)
@@ -189,6 +190,7 @@ class RestaurantReservation : BaseActivity() {
     }
     private fun highlightSelectedButton(selectedButton: Button) {
         // 선택된 버튼의 배경색을 변경
-        selectedButton.backgroundTintList = ContextCompat.getColorStateList(this, R.color.purple_200)
+        selectedButton.backgroundTintList = ContextCompat.getColorStateList(this, R.color.foodfix_dark_green)
+        selectedButton.setTextColor(ContextCompat.getColor(this, R.color.white))
     }
 }

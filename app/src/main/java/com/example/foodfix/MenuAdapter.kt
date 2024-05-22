@@ -71,7 +71,7 @@ class MenuAdapter (val items: MutableList<MenuModel>) :
                 .transform(CenterCrop(), RoundedCorners(20))
                 .into(imageArea)
 
-            imageArea.setImageResource(R.drawable.ic_launcher_foreground)
+
             titleArea.text = menuModel.menu_name
             detailArea.text = menuModel.menu_price.toString()
         }

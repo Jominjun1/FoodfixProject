@@ -10,7 +10,7 @@
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,6 +20,7 @@
         android:id="@+id/login_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="ID"
         android:inputType="text"
@@ -47,11 +48,11 @@
         android:id="@+id/loginButton"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="로그인"
-        android:textStyle="bold"
-        android:textColor="@color/white"
+        android:layout_marginTop="16dp"
         android:background="@drawable/home_button"
+        android:text="로그인"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_pw" />
@@ -84,23 +85,13 @@
         android:id="@+id/kakaoButton"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="카카오톡으로 로그인"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginHeip" />
 
-    <Button
-        android:id="@+id/googleButton"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:visibility="invisible"
-        android:text="구글에메일로 로그인"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/kakaoButton" />
+
 
     <ImageView
         android:id="@+id/imageView4"

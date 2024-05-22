@@ -93,117 +93,118 @@ class MainActivity : BaseActivity() {
         val layouts = listOf(koreanLayout, chickenLayout, westernLayout)
         val texts = listOf(koreanText, chickenText, westernText)
 
+        var Storecategory = ""
+
         layouts.zip(texts).forEach { (layout, text) ->
             layout.setOnClickListener {
                 selectLayout(layout, layouts)
-                findViewById<TextView>(R.id.storeCate).text = text.text.toString()
+                Storecategory = text.text.toString()
             }
         }
 
         findViewById<LinearLayout>(R.id.orderButton).setOnClickListener {
-            findViewById<TextView>(R.id.Filter).text = "포장"
-        }
 
-        findViewById<LinearLayout>(R.id.reservationButton).setOnClickListener {
-            findViewById<TextView>(R.id.Filter).text = "예약"
-        }
-
-        findViewById<Button>(R.id.searchButton).setOnClickListener {
-            val category = findViewById<TextView>(R.id.storeCate).text?.toString() ?: null
-            val filter = findViewById<TextView>(R.id.Filter).text.toString()
+            val category = Storecategory
             val storeName: String? = null // 사용자가 입력한 매장 이름
             val menuName: String? = null // 사용자가 입력한 메뉴 이름
 
-            if (filter == "예약") {
-                storeService.searchReservableStores(category, storeName, menuName)
-                    .enqueue(object : Callback<List<StoreDTO>> {
-                        override fun onResponse(
-                            call: Call<List<StoreDTO>>,
-                            response: Response<List<StoreDTO>>
-                        ) {
-                            if (response.isSuccessful) {
-                                val reservableStores = response.body() ?: emptyList()
-                                val cardItems = reservableStores.map { dto ->
+            storeService.searchPackableStores(category, storeName, menuName).enqueue(object :
+                Callback<List<StoreDTO>> {
+                override fun onResponse(
+                    call: Call<List<StoreDTO>>,
+                    response: Response<List<StoreDTO>>
+                ) {
+                    if (response.isSuccessful) {
+                        val packableStores = response.body() ?: emptyList()
+                        val cardItems = packableStores.map { dto ->
 
-                                    Log.d("StoreImagePath", "${dto.imagePath}")
-                                    // 서버로부터 받은 정보를 StoreDTO 변환합니다.
-                                    StoreDTO(
-                                        store_id = dto.store_id,
-                                        store_name = dto.store_name,
-                                        store_address = dto.store_address,
-                                        storeCategory = dto.storeCategory,
-                                        store_phone = dto.store_phone,
-                                        res_status = dto.res_status,
-                                        store_intro = dto.store_intro,
-                                        openTime = dto.openTime,
-                                        closeTime = dto.closeTime,
-                                        reservationCancel = dto.reservationCancel,
-                                        imagePath = dto.imagePath
-                                    )
-                                }
-                                // RecyclerView 어댑터에 데이터 설정
-                                itemList.clear()
-                                itemList.addAll(cardItems)
-                                adapter.notifyDataSetChanged()
+                            Log.d("StoreImagePath", "${dto.imagePath}")
+                            // 서버로부터 받은 정보를 StoreDTO로 변환합니다.
+                            StoreDTO(
+                                store_id = dto.store_id,
+                                store_name = dto.store_name,
+                                store_address = dto.store_address,
+                                storeCategory = dto.storeCategory,
+                                store_phone = dto.store_phone,
+                                res_status = dto.res_status,
+                                store_intro = dto.store_intro,
+                                openTime = dto.openTime,
+                                closeTime = dto.closeTime,
+                                reservationCancel = dto.reservationCancel,
+                                imagePath = dto.imagePath
+                            )
+                        }
+                        // RecyclerView 어댑터에 데이터 설정
+                        itemList.clear()
+                        itemList.addAll(cardItems)
+                        adapter.notifyDataSetChanged()
 
-                                // 각 카드뷰 항목에 대한 클릭 이벤트를 처리하는 로직을 재설정
-                                adapter.setOnItemClickListener(object :
-                                    StoreAdapter.OnItemClickListener {
-                                    override fun onItemClick(position: Int) {
-                                        // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
-                                        val clickedItem = itemList[position]
-                                        Log.d(
-                                            "MainActivity",
-                                            "Clicked store_id: ${clickedItem.store_id}"
-                                        )
-                                        // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
-                                        val intent = Intent(
-                                            this@MainActivity,
-                                            RestaurantReservation::class.java
-                                        ).apply {
-                                            putExtra("store_id", clickedItem.store_id)
-                                            putExtra("store_name", clickedItem.store_name)
-                                            putExtra("store_address", clickedItem.store_address)
-                                            putExtra("store_intro", clickedItem.store_intro)
-                                            putExtra("store_phone", clickedItem.store_phone)
-                                            putExtra("openTime", clickedItem.openTime)
-                                            putExtra("closeTime", clickedItem.closeTime)
-                                        }
-
-                                        resultLauncher.launch(intent)
-                                    }
-                                })
-                            } else {
-                                Toast.makeText(
+                        // 각 카드뷰 항목에 대한 클릭 이벤트를 처리하는 로직을 재설정
+                        adapter.setOnItemClickListener(object :
+                            StoreAdapter.OnItemClickListener {
+                            override fun onItemClick(position: Int) {
+                                // 클릭한 아이템의 정보를 로그로 출력하고, 필요한 액션을 수행합니다.
+                                val clickedItem = itemList[position]
+                                Log.d(
+                                    "MainActivity",
+                                    "Clicked store_id: ${clickedItem.store_id}"
+                                )
+                                // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
+                                val intent = Intent(
                                     this@MainActivity,
-                                    "Failed to fetch data",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    RestaurantActivity::class.java
+                                ).apply {
+                                    putExtra("store_id", clickedItem.store_id)
+                                    putExtra("store_name", clickedItem.store_name)
+                                    putExtra("store_address", clickedItem.store_address)
+                                    putExtra("store_intro", clickedItem.store_intro)
+                                    putExtra("store_phone", clickedItem.store_phone)
+                                    putExtra("openTime", clickedItem.openTime)
+                                    putExtra("closeTime", clickedItem.closeTime)
+                                    putExtra("imagePath", clickedItem.imagePath)
+                                }
+                                editor.putString("store_image", clickedItem.imagePath).apply()
+                                resultLauncher.launch(intent)
                             }
-                        }
+                        })
+                    } else {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Failed to fetch data",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
 
-                        override fun onFailure(call: Call<List<StoreDTO>>, t: Throwable) {
-                            Log.e("MainActivity", "네트워크 요청 실패: ${t.message}")
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Network Error: ${t.message}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    })
-            } else if (filter == "포장") {
-                storeService.searchPackableStores(category, storeName, menuName).enqueue(object :
-                    Callback<List<StoreDTO>> {
+                override fun onFailure(call: Call<List<StoreDTO>>, t: Throwable) {
+                    Log.e("MainActivity", "네트워크 요청 실패: ${t.message}")
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Network Error: ${t.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+        }
+
+        findViewById<LinearLayout>(R.id.reservationButton).setOnClickListener {
+
+            val category = Storecategory
+            val storeName: String? = null // 사용자가 입력한 매장 이름
+            val menuName: String? = null // 사용자가 입력한 메뉴 이름
+
+            storeService.searchReservableStores(category, storeName, menuName)
+                .enqueue(object : Callback<List<StoreDTO>> {
                     override fun onResponse(
                         call: Call<List<StoreDTO>>,
                         response: Response<List<StoreDTO>>
                     ) {
                         if (response.isSuccessful) {
-                            val packableStores = response.body() ?: emptyList()
-                            val cardItems = packableStores.map { dto ->
+                            val reservableStores = response.body() ?: emptyList()
+                            val cardItems = reservableStores.map { dto ->
 
                                 Log.d("StoreImagePath", "${dto.imagePath}")
-                                // 서버로부터 받은 정보를 StoreDTO로 변환합니다.
+                                // 서버로부터 받은 정보를 StoreDTO 변환합니다.
                                 StoreDTO(
                                     store_id = dto.store_id,
                                     store_name = dto.store_name,
@@ -236,7 +237,7 @@ class MainActivity : BaseActivity() {
                                     // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                     val intent = Intent(
                                         this@MainActivity,
-                                        RestaurantActivity::class.java
+                                        RestaurantReservation::class.java
                                     ).apply {
                                         putExtra("store_id", clickedItem.store_id)
                                         putExtra("store_name", clickedItem.store_name)
@@ -245,9 +246,8 @@ class MainActivity : BaseActivity() {
                                         putExtra("store_phone", clickedItem.store_phone)
                                         putExtra("openTime", clickedItem.openTime)
                                         putExtra("closeTime", clickedItem.closeTime)
-                                        putExtra("imagePath", clickedItem.imagePath)
                                     }
-                                    editor.putString("store_image", clickedItem.imagePath).apply()
+
                                     resultLauncher.launch(intent)
                                 }
                             })
@@ -269,8 +269,9 @@ class MainActivity : BaseActivity() {
                         ).show()
                     }
                 })
-            }
         }
+
+
 
         findViewById<LinearLayout>(R.id.packingstatebutton).setOnClickListener {
             val intent = Intent(this, PackingstatusActivity::class.java)
