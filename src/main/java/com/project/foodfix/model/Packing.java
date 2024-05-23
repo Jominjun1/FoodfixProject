@@ -23,7 +23,7 @@ public class Packing {
     private LocalTime packing_time; // 포장시간
     private String user_comments; // 사용자 요구사항
     @Column(columnDefinition = "VARCHAR(1) DEFAULT '0'")
-    private String packing_status; // 포장 상태 (0 : 주문중 ,  1 : 주문 접수, 2 : 주문 완료 3 : 주문 취소)
+    private String packing_status; // 포장 상태 (0 : 주문중 ,  1 : 주문 접수, 2 : 주문 취소 3 : 주문 완료)
     @Column(columnDefinition = "VARCHAR(1) DEFAULT '0'")
     private String payment_type; // 결재 방법 ( 0 : 앱결재 , 1 : 방문 결재)
 

@@ -153,7 +153,20 @@ public class StoreServiceImpl implements StoreService {
         }
         return reservationDTOs;
     }
-
+    public void cancelUserReservation(Reservation reservation) {
+        reservation.setReservation_status("2");
+        reservationRepository.save(reservation);
+    }
+    public void cancelUserPacking(Packing packing) {
+        packing.setPacking_status("2");
+        packingRepository.save(packing);
+    }
+    public Reservation findReservationById(Long reservation_id) {
+        return reservationRepository.findById(reservation_id).orElse(null);
+    }
+    public Packing findPackingById(Long packing_id) {
+        return packingRepository.findById(packing_id).orElse(null);
+    }
     // Reservation -> ReservationDTO 변환
     private ReservationDTO returnReservationDTO(Reservation reservation) {
         ReservationDTO reservationDTO = new ReservationDTO();

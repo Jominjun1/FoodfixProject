@@ -194,6 +194,52 @@ public class UserController {
         authService.deleteUser(user_id, UserType.USER);
         return ResponseEntity.ok("사용자 회원 탈퇴 성공");
     }
+    // 예약 주문 취소
+    @DeleteMapping("/cancel/{reservation_id}")
+    public ResponseEntity<Object> cancelReservation(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long reservation_id) {
+
+        String token = authorizationHeader.replace("Bearer ", "");
+        String user_id = jwtTokenProvider.extractUserId(token);
+
+        User user = (User) authService.getUser(user_id, UserType.USER);
+        if (user != null) {
+            Reservation reservation = storeServiceImpl.findReservationById(reservation_id);
+            if (reservation != null && reservation.getUser().getUser_id().equals(user.getUser_id())) {
+                if (reservation.getReservation_status().equals("0"))  {
+                    storeServiceImpl.cancelUserReservation(reservation);
+                    return ResponseEntity.ok("예약 취소");
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문이 이미 접수 되었습니다.");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("예약 찾을 수 없음.");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
+    // 포장 주문 취소
+    @DeleteMapping("/cancel/{packing_id}")
+    public ResponseEntity<Object> cancelPacking(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long packing_id) {
+
+        String token = authorizationHeader.replace("Bearer ", "");
+        String user_id = jwtTokenProvider.extractUserId(token);
+
+        User user = (User) authService.getUser(user_id, UserType.USER);
+        if (user != null) {
+            Packing packing = storeServiceImpl.findPackingById(packing_id);
+            if (packing != null && packing.getUser().getUser_id().equals(user.getUser_id())) {
+                if (packing.getPacking_status().equals("0"))  {
+                    storeServiceImpl.cancelUserPacking(packing);
+                    return ResponseEntity.ok("포장 취소");
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("주문이 이미 접수 되었습니다.");
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("포장 찾을 수 없음.");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
     // 토큰 추출 메서드
     private String extractToken(String authorizationHeader) {
         return Optional.ofNullable(authorizationHeader)
