@@ -1,71 +1,77 @@
-package com.example.foodfix
-
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import android.view.LayoutInflater
+import com.example.foodfix.R
+import com.example.foodfix.ReservationCardModel
 
-class ReservationCardAdapter(val revervationitems: MutableList<ReservationCardModel>) : RecyclerView.Adapter<ReservationCardAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservationCardAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.reservation_cardview, parent, false)
-        return ViewHolder(v)
-    }
-
-    override fun onBindViewHolder(holder: ReservationCardAdapter.ViewHolder, position: Int) {
-        holder.bindItems(revervationitems[position])
-        holder.cancelButton.setOnClickListener {
-            listener?.onCancelClick(position)
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return revervationitems.count()
-    }
-
-    // 클릭 이벤트를 처리하기 위한 인터페이스 정의
-    interface OnItemClickListener {
-        fun onCancelClick(position: Int)
-    }
+class ReservationCardAdapter(private val reservationItems: MutableList<ReservationCardModel>) : RecyclerView.Adapter<ReservationCardAdapter.ViewHolder>() {
 
     var listener: OnItemClickListener? = null
+
+    interface OnItemClickListener {
+        fun onCancelClick(reservationId: Long)
+        fun onItemClick(reservationCardModel: ReservationCardModel)
+    }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
 
-    // 화면에 표시 될 뷰를 저장하는 역할
-    // 뷰를 재활용 하기 위해 각 요소를 저장해두고 사용한다.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.reservation_cardview, parent, false)
+        return ViewHolder(v)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bindItems(reservationItems[position])
+    }
+
+    override fun getItemCount(): Int {
+        return reservationItems.size
+    }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cancelButton: ImageButton = itemView.findViewById(R.id.cancelButton)
-        /*init {
+
+        private val cancelButton: ImageButton = itemView.findViewById(R.id.cancelButton)
+        private val storeName: TextView = itemView.findViewById(R.id.storename)
+        private val reservationDate: TextView = itemView.findViewById(R.id.reservationDate)
+        private val reservationTime: TextView = itemView.findViewById(R.id.reservationTime)
+        private val peopleNum: TextView = itemView.findViewById(R.id.peopleNum)
+        private val details: TextView = itemView.findViewById(R.id.reservationcomment)
+        private val status: TextView = itemView.findViewById(R.id.reservationtatus)
+
+        init {
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    listener?.onItemClick(position)
+                    listener?.onItemClick(reservationItems[position])
                 }
             }
-        }*/
+
+            cancelButton.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    listener?.onCancelClick(reservationItems[position].reservation_id)
+                }
+            }
+        }
 
         fun bindItems(reservationCardModel: ReservationCardModel) {
-            val reservation_id = itemView.findViewById<TextView>(R.id.reservationId)
-            val store_id = itemView.findViewById<TextView>(R.id.storeId)
-            val store_name = itemView.findViewById<TextView>(R.id.storename)
-            val date = itemView.findViewById<TextView>(R.id.reservationDate)
-            val time = itemView.findViewById<TextView>(R.id.reservationTime)
-            val peopleNum = itemView.findViewById<TextView>(R.id.peopleNum)
-            val detail = itemView.findViewById<TextView>(R.id.reservationcomment)
-            val status = itemView.findViewById<TextView>(R.id.reservationtatus)
-
-            reservation_id.text = reservationCardModel.reservation_id.toString()
-            store_id.text = reservationCardModel.store_id.toString()
-            store_name.text = reservationCardModel.store_name
-            date.text = reservationCardModel.reservation_date
-            time.text = reservationCardModel.reservation_time
+            storeName.text = reservationCardModel.store_name
+            reservationDate.text = reservationCardModel.reservation_date
+            reservationTime.text = reservationCardModel.reservation_time
             peopleNum.text = reservationCardModel.num_people.toString()
-            detail.text = reservationCardModel.user_comments
+            details.text = reservationCardModel.user_comments
             status.text = reservationCardModel.reservation_status
+
+            // Set visibility based on reservation status
+            when (reservationCardModel.reservation_status) {
+                "예약 대기", "예약 성공", "예약 완료" -> cancelButton.visibility = View.VISIBLE
+                else -> cancelButton.visibility = View.INVISIBLE
+            }
         }
     }
 }

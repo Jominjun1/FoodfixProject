@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -271,16 +272,37 @@ class MainActivity : BaseActivity() {
                 })
         }
 
+        // 주문 현황 이동
+        findViewById<LinearLayout>(R.id.statusbutton).setOnClickListener {
 
+            val builder = AlertDialog.Builder(this, R.style.CustomDialogTheme)
+            val inflater = layoutInflater
+            val dialogLayout = inflater.inflate(R.layout.status_dialog_layout, null)
 
-        findViewById<LinearLayout>(R.id.packingstatebutton).setOnClickListener {
-            val intent = Intent(this, PackingstatusActivity::class.java)
-            resultLauncher.launch(intent)
-        }
+            val packingstsusButton = dialogLayout.findViewById<Button>(R.id.packingstsusButton)
+            val reservationstatusButton = dialogLayout.findViewById<Button>(R.id.reservationstatusButton)
+            val dialogButton = dialogLayout.findViewById<Button>(R.id.dialogButton)
 
-        findViewById<LinearLayout>(R.id.reservationsstatebutton).setOnClickListener {
-            val intent = Intent(this, ReservationstatusActivity::class.java)
-            resultLauncher.launch(intent)
+            builder.setView(dialogLayout)
+            val dialog = builder.create()
+
+            packingstsusButton.setOnClickListener {
+                dialog.dismiss()
+                val intent = Intent(this, PackingstatusActivity::class.java)
+                resultLauncher.launch(intent)
+            }
+
+            reservationstatusButton.setOnClickListener {
+                dialog.dismiss()
+                val intent = Intent(this, ReservationstatusActivity::class.java)
+                resultLauncher.launch(intent)
+            }
+
+            dialogButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
 
         findViewById<LinearLayout>(R.id.Favoritesbutton).setOnClickListener {
@@ -290,11 +312,12 @@ class MainActivity : BaseActivity() {
         }
 
         //마이페이지로 이동
-        findViewById<TextView>(R.id.MyInf).setOnClickListener {
+        findViewById<LinearLayout>(R.id.mypageButton).setOnClickListener {
             val intent = Intent(this, MypageActivity::class.java)
             startActivity(intent)
             finish()
         }
+
     }
     private fun selectLayout(selectedLayout: LinearLayout, layouts: List<LinearLayout>) {
         layouts.forEach {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/packingCardView"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="150dp"
     android:layout_margin="30dp"
     android:padding="10dp"
     app:cardCornerRadius="12dp"
@@ -49,7 +49,7 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:text="포장시간:"
             app:layout_constraintStart_toEndOf="@+id/packingDate"
@@ -63,7 +63,7 @@
             android:layout_marginTop="8dp"
             android:text="총 가격:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/payment_type" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
             android:id="@+id/menuTotalPrice"
@@ -73,7 +73,7 @@
             android:layout_marginTop="8dp"
             android:text="0000"
             app:layout_constraintStart_toEndOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/payment_type" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
             android:id="@+id/payment_type"
@@ -83,7 +83,7 @@
             android:layout_marginTop="8dp"
             android:text="결제 방식"
             android:textColor="@color/red"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/menuTotalPrice"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
@@ -91,7 +91,7 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:maxLines="3"
             android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textView13"
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="요구사항:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
