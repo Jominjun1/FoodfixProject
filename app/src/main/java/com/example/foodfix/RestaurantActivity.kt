@@ -222,6 +222,4 @@ class RestaurantActivity : BaseActivity() {
                 .into(imageArea)
         }
     }
-
-
 }

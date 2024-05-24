@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -117,7 +118,7 @@ class SignUpActivity : BaseActivity() {
             }
         }
 
-        findViewById<Button>(R.id.signbackButton).setOnClickListener{
+        findViewById<ImageView>(R.id.signback).setOnClickListener{
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }

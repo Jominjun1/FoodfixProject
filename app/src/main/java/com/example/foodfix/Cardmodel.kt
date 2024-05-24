@@ -13,6 +13,7 @@ data class ReviewCardModel(
 data class ReservationCardModel(
     val store_id: Long,
     val reservation_id: Long,
+    val store_name: String,
     val reservation_date: String = " ",
     val reservation_time: String = " ",
     val num_people: Int,

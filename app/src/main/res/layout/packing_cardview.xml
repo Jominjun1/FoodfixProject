@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/packingCardView"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="150dp"
     android:layout_margin="30dp"
     android:padding="10dp"
     app:cardCornerRadius="12dp"
@@ -16,25 +16,6 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="식당 id : "
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/storeId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="식당Id"
-            app:layout_constraintStart_toEndOf="@+id/textView15"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/packingDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +23,7 @@
             android:layout_marginTop="8dp"
             android:text="2000-00-00"
             app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/storeId" />
+            app:layout_constraintTop_toBottomOf="@+id/storename" />
 
         <TextView
             android:id="@+id/textView4"
@@ -52,7 +33,7 @@
             android:layout_marginTop="8dp"
             android:text="포장날짜:"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/storeId" />
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
         <TextView
             android:id="@+id/packingTime"
@@ -62,17 +43,17 @@
             android:layout_marginTop="8dp"
             android:text="00:00"
             app:layout_constraintStart_toEndOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/storeId" />
+            app:layout_constraintTop_toBottomOf="@+id/storename" />
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:text="포장시간:"
             app:layout_constraintStart_toEndOf="@+id/packingDate"
-            app:layout_constraintTop_toBottomOf="@+id/storeId" />
+            app:layout_constraintTop_toBottomOf="@+id/storename" />
 
         <TextView
             android:id="@+id/textView10"
@@ -110,7 +91,7 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:maxLines="3"
             android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/textView13"
@@ -121,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="요구사항:"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -148,23 +129,23 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/packingId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="포장id"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView14" />
-
-        <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/textView17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="포장 id : "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginTop="16dp"
+            android:text="식당 이름 :"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
+        <TextView
+            android:id="@+id/storename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="식당 이름"
+            app:layout_constraintStart_toEndOf="@+id/textView17"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
