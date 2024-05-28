@@ -19,17 +19,17 @@ public class ReservableStoreDTO {
     private LocalTime openTime;
     private LocalTime closeTime;
 
-    public ReservableStoreDTO(Long store_id , String store_address, String store_phone , String store_intro , Integer res_max,
-                              String imagePath, String store_name, String store_category,LocalTime openTime, LocalTime closeTime) {
-        this.store_id=store_id;
-        this.store_address=store_address;
-        this.store_phone=store_phone;
-        this.store_intro=store_intro;
-        this.res_max=res_max;
+    public ReservableStoreDTO(Long store_id, String imagePath, String store_name, String store_phone, String store_address,
+                              String store_intro, Integer res_max, String store_category, LocalTime openTime, LocalTime closeTime) {
+        this.store_id = store_id;
         this.imagePath = imagePath;
         this.store_name = store_name;
+        this.store_phone = store_phone;
+        this.store_address = store_address;
+        this.store_intro = store_intro;
+        this.res_max = res_max;
         this.store_category = store_category;
-        this.openTime=openTime;
-        this.closeTime=closeTime;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
     }
 }

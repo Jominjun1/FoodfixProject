@@ -17,7 +17,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     // 포장 가능 매장 반환
     @Transactional
     @Modifying
-    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_id, s.photo.imagePath, s.store_name,s.store_intro,s.store_phone,s.store_address, s.store_category, s.minimumTime, s.openTime, s.closeTime) " +
+    @Query("SELECT DISTINCT new com.project.foodfix.model.DTO.PackableStoreDTO(s.store_id, s.store_phone, s.store_address,s.store_intro,s.photo.imagePath,s.store_name,s.store_category, s.minimumTime, s.openTime, s.closeTime) " +
             "FROM Store s " +
             "JOIN s.menus m " +
             "WHERE (:store_category IS NULL OR s.store_category = :store_category) " +
