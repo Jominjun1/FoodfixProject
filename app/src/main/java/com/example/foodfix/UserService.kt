@@ -27,10 +27,10 @@ interface UserService {
     @PUT("/user/update")
     fun updatePw(@Header("Authorization") token: String, @Body userInfo:UserPw): Call<ResponseBody>
 
-    @DELETE("/user/cancel/{packing_id}")
+    @DELETE("/user/cancelp/{packing_id}")
     fun cancelPackingOrder(@Header("Authorization") token: String, @Path("packing_id") packingId: Long): Call<Void>
 
-    @DELETE("/user/cancel/{reservation_id}")
+    @DELETE("/user/cancelr/{reservation_id}")
     fun cancelReservationOrder(@Header("Authorization") token: String, @Path("reservation_id") reservationId: Long): Call<Void>
 
 }

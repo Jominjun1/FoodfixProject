@@ -50,6 +50,7 @@ class MainActivity : BaseActivity() {
             // 여기서는 별도의 결과 처리가 필요 없습니다.
         }
 
+
         val gson = GsonBuilder()
             .registerTypeAdapter(LocalTime::class.java, object : JsonDeserializer<LocalTime> {
                 override fun deserialize(
@@ -86,13 +87,17 @@ class MainActivity : BaseActivity() {
         val koreanLayout = findViewById<LinearLayout>(R.id.korean)
         val chickenLayout = findViewById<LinearLayout>(R.id.chicken)
         val westernLayout = findViewById<LinearLayout>(R.id.western)
+        val chinaLayout = findViewById<LinearLayout>(R.id.china)
+        val japanLayout = findViewById<LinearLayout>(R.id.japan)
 
         val koreanText = findViewById<TextView>(R.id.text_korean)
         val chickenText = findViewById<TextView>(R.id.text_chicken)
         val westernText = findViewById<TextView>(R.id.text_western)
+        val chinaText = findViewById<TextView>(R.id.text_china)
+        val japanText = findViewById<TextView>(R.id.text_japan)
 
-        val layouts = listOf(koreanLayout, chickenLayout, westernLayout)
-        val texts = listOf(koreanText, chickenText, westernText)
+        val layouts = listOf(koreanLayout, chickenLayout, westernLayout, chinaLayout, japanLayout)
+        val texts = listOf(koreanText, chickenText, westernText, chinaText, japanText)
 
         var Storecategory = ""
 
@@ -128,6 +133,8 @@ class MainActivity : BaseActivity() {
                                 storeCategory = dto.storeCategory,
                                 store_phone = dto.store_phone,
                                 res_status = dto.res_status,
+                                minimumTime = dto.minimumTime,
+                                res_max = dto.res_max,
                                 store_intro = dto.store_intro,
                                 openTime = dto.openTime,
                                 closeTime = dto.closeTime,
@@ -163,6 +170,8 @@ class MainActivity : BaseActivity() {
                                     putExtra("openTime", clickedItem.openTime)
                                     putExtra("closeTime", clickedItem.closeTime)
                                     putExtra("imagePath", clickedItem.imagePath)
+                                    putExtra("minimumTime", clickedItem.minimumTime.toString())
+                                    //putExtra("res_max", clickedItem.res_max)
                                 }
                                 editor.putString("store_image", clickedItem.imagePath).apply()
                                 resultLauncher.launch(intent)
@@ -213,6 +222,8 @@ class MainActivity : BaseActivity() {
                                     storeCategory = dto.storeCategory,
                                     store_phone = dto.store_phone,
                                     res_status = dto.res_status,
+                                    minimumTime = dto.minimumTime,
+                                    res_max = dto.res_max,
                                     store_intro = dto.store_intro,
                                     openTime = dto.openTime,
                                     closeTime = dto.closeTime,
@@ -247,6 +258,8 @@ class MainActivity : BaseActivity() {
                                         putExtra("store_phone", clickedItem.store_phone)
                                         putExtra("openTime", clickedItem.openTime)
                                         putExtra("closeTime", clickedItem.closeTime)
+                                        //putExtra("minimumTime", clickedItem.minimumTime)
+                                        putExtra("res_max", clickedItem.res_max.toString())
                                     }
 
                                     resultLauncher.launch(intent)

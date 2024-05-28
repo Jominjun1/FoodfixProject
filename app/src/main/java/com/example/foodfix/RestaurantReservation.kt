@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -19,8 +18,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 class RestaurantReservation : BaseActivity() {
 
@@ -93,6 +92,12 @@ class RestaurantReservation : BaseActivity() {
         }
 
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
+
+        val today = Calendar.getInstance()
+
+        // 오늘 날짜를 최소 날짜로 설정하여 과거 날짜를 선택할 수 없게 함
+        calendarView.minDate = today.timeInMillis
+
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val monthFormatted = if (month + 1 < 10) "0${month + 1}" else "${month + 1}"
             val dayFormatted = if (dayOfMonth < 10) "0$dayOfMonth" else "$dayOfMonth"
@@ -138,7 +143,7 @@ class RestaurantReservation : BaseActivity() {
                 user_comments = user_comments,
                 reservation_date = selectedDate,
                 reservation_time = selectedTime,
-                people_cnt = numpeople.toInt(),
+                num_people = numpeople.toInt(),
                 store_id = store_id
             )
 

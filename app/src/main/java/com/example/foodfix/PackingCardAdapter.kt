@@ -70,14 +70,34 @@ class PackingCardAdapter(val packingItems: MutableList<PackingCardModel>) : Recy
             store_name.text = packingCardModel.store_name
             date.text = packingCardModel.packing_date
             time.text = packingCardModel.packing_time
-            price.text = packingCardModel.total_price.toString()
             payment_type.text = packingCardModel.payment_type
             packingcomment.text = packingCardModel.user_comments
             packingstatus.text = packingCardModel.packing_status
 
+            var totalPrice = 0.0
+            packingCardModel.menuItemDTOList?.forEach { item ->
+                totalPrice += item.menu_price.toDouble() * item.quantity.toInt()
+            }
+
+            price.text = totalPrice.toString()
+
+            when (packingCardModel.payment_type) {
+                "0" -> payment_type.text = "앱결제"
+                "1" -> payment_type.text = "방문 결제"
+                else -> payment_type.text = "오류"
+            }
+
+            when (packingCardModel.packing_status) {
+                "0" -> packingstatus.text = "주문중"
+                "1" -> packingstatus.text = "주문 접수"
+                "2" -> packingstatus.text = "주문 취소"
+                "3" -> packingstatus.text = "주문 완료"
+                else -> packingstatus.text = "오류"
+            }
+
             // Set visibility based on reservation status
             when (packingCardModel.packing_status) {
-                "주문중" -> cancelButton.visibility = View.VISIBLE
+                "0" -> cancelButton.visibility = View.VISIBLE
                 else -> cancelButton.visibility = View.INVISIBLE
             }
         }
