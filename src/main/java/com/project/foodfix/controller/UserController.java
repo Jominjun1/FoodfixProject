@@ -195,7 +195,7 @@ public class UserController {
         return ResponseEntity.ok("사용자 회원 탈퇴 성공");
     }
     // 예약 주문 취소
-    @DeleteMapping("/cancel/{reservation_id}")
+    @DeleteMapping("/cancelr/{reservation_id}")
     public ResponseEntity<Object> cancelReservation(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long reservation_id) {
 
         String token = authorizationHeader.replace("Bearer ", "");
@@ -218,7 +218,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
     // 포장 주문 취소
-    @DeleteMapping("/cancel/{packing_id}")
+    @DeleteMapping("/cancelp/{packing_id}")
     public ResponseEntity<Object> cancelPacking(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long packing_id) {
 
         String token = authorizationHeader.replace("Bearer ", "");
