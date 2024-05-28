@@ -11,7 +11,8 @@
 <details>
   <summary>푸드픽스 API 명세서 보기</summary>
   
-  ![푸드픽스 API](https://github.com/Jominjun1/FoodfixProject/assets/116476333/a65a081c-191d-4599-a109-27df6a853870)
+![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/e0fb37f7-feeb-45f1-9694-40eb965ae228)
+
 </details>
 
 ## 목차
