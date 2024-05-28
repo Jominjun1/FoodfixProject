@@ -165,17 +165,21 @@ class RestaurantActivity : BaseActivity() {
             val store_phone = intent.getStringExtra("store_phone") ?: "전화번호 정보 없음"
             val openTime = intent.getStringExtra("openTime") ?: "오픈 시간 정보 없음"
             val closeTime = intent.getStringExtra("closeTime") ?: "클로즈 시간 정보 없음"
+            val minimumTime = intent.getStringExtra("minimumTime") ?: "포장 최소 준비 시간 없음"
+            val res_max = intent.getStringExtra("res_max") ?: "예약 최대 가능 팀 없음"
 
             // 정보를 하나의 문자열로 합칩니다.
             val message = "이름: $store_name\n" +
                     "설명: $store_intro\n" +
                     "주소: $store_address\n" +
                     "전화번호: $store_phone\n" +
+                    "포장 최소 시간: $minimumTime\n" +
+                    "예약 가능 팀: $res_max\n" +
                     "오픈 시간: $openTime\n" +
                     "클로즈 시간: $closeTime"
 
             // AlertDialog를 생성하고 설정합니다.
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.CustomDialogTheme)
             builder.setTitle("$store_name 정보")
             builder.setMessage(message)
 
@@ -193,7 +197,7 @@ class RestaurantActivity : BaseActivity() {
 
             if (prev == "none") {
                 // 이전 데이터가 없을 때의 처리
-                Toast.makeText(this, "이전 데이터가 없습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "장바구니가 비었습니다.", Toast.LENGTH_SHORT).show()
             }
             else {
                 val intent = Intent(this, TakeoutActivity::class.java)

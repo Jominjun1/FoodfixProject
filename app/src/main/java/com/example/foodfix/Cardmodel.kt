@@ -39,9 +39,11 @@ data class StoreDTO(
     val store_name: String,
     val store_address:String?,
     val storeCategory: String?,
-    val store_phone:String?,
-    val res_status:String?,
-    val store_intro:String?,
+    val store_phone: String?,
+    val res_status: String?,
+    val minimumTime: Int,
+    val res_max: Int,
+    val store_intro: String?,
     val openTime: LocalTime,
     val closeTime: LocalTime,
     val reservationCancel:LocalTime?,
@@ -54,7 +56,7 @@ data class ReservationDTO(
     val user_comments: String?,
     val reservation_date: String?,
     val reservation_time: String?,
-    val people_cnt: Int?,
+    val num_people: Int?,
     val store_id: Long?
 )
 

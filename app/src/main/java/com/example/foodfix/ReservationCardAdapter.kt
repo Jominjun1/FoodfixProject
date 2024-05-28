@@ -39,7 +39,7 @@ class ReservationCardAdapter(private val reservationItems: MutableList<Reservati
         private val storeName: TextView = itemView.findViewById(R.id.storename)
         private val reservationDate: TextView = itemView.findViewById(R.id.reservationDate)
         private val reservationTime: TextView = itemView.findViewById(R.id.reservationTime)
-        private val peopleNum: TextView = itemView.findViewById(R.id.peopleNum)
+        private val num_people: TextView = itemView.findViewById(R.id.num_people)
         private val details: TextView = itemView.findViewById(R.id.reservationcomment)
         private val status: TextView = itemView.findViewById(R.id.reservationtatus)
 
@@ -63,13 +63,21 @@ class ReservationCardAdapter(private val reservationItems: MutableList<Reservati
             storeName.text = reservationCardModel.store_name
             reservationDate.text = reservationCardModel.reservation_date
             reservationTime.text = reservationCardModel.reservation_time
-            peopleNum.text = reservationCardModel.num_people.toString()
+            num_people.text = reservationCardModel.num_people.toString()
             details.text = reservationCardModel.user_comments
             status.text = reservationCardModel.reservation_status
 
+            when (reservationCardModel.reservation_status){
+                "0" -> status.text = "예약 대기"
+                "1" -> status.text = "예약 성공"
+                "2" -> status.text = "예약 취소"
+                "3" -> status.text = "예약 완료"
+                else -> status.text = "오류"
+            }
+
             // Set visibility based on reservation status
             when (reservationCardModel.reservation_status) {
-                "예약 대기", "예약 성공", "예약 완료" -> cancelButton.visibility = View.VISIBLE
+                "0" -> cancelButton.visibility = View.VISIBLE
                 else -> cancelButton.visibility = View.INVISIBLE
             }
         }
