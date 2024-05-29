@@ -122,24 +122,23 @@ class MainActivity : BaseActivity() {
                 ) {
                     if (response.isSuccessful) {
                         val packableStores = response.body() ?: emptyList()
+                        Log.d("MainActivity", "Packable Stores: $packableStores")
                         val cardItems = packableStores.map { dto ->
 
-                            Log.d("StoreImagePath", "${dto.imagePath}")
+                            //Log.d("------------StoreInf", "${dto}")
                             // 서버로부터 받은 정보를 StoreDTO로 변환합니다.
                             StoreDTO(
                                 store_id = dto.store_id,
+                                imagePath = dto.imagePath,
                                 store_name = dto.store_name,
-                                store_address = dto.store_address,
-                                storeCategory = dto.storeCategory,
-                                store_phone = dto.store_phone,
-                                res_status = dto.res_status,
-                                minimumTime = dto.minimumTime,
-                                res_max = dto.res_max,
                                 store_intro = dto.store_intro,
+                                store_phone = dto.store_phone,
+                                store_address = dto.store_address,
+                                store_category = dto.store_category,
+                                minimumTime = dto.minimumTime,
                                 openTime = dto.openTime,
                                 closeTime = dto.closeTime,
-                                reservationCancel = dto.reservationCancel,
-                                imagePath = dto.imagePath
+                                res_max = ""
                             )
                         }
                         // RecyclerView 어댑터에 데이터 설정
@@ -155,7 +154,7 @@ class MainActivity : BaseActivity() {
                                 val clickedItem = itemList[position]
                                 Log.d(
                                     "MainActivity",
-                                    "Clicked store_id: ${clickedItem.store_id}"
+                                    "Clicked address: ${clickedItem.store_address}"
                                 )
                                 // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                 val intent = Intent(
@@ -167,17 +166,17 @@ class MainActivity : BaseActivity() {
                                     putExtra("store_address", clickedItem.store_address)
                                     putExtra("store_intro", clickedItem.store_intro)
                                     putExtra("store_phone", clickedItem.store_phone)
-                                    putExtra("openTime", clickedItem.openTime)
-                                    putExtra("closeTime", clickedItem.closeTime)
+                                    putExtra("openTime", clickedItem.openTime.toString())
+                                    putExtra("closeTime", clickedItem.closeTime.toString())
                                     putExtra("imagePath", clickedItem.imagePath)
                                     putExtra("minimumTime", clickedItem.minimumTime.toString())
-                                    //putExtra("res_max", clickedItem.res_max)
                                 }
                                 editor.putString("store_image", clickedItem.imagePath).apply()
                                 resultLauncher.launch(intent)
                             }
                         })
                     } else {
+                        Log.d("MainActivity", "Failed to fetch data: ${response.code()} ${response.message()}")
                         Toast.makeText(
                             this@MainActivity,
                             "Failed to fetch data",
@@ -217,18 +216,16 @@ class MainActivity : BaseActivity() {
                                 // 서버로부터 받은 정보를 StoreDTO 변환합니다.
                                 StoreDTO(
                                     store_id = dto.store_id,
+                                    imagePath = dto.imagePath,
                                     store_name = dto.store_name,
-                                    store_address = dto.store_address,
-                                    storeCategory = dto.storeCategory,
                                     store_phone = dto.store_phone,
-                                    res_status = dto.res_status,
-                                    minimumTime = dto.minimumTime,
-                                    res_max = dto.res_max,
+                                    store_address = dto.store_address,
                                     store_intro = dto.store_intro,
+                                    res_max = dto.res_max,
+                                    store_category = dto.store_category,
+                                    minimumTime = dto.minimumTime,
                                     openTime = dto.openTime,
                                     closeTime = dto.closeTime,
-                                    reservationCancel = dto.reservationCancel,
-                                    imagePath = dto.imagePath
                                 )
                             }
                             // RecyclerView 어댑터에 데이터 설정
@@ -256,9 +253,8 @@ class MainActivity : BaseActivity() {
                                         putExtra("store_address", clickedItem.store_address)
                                         putExtra("store_intro", clickedItem.store_intro)
                                         putExtra("store_phone", clickedItem.store_phone)
-                                        putExtra("openTime", clickedItem.openTime)
-                                        putExtra("closeTime", clickedItem.closeTime)
-                                        //putExtra("minimumTime", clickedItem.minimumTime)
+                                        putExtra("openTime", clickedItem.openTime.toString())
+                                        putExtra("closeTime", clickedItem.closeTime.toString())
                                         putExtra("res_max", clickedItem.res_max.toString())
                                     }
 
@@ -266,6 +262,7 @@ class MainActivity : BaseActivity() {
                                 }
                             })
                         } else {
+                            Log.d("MainActivity", "Failed to fetch data: ${response.code()} ${response.message()}")
                             Toast.makeText(
                                 this@MainActivity,
                                 "Failed to fetch data",
