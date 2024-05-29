@@ -1,12 +1,10 @@
 package com.example.foodfix
 
-import MyWebSocketListener
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -17,13 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,7 +26,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 import java.time.LocalTime
-import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity() {
 
@@ -89,15 +83,17 @@ class MainActivity : BaseActivity() {
         val westernLayout = findViewById<LinearLayout>(R.id.western)
         val chinaLayout = findViewById<LinearLayout>(R.id.china)
         val japanLayout = findViewById<LinearLayout>(R.id.japan)
+        val snackLayout = findViewById<LinearLayout>(R.id.snack)
 
         val koreanText = findViewById<TextView>(R.id.text_korean)
         val chickenText = findViewById<TextView>(R.id.text_chicken)
         val westernText = findViewById<TextView>(R.id.text_western)
         val chinaText = findViewById<TextView>(R.id.text_china)
         val japanText = findViewById<TextView>(R.id.text_japan)
+        val snackText = findViewById<TextView>(R.id.text_snack)
 
-        val layouts = listOf(koreanLayout, chickenLayout, westernLayout, chinaLayout, japanLayout)
-        val texts = listOf(koreanText, chickenText, westernText, chinaText, japanText)
+        val layouts = listOf(koreanLayout, chickenLayout, westernLayout, chinaLayout, japanLayout, snackLayout)
+        val texts = listOf(koreanText, chickenText, westernText, chinaText, japanText, snackText)
 
         var Storecategory = ""
 
@@ -122,24 +118,23 @@ class MainActivity : BaseActivity() {
                 ) {
                     if (response.isSuccessful) {
                         val packableStores = response.body() ?: emptyList()
+                        Log.d("MainActivity", "Packable Stores: $packableStores")
                         val cardItems = packableStores.map { dto ->
 
-                            Log.d("StoreImagePath", "${dto.imagePath}")
+                            //Log.d("------------StoreInf", "${dto}")
                             // 서버로부터 받은 정보를 StoreDTO로 변환합니다.
                             StoreDTO(
                                 store_id = dto.store_id,
+                                imagePath = dto.imagePath,
                                 store_name = dto.store_name,
-                                store_address = dto.store_address,
-                                storeCategory = dto.storeCategory,
-                                store_phone = dto.store_phone,
-                                res_status = dto.res_status,
-                                minimumTime = dto.minimumTime,
-                                res_max = dto.res_max,
                                 store_intro = dto.store_intro,
+                                store_phone = dto.store_phone,
+                                store_address = dto.store_address,
+                                store_category = dto.store_category,
+                                minimumTime = dto.minimumTime,
                                 openTime = dto.openTime,
                                 closeTime = dto.closeTime,
-                                reservationCancel = dto.reservationCancel,
-                                imagePath = dto.imagePath
+                                res_max = ""
                             )
                         }
                         // RecyclerView 어댑터에 데이터 설정
@@ -155,7 +150,7 @@ class MainActivity : BaseActivity() {
                                 val clickedItem = itemList[position]
                                 Log.d(
                                     "MainActivity",
-                                    "Clicked store_id: ${clickedItem.store_id}"
+                                    "Clicked address: ${clickedItem.store_address}"
                                 )
                                 // 예를 들어, 상세 정보 화면으로 이동하는 인텐트를 발생시킵니다.
                                 val intent = Intent(
@@ -171,13 +166,13 @@ class MainActivity : BaseActivity() {
                                     putExtra("closeTime", clickedItem.closeTime)
                                     putExtra("imagePath", clickedItem.imagePath)
                                     putExtra("minimumTime", clickedItem.minimumTime.toString())
-                                    //putExtra("res_max", clickedItem.res_max)
                                 }
                                 editor.putString("store_image", clickedItem.imagePath).apply()
                                 resultLauncher.launch(intent)
                             }
                         })
                     } else {
+                        Log.d("MainActivity", "Failed to fetch data: ${response.code()} ${response.message()}")
                         Toast.makeText(
                             this@MainActivity,
                             "Failed to fetch data",
@@ -217,18 +212,16 @@ class MainActivity : BaseActivity() {
                                 // 서버로부터 받은 정보를 StoreDTO 변환합니다.
                                 StoreDTO(
                                     store_id = dto.store_id,
+                                    imagePath = dto.imagePath,
                                     store_name = dto.store_name,
-                                    store_address = dto.store_address,
-                                    storeCategory = dto.storeCategory,
                                     store_phone = dto.store_phone,
-                                    res_status = dto.res_status,
-                                    minimumTime = dto.minimumTime,
-                                    res_max = dto.res_max,
+                                    store_address = dto.store_address,
                                     store_intro = dto.store_intro,
+                                    res_max = dto.res_max,
+                                    store_category = dto.store_category,
+                                    minimumTime = dto.minimumTime,
                                     openTime = dto.openTime,
                                     closeTime = dto.closeTime,
-                                    reservationCancel = dto.reservationCancel,
-                                    imagePath = dto.imagePath
                                 )
                             }
                             // RecyclerView 어댑터에 데이터 설정
@@ -258,7 +251,6 @@ class MainActivity : BaseActivity() {
                                         putExtra("store_phone", clickedItem.store_phone)
                                         putExtra("openTime", clickedItem.openTime)
                                         putExtra("closeTime", clickedItem.closeTime)
-                                        //putExtra("minimumTime", clickedItem.minimumTime)
                                         putExtra("res_max", clickedItem.res_max.toString())
                                     }
 
@@ -266,6 +258,7 @@ class MainActivity : BaseActivity() {
                                 }
                             })
                         } else {
+                            Log.d("MainActivity", "Failed to fetch data: ${response.code()} ${response.message()}")
                             Toast.makeText(
                                 this@MainActivity,
                                 "Failed to fetch data",

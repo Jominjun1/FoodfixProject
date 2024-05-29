@@ -37,17 +37,15 @@ data class PackingCardModel(
 data class StoreDTO(
     val store_id: Long,
     val store_name: String,
-    val store_address:String?,
-    val storeCategory: String?,
-    val store_phone: String?,
-    val res_status: String?,
-    val minimumTime: Int,
-    val res_max: Int,
-    val store_intro: String?,
-    val openTime: LocalTime,
-    val closeTime: LocalTime,
-    val reservationCancel:LocalTime?,
-    val imagePath: String?
+    val store_address: String,
+    val store_phone: String,
+    val imagePath: String,
+    val store_intro: String,
+    val store_category: String,
+    val minimumTime: Int?, // null 허용 필드
+    val openTime: String,
+    val closeTime: String,
+    val res_max: String? // null 허용 필드
 )
 
 data class ReservationDTO(

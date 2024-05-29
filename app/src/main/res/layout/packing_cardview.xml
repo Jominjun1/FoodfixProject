@@ -7,13 +7,14 @@
     android:layout_height="150dp"
     android:layout_margin="30dp"
     android:padding="10dp"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="20dp"
     android:clickable="true"
     app:cardElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/cardview">
 
         <TextView
             android:id="@+id/packingDate"
