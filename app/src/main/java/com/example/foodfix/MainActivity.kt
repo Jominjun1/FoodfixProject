@@ -1,12 +1,10 @@
 package com.example.foodfix
 
-import MyWebSocketListener
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -17,13 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodfix.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,7 +26,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 import java.time.LocalTime
-import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity() {
 
@@ -89,15 +83,17 @@ class MainActivity : BaseActivity() {
         val westernLayout = findViewById<LinearLayout>(R.id.western)
         val chinaLayout = findViewById<LinearLayout>(R.id.china)
         val japanLayout = findViewById<LinearLayout>(R.id.japan)
+        val snackLayout = findViewById<LinearLayout>(R.id.snack)
 
         val koreanText = findViewById<TextView>(R.id.text_korean)
         val chickenText = findViewById<TextView>(R.id.text_chicken)
         val westernText = findViewById<TextView>(R.id.text_western)
         val chinaText = findViewById<TextView>(R.id.text_china)
         val japanText = findViewById<TextView>(R.id.text_japan)
+        val snackText = findViewById<TextView>(R.id.text_snack)
 
-        val layouts = listOf(koreanLayout, chickenLayout, westernLayout, chinaLayout, japanLayout)
-        val texts = listOf(koreanText, chickenText, westernText, chinaText, japanText)
+        val layouts = listOf(koreanLayout, chickenLayout, westernLayout, chinaLayout, japanLayout, snackLayout)
+        val texts = listOf(koreanText, chickenText, westernText, chinaText, japanText, snackText)
 
         var Storecategory = ""
 
@@ -166,8 +162,8 @@ class MainActivity : BaseActivity() {
                                     putExtra("store_address", clickedItem.store_address)
                                     putExtra("store_intro", clickedItem.store_intro)
                                     putExtra("store_phone", clickedItem.store_phone)
-                                    putExtra("openTime", clickedItem.openTime.toString())
-                                    putExtra("closeTime", clickedItem.closeTime.toString())
+                                    putExtra("openTime", clickedItem.openTime)
+                                    putExtra("closeTime", clickedItem.closeTime)
                                     putExtra("imagePath", clickedItem.imagePath)
                                     putExtra("minimumTime", clickedItem.minimumTime.toString())
                                 }
@@ -253,8 +249,8 @@ class MainActivity : BaseActivity() {
                                         putExtra("store_address", clickedItem.store_address)
                                         putExtra("store_intro", clickedItem.store_intro)
                                         putExtra("store_phone", clickedItem.store_phone)
-                                        putExtra("openTime", clickedItem.openTime.toString())
-                                        putExtra("closeTime", clickedItem.closeTime.toString())
+                                        putExtra("openTime", clickedItem.openTime)
+                                        putExtra("closeTime", clickedItem.closeTime)
                                         putExtra("res_max", clickedItem.res_max.toString())
                                     }
 
