@@ -9,13 +9,6 @@ import Foundation
 import Alamofire
 
 
-struct MenuItemDTO: Codable{
-    var menu_id : Int
-    var menu_price : Int
-    var menu_name : String
-    var quantity : Int
-}
-
 class menuDetailViewController : UIViewController{
     var menuDetail: Menu?
     let encoder = JSONEncoder()
@@ -27,6 +20,8 @@ class menuDetailViewController : UIViewController{
     @IBOutlet weak var menuQuantityStepper: UIStepper!
     @IBOutlet weak var explanationLabel: UILabel!
     
+    @IBOutlet weak var menuView: UIView!
+    @IBOutlet weak var menuImage: UIImageView!
     @IBAction func stepperValueChanged(_ sender: Any) {
         let stepperNum = Int(menuQuantityStepper.value)
         let sum = stepperNum * (menuDetail?.menu_price)!
@@ -62,6 +57,12 @@ class menuDetailViewController : UIViewController{
         var sumPrice = Int(menuQuantityStepper.value) * (menuDetail?.menu_price)!
         sumPriceLabel.text = String(sumPrice)+"원"
         
+        var imagePath = menuDetail!.imagePath.split(separator: "/")
+        let imageurl = URL(string: "http://54.180.213.178:8080/images/" + imagePath.popLast()!)
+        menuImage.kf.indicatorType = .activity
+        menuImage.kf.setImage(with: imageurl!, placeholder: nil, options: [.transition(.fade(0.7))], progressBlock: nil)
+        menuImage.layer.cornerRadius = 10
+        menuView.layer.cornerRadius = 10
     }
     
 }

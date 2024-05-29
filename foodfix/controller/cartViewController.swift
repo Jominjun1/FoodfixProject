@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Alamofire
+import Starscream
 
 class CartTableViewCell : UITableViewCell{
     
@@ -44,11 +45,15 @@ extension cartViewController : UITableViewDataSource, UITableViewDelegate{
         } //userdefaults에 삭제된 배열로 갱신하기
         tableView.deleteRows(at: [indexPath], with: .fade) //테이블에서 해당 셀 삭제
         tableView.endUpdates()
+        calcSum()
+    }
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "삭제"
     }
     
 }
 
-class cartViewController : UIViewController{
+class cartViewController : UIViewController, WebSocketDelegate{
     let decoder = JSONDecoder()
     let encoder = JSONEncoder()
     var userData : User?
@@ -61,6 +66,53 @@ class cartViewController : UIViewController{
     @IBOutlet weak var totalSumLabel: UILabel!
     @IBOutlet weak var commentTextField: UITextField!
     
+    private var socket: WebSocket?
+    private var socketUrl = URL(string: "ws://54.180.213.178:8080/wsk")
+    
+    func connect(){
+        let request = URLRequest(url: socketUrl!)
+        self.socket = WebSocket(request: request)
+        self.socket?.delegate = self
+        self.socket?.connect()
+        
+    }
+    func disconnect(){
+        self.socket?.disconnect()
+    }
+    func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) {
+        switch event{
+        case .connected(_):
+            client.write(string: (userData?.user_id)!)
+            print((userData?.user_id)!)
+            print("서버와 연결되었습니다.")
+        case .disconnected(_, _):
+            print("서버와 연결이 해제되었습니다.")
+        case .text(let string):
+            print(string)
+        case .binary(let data):
+            print("binary")
+            print(data)
+        case .pong(let data):
+            print("pong")
+            print(data)
+        case .ping(let data):
+            print("ping")
+            print(data)
+        case .error(let error):
+            print("error")
+            print(error)
+        case .viabilityChanged(let bool):
+            print("viabilityChanged")
+            print(bool)
+        case .reconnectSuggested(let bool):
+            print("reconnectSuggested")
+            print(bool)
+        case .cancelled:
+            print("cancelled")
+        case .peerClosed:
+            print("peerClosed")
+        }
+    }
     
     func showToast(message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 150, y: self.view.frame.size.height-100, width: 300, height: 35))
@@ -79,9 +131,15 @@ class cartViewController : UIViewController{
             toastLabel.removeFromSuperview()
         })
     }
-    
-    @IBAction func doOrderPacking(_ sender: Any) {
-        let url = "http://54.180.213.178:8080/packing/create"
+    func calcSum(){
+        var sum = 0
+        for cart in cartArray{
+            sum += cart.menu_price*cart.quantity
+        }
+        totalSumLabel.text = "합계금액: "+String(sum)+"원"
+    }
+    func sendOrder(paymentType:String){
+        let url = "http://54.180.213.178:8080/order/packing"
         let selected = today.addingTimeInterval(TimeInterval(timezone.secondsFromGMT(for: today)))
         
         let selectedDate = selected.toString().split(separator: " ")
@@ -96,13 +154,14 @@ class cartViewController : UIViewController{
             ]
             menuItemDTOList.append(dict)
         }
+        
         let params: Parameters = [
             "user_id":(userData?.user_id)!,
             "user_phone":(userData?.user_phone)!,
             "user_comments":commentTextField.text!,
             "packing_date": String(selectedDate[0]),
             "packing_time": String(selectedDate[1]),
-            "payment_type": "0", //0:앱결제 1:방문결제
+            "payment_type": paymentType, //0:앱결제 1:방문결제
             "store_id": (storeData?.store_id)!,
             "menuItemDTOList": menuItemDTOList
         ]
@@ -122,9 +181,19 @@ class cartViewController : UIViewController{
             
             switch DataResponse.result{
             case .success:
-                self.showToast(message: "포장 주문에 성공하였습니다.")
-                let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){ timer in
-                    self.performSegue(withIdentifier: "unwindToMain", sender: self)
+                guard let statusCode = DataResponse.response?.statusCode else{return}
+                if(statusCode == 500){
+                    self.showToast(message: "http 500 error")
+                    return
+                } else if(statusCode == 400){
+                    self.showToast(message: "http 400 ")
+                    return
+                }else if(statusCode == 200){
+                    self.showToast(message: "포장 주문에 성공하였습니다.")
+                    UserDefaults.standard.removeObject(forKey: "cartArray")
+                    let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){ timer in
+                        self.performSegue(withIdentifier: "unwindToMain", sender: self)
+                    }
                     
                 }
                 
@@ -135,9 +204,15 @@ class cartViewController : UIViewController{
                 
             }
         }
-        
-        
     }
+    
+    @IBAction func doOrderPacking(_ sender: Any) {
+        sendOrder(paymentType: "0")
+    }
+    @IBAction func doOrderPackingVisit(_ sender: Any) {
+        sendOrder(paymentType: "1")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -149,6 +224,7 @@ class cartViewController : UIViewController{
         
         cartTableView.delegate = self
         cartTableView.dataSource = self
+        calcSum()
         
         let url = "http://54.180.213.178:8080/user/profile"
         let token = read(key:"token")
@@ -163,7 +239,9 @@ class cartViewController : UIViewController{
             case .success(let success):
                 guard let decodedData = try? self.decoder.decode(User.self, from: dataResponse.value!) else { return }
                 self.userData = decodedData
-                
+                self.socketUrl = URL(string: "ws://54.180.213.178:8080/wsk"+"?user_id="+String((self.userData?.user_id)!))
+                print(self.socketUrl)
+                self.connect()
             case .failure(let failure):
                 print("사용자 정보 불러오기를 실패하였습니다.")
             }

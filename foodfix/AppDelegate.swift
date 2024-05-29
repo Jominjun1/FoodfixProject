@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,7 +31,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func applicationWillTerminate(_: UIApplication) {
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        let url = "http://54.180.213.178:8080/user/logout"
+        let token = read(key:"token")
+        
+        let header: HTTPHeaders = [
+            "Authorization": token!
+        ]
 
+        let dataRequest = AF.request(url, method: .post,
+                                     encoding: JSONEncoding.default,
+                                     headers: header)
+        
+        dataRequest.responseData{ dataResponse in
+            switch dataResponse.result {
+            case .success(let success):
+                foodfix.delete(key: "token")
+                print("종료 시 로그아웃 성공")
+                
+                
+            case .failure(let failure):
+                print("로그아웃에 실패하였습니다.")
+            }
+        }
+    }
 
 }
 

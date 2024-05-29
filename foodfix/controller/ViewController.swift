@@ -10,15 +10,6 @@ import Alamofire
 import Kingfisher
 
 
-struct Store :Codable{
-    var store_id :Int
-    var store_name :String
-    var imagePath :String
-    var store_category :String
-    var openTime :String
-    var closeTime :String
-
-}
 
 class StoreTableViewCell: UITableViewCell{
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -33,22 +24,20 @@ extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: StoreTableViewCell = tableView.dequeueReusableCell(withIdentifier: "storeCell", for: indexPath) as! StoreTableViewCell
         
-        //cell.thumbnailImageView.image = UIImage(named: "") //수정할것
         cell.titleLabel.text = storeArray[indexPath.row].store_name
-        let url = URL(string: "http://54.180.213.178:8080/images"+storeArray[indexPath.row].imagePath)
-        print(url)
+        var imagePath = storeArray[indexPath.row].imagePath.split(separator: "/")
+        let url = URL(string: "http://54.180.213.178:8080/images/" + imagePath.popLast()!)
         cell.thumbnailImageView.kf.indicatorType = .activity
         cell.thumbnailImageView.kf.setImage(with: url!, placeholder: nil, options: [.transition(.fade(0.7))], progressBlock: nil)
+        cell.thumbnailImageView.layer.cornerRadius = 10
         let time = "open: "+storeArray[indexPath.row].openTime + " \nclose: " + storeArray[indexPath.row].closeTime
         cell.timeLabel.text = time
-        
+        cell.layer.cornerRadius = 10
         return cell
         
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goDetail", sender: storeArray[indexPath.row])
-        
-        
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "goDetail"){
@@ -92,8 +81,10 @@ class ViewController: UIViewController, UITableViewDelegate{
             url = url+"?store_category=한식"
         case "양식":
             url = url+"?store_category=양식"
-        case "치킨":
-            url = url+"?store_category=치킨"
+        case "중식":
+            url = url+"?store_category=중식"
+        case "분식":
+            url = url+"?store_category=분식"
         default:
             print("유효하지 않은 카테고리")
             return
@@ -142,8 +133,12 @@ class ViewController: UIViewController, UITableViewDelegate{
         category = "양식"
         doSearch(searchMod: searchMod, category: category)
     }
-    @IBAction func selectChicken(_ sender: Any) {
-        category = "치킨"
+    @IBAction func selectChinesefood(_ sender: Any) {
+        category = "중식"
+        doSearch(searchMod: searchMod, category: category)
+    }
+    @IBAction func selectSnackfood(_ sender: Any) {
+        category = "분식"
         doSearch(searchMod: searchMod, category: category)
     }
     
@@ -151,7 +146,7 @@ class ViewController: UIViewController, UITableViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let store = Store(store_id: 1000, store_name: "test", imagePath: "testurl", store_category: "양식", openTime: "11:00:00", closeTime: "22:00:00")
+        //let store = Store(store_id: 1000, store_name: "test", imagePath: "testurl", store_category: "양식", openTime: "11:00:00", closeTime: "22:00:00")
         /*storeArray.append(store)
         storeArray.append(store)
         storeArray.append(store)
@@ -161,7 +156,7 @@ class ViewController: UIViewController, UITableViewDelegate{
         category = "양식"
 
         doSearch(searchMod: searchMod, category: category)
-        self.tableView.rowHeight = 130
+        self.tableView.rowHeight = 300
         self.tableView.delegate = self
         self.tableView.dataSource = self
         let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){_ in

@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import Starscream
 
 
 
@@ -20,7 +21,49 @@ extension Date{
 }
 
 
-class reserveViewController : UIViewController{
+class reserveViewController : UIViewController, WebSocketDelegate{
+    
+    private var socket: WebSocket?
+    private var socketUrl = URL(string: "ws://54.180.213.178:8080/wsk")
+    
+    func connect(){
+        let request = URLRequest(url: socketUrl!)
+        self.socket = WebSocket(request: request)
+        self.socket?.delegate = self
+        self.socket?.connect()
+        
+    }
+    func disconnect(){
+        self.socket?.disconnect()
+    }
+    func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) {
+        switch event{
+        case .connected(_):
+            print("서버와 연결되었습니다.")
+            client.write(string: (userData?.user_id)!)
+            print((userData?.user_id)!)
+        case .disconnected(_, _):
+            print("서버와 연결이 해제되었습니다.")
+        case .text(let string):
+            print(string)
+        case .binary(_):
+            print("binary")
+        case .pong(_):
+            print("pong")
+        case .ping(_):
+            print("ping")
+        case .error(_):
+            print("error")
+        case .viabilityChanged(_):
+            print("viabilityChanged")
+        case .reconnectSuggested(_):
+            print("reconnectSuggested")
+        case .cancelled:
+            print("cancelled")
+        case .peerClosed:
+            print("peerClosed")
+        }
+    }
     
     func showToast(message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 150, y: self.view.frame.size.height-100, width: 300, height: 35))
@@ -50,6 +93,13 @@ class reserveViewController : UIViewController{
     @IBOutlet weak var peopleCntStepper: UIStepper!
     @IBOutlet weak var peopleCntLabel: UILabel!
     
+    @IBOutlet weak var reserveButton: UIButton!
+    @IBOutlet weak var timeView: UIView!
+    
+    @IBOutlet weak var countView: UIView!
+    
+    @IBOutlet weak var commentView: UIView!
+    
     @IBAction func stepperValueChanged(_ sender: Any) {
         let stepperNum = Int(peopleCntStepper.value)
         peopleCntLabel.text = "예약 인원수 : " + String(stepperNum) + "명"
@@ -61,7 +111,7 @@ class reserveViewController : UIViewController{
         let selected = datePicker.date.addingTimeInterval(TimeInterval(timezone.secondsFromGMT(for: today)))
         let selectedDate = selected.toString().split(separator: " ")
         
-        let url = "http://54.180.213.178:8080/reservation/create"
+        let url = "http://54.180.213.178:8080/order/reservation"
         
         let params: Parameters = [
             "user_id": (userData?.user_id)!,
@@ -69,7 +119,7 @@ class reserveViewController : UIViewController{
             "user_comments": commentTextField.text!,
             "reservation_date": String(selectedDate[0]),
             "reservation_time": String(selectedDate[1]),
-            "people_cnt": Int(peopleCntStepper.value),
+            "num_people": Int(peopleCntStepper.value),
             "store_id": (storeData?.store_id)!
         ]
         let header: HTTPHeaders = [
@@ -99,6 +149,7 @@ class reserveViewController : UIViewController{
                 }
                 self.showToast(message: "예약주문 성공")
                 let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){ timer in
+                    self.disconnect()
                     self.performSegue(withIdentifier: "unwindToStore", sender: self)
                     
                 }
@@ -109,17 +160,20 @@ class reserveViewController : UIViewController{
                 return
                 
             }
-            
         }
-        
-        
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         datePicker.minimumDate = Date() + 7200 //현재 시간보다 7200초 이후, 2시간 뒤부터만 선택 가능하게
         peopleCntLabel.text = "예약 인원수 : " + "1" + "명"
+        timeView.layer.cornerRadius = 10
+        timeView.layer.masksToBounds = true
+        countView.layer.cornerRadius = 10
+        countView.layer.masksToBounds = true
+        commentView.layer.cornerRadius = 10
+        commentView.layer.masksToBounds = true
+        reserveButton.layer.cornerRadius = 10
         
         let decoder = JSONDecoder()
         
@@ -134,12 +188,14 @@ class reserveViewController : UIViewController{
         let dataRequest = AF.request(url, method: .get,
                                      encoding: JSONEncoding.default,
                                      headers: header)
-        
         dataRequest.responseData{ dataResponse in
             switch dataResponse.result {
             case .success(let success):
                 guard let decodedData = try? decoder.decode(User.self, from: dataResponse.value!) else { return }
                 self.userData = decodedData
+                self.socketUrl = URL(string: "ws://54.180.213.178:8080/wsk"+"?user_id="+String((self.userData?.user_id)!))
+                print(self.socketUrl)
+                self.connect()
                 
             case .failure(let failure):
                 print("사용자 정보 불러오기를 실패하였습니다.")

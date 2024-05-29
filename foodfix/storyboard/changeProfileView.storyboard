@@ -3,8 +3,8 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,14 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="프로필 변경" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KwF-6q-xoY">
-                                <rect key="frame" x="0.0" y="59" width="393" height="48"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray3Color"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="닉네임" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgE-yw-vS0">
                                 <rect key="frame" x="27" y="169" width="45" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -35,7 +27,7 @@
                                 <rect key="frame" x="27" y="198" width="305" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="전화번호" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCl-f6-zND">
                                 <rect key="frame" x="27" y="247" width="59" height="21"/>
@@ -48,7 +40,7 @@
                                 <rect key="frame" x="27" y="276" width="305" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="주소" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yHI-lu-4Gl">
                                 <rect key="frame" x="27" y="318" width="30" height="21"/>
@@ -61,12 +53,12 @@
                                 <rect key="frame" x="27" y="347" width="305" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DR0-Ky-ia5">
                                 <rect key="frame" x="170" y="724" width="54" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                <color key="backgroundColor" red="0.45882352941176469" green="1" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="완료"/>
                                 <connections>
@@ -85,30 +77,67 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s18-Ui-SIR">
                                 <rect key="frame" x="138" y="409" width="117" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                <color key="backgroundColor" red="0.45882352941176469" green="1" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="비밀번호 변경"/>
                                 <connections>
                                     <segue destination="o9O-Nk-AIm" kind="presentation" id="auM-KB-dxr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="36e-OW-DqD">
-                                <rect key="frame" x="3" y="66" width="54" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="뒤로"/>
-                                <connections>
-                                    <segue destination="oeZ-Jf-V0c" kind="unwind" identifier="unwindToMypage" unwindAction="unwindToMypageWithUnwindsegue:" id="vHn-g5-uyq"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EL0-5o-qM9">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="프로필 변경" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KwF-6q-xoY">
+                                        <rect key="frame" x="0.0" y="57" width="393" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="393" id="kW2-5V-H2P"/>
+                                            <constraint firstAttribute="height" constant="35" id="mDs-XK-sjx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="36e-OW-DqD">
+                                        <rect key="frame" x="1" y="57" width="96" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="vd4-Z4-BRc"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="뒤로가기">
+                                            <imageReference key="image" image="chevron.backward" catalog="system" symbolScale="medium"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <segue destination="oeZ-Jf-V0c" kind="unwind" identifier="unwindToMypage" unwindAction="unwindToMypageWithUnwindsegue:" id="vHn-g5-uyq"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.45882352941176469" green="1" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="KwF-6q-xoY" firstAttribute="top" secondItem="EL0-5o-qM9" secondAttribute="top" constant="57" id="Bwb-B9-54B"/>
+                                    <constraint firstItem="KwF-6q-xoY" firstAttribute="leading" secondItem="EL0-5o-qM9" secondAttribute="leading" id="HGx-bv-7h5"/>
+                                    <constraint firstAttribute="trailing" secondItem="KwF-6q-xoY" secondAttribute="trailing" id="I0p-0z-1iJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="36e-OW-DqD" secondAttribute="bottom" constant="8" id="K5x-fW-gBK"/>
+                                    <constraint firstItem="36e-OW-DqD" firstAttribute="leading" secondItem="EL0-5o-qM9" secondAttribute="leading" constant="1" id="Tlt-Bf-SaE"/>
+                                    <constraint firstAttribute="width" constant="393" id="Yld-Pj-KBp"/>
+                                    <constraint firstAttribute="bottom" secondItem="KwF-6q-xoY" secondAttribute="bottom" constant="8" id="eaa-z0-g9H"/>
+                                    <constraint firstAttribute="height" constant="100" id="xeL-8w-i6d"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.97647058823529409" green="0.96862745098039216" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="EL0-5o-qM9" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="8s2-L2-zAC"/>
+                            <constraint firstItem="EL0-5o-qM9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="GmB-Cw-rmq"/>
+                            <constraint firstItem="EL0-5o-qM9" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="b0g-DU-tL3"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="addressTextField" destination="xQc-cP-Cyx" id="HXT-iH-63j"/>
                         <outlet property="nicknameTextField" destination="okM-De-DPJ" id="T2A-fS-3lZ"/>
                         <outlet property="phoneTextField" destination="Ye9-g1-55K" id="GOG-Km-6YE"/>
+                        <segue destination="E3D-ui-heo" kind="presentation" identifier="backToLogin" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="dde-bp-Gc6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -138,15 +167,10 @@
                 <viewControllerPlaceholder storyboardIdentifier="loginViewController" storyboardName="loginView" referencedIdentifier="loginViewController" id="E3D-ui-heo" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sBy-8t-tqJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-532" y="-56"/>
+            <point key="canvasLocation" x="795" y="277"/>
         </scene>
     </scenes>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray3Color">
-            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <image name="chevron.backward" catalog="system" width="97" height="128"/>
     </resources>
 </document>

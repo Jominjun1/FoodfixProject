@@ -132,29 +132,23 @@ class loginViewController : UIViewController{
             case .success(let success):
                 guard let decodedData = try? decoder.decode(loginResponse.self, from: dataResponse.value!) else { return }
                 if(decodedData.token != nil){ //토큰이 존재함
-                    print(decodedData.token!)
                     create(key: "token", token: decodedData.token)
                     self.showToast(message: "로그인 성공")
                     let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){ timer in
-                        self.goMainView()
-                        
+                        self.performSegue(withIdentifier: "goMain", sender: self)
                     }
-                    
                 }
                 else{ //토큰이 존재하지 않음
                     self.showToast(message: "아이디나 비밀번호가 일치하지 않습니다")
                 }
-                
-                
-                
             case .failure(let failure):
                 self.showToast(message: "로그인 실패")
             }
-            
-            
         }
-        
-        
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print(read(key: "token"))
     }
     
     

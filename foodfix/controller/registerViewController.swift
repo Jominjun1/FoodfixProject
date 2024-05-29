@@ -9,25 +9,7 @@ import Foundation
 import UIKit
 import Alamofire
 
-class User: Codable{
-    var user_id : String!
-    var user_phone : String!
-    var user_name : String!
-    var user_pw : String!
-    var user_address : String!
-    var nickname : String!
-    var gender : String!
-    
-    init(user_id: String!, user_phone: String!, user_name: String!, user_pw: String!, user_address: String!, nickname: String!, gender: String!) {
-        self.user_id = user_id
-        self.user_phone = user_phone
-        self.user_name = user_name
-        self.user_pw = user_pw
-        self.user_address = user_address
-        self.nickname = nickname
-        self.gender = gender
-    }
-}
+
 
 
 

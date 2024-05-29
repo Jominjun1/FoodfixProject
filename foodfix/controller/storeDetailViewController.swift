@@ -9,17 +9,12 @@ import Foundation
 import Alamofire
 import Kingfisher
 
-struct Menu :Codable{
-    var menu_id : Int
-    var menu_name : String
-    var explanation : String
-    var menu_price : Int
-}
+
 
 class MenuTableViewCell : UITableViewCell{
     @IBOutlet weak var menuName: UILabel!
     @IBOutlet weak var price: UILabel!
-    
+    @IBOutlet weak var menuImage: UIImageView!
     
 }
 
@@ -34,9 +29,18 @@ extension storeDetailViewController : UITableViewDataSource, UITableViewDelegate
         
         cell.menuName.text = menuArray[indexPath.row].menu_name
         cell.price.text = String(menuArray[indexPath.row].menu_price)
+        var imagePath = menuArray[indexPath.row].imagePath.split(separator: "/")
+        let url = URL(string: "http://54.180.213.178:8080/images/" + imagePath.popLast()!)
+        print(url!)
+        cell.menuImage.kf.indicatorType = .activity
+        cell.menuImage.kf.setImage(with: url!, placeholder: nil, options: [.transition(.fade(0.7))], progressBlock: nil)
+        cell.layer.cornerRadius = 10
+        
         
         return cell
     }
+   
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goDetail", sender: menuArray[indexPath.row])
         
@@ -83,6 +87,10 @@ class storeDetailViewController : UIViewController{
     
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var testLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var storeIntroLabel: UILabel!
+    @IBOutlet weak var storePhoneLabel: UILabel!
+    @IBOutlet weak var storeAddressLabel: UILabel!
     var storeDetail: Store?
     
     func showToast(message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
@@ -126,12 +134,19 @@ class storeDetailViewController : UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var imageUrl = URL(string: "http://54.180.213.178:8080/images"+(storeDetail?.imagePath)!)
-        thumbnailImageView.kf.setImage(with: imageUrl!)
-        print(imageUrl)
+        
+        var imagePath = storeDetail!.imagePath.split(separator: "/")
+        let imageurl = URL(string: "http://54.180.213.178:8080/images/" + imagePath.popLast()!)
+        thumbnailImageView.kf.indicatorType = .activity
+        thumbnailImageView.kf.setImage(with: imageurl!, placeholder: nil, options: [.transition(.fade(0.7))], progressBlock: nil)
+        thumbnailImageView.layer.cornerRadius = 10
+
         testLabel.text = storeDetail?.store_name
+        titleLabel.text = storeDetail?.store_name
+        storeIntroLabel.text = storeDetail?.store_intro
+        storePhoneLabel.text = "T. " + (storeDetail?.store_phone)!
+        storeAddressLabel.text = "주소: " + (storeDetail?.store_address)!
         url = url + String((storeDetail?.store_id)!)
-        print(url)
         
         let dataRequest = AF.request(url,
                                      method: .get,

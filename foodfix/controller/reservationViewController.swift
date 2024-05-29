@@ -9,14 +9,7 @@ import Foundation
 import UIKit
 import Alamofire
 
-struct ReserveOrder :Codable{
-    var reservation_id :Int
-    var reservation_date :String
-    var reservation_time :String
-    var num_people :Int
-    var user_comments :String
-    var reservation_status :String
-}
+
 
 class reserveOrderCell: UITableViewCell{
     @IBOutlet weak var storeName: UILabel!
@@ -33,10 +26,10 @@ extension reservationViewController : UITableViewDataSource{
         let cell: reserveOrderCell = reserveOrderTable.dequeueReusableCell(
             withIdentifier: "reserveOrderCell", for: indexPath
         ) as! reserveOrderCell
-        
+        cell.storeName.text = orderArray[indexPath.row].store_name
         cell.orderDate.text = "예약일시: " + orderArray[indexPath.row].reservation_date + " " + orderArray[indexPath.row].reservation_time
         cell.numPeople.text = "예약인원: " + String(orderArray[indexPath.row].num_people) + "명"
-        
+        cell.layer.cornerRadius = 10
         return cell
         
     }
@@ -88,15 +81,16 @@ class reservationViewController : UIViewController, UITableViewDelegate{
                 guard let decodedData = try? decoder.decode([ReserveOrder].self, from: dataResponse.value!) else { 
                     print("Json 해독 실패")
                     return }
-                self.orderArray = decodedData
-                
+                self.orderArray = decodedData.reversed()
+                print(decodedData)
+                let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){_ in
+                    self.reserveOrderTable.reloadData()
+                }
             case .failure(let failure):
                 print("예약 내역을 불러오는데 실패하였습니다.")
             }
         }
-        let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){_ in
-            self.reserveOrderTable.reloadData()
-        }
+        
         
         
         

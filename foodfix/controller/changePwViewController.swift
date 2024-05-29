@@ -12,7 +12,7 @@ import Alamofire
 
 class changePwViewController : UIViewController{
     func showToast(message : String, font: UIFont = UIFont.systemFont(ofSize: 14.0)) {
-            let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 300, height: 35))
+            let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 150, y: self.view.frame.size.height-100, width: 300, height: 35))
             toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
             toastLabel.textColor = UIColor.white
             toastLabel.font = font
@@ -86,12 +86,7 @@ class changePwViewController : UIViewController{
                             
                             self.showToast(message: "비밀번호 변경에 성공하였습니다.")
                             let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){ timer in
-                                
-                                
-                                let vcName = self.storyboard?.instantiateViewController(withIdentifier: "mypageViewController")
-                                vcName?.modalPresentationStyle = .fullScreen
-                                vcName?.modalTransitionStyle = .crossDissolve
-                                self.present(vcName!, animated: true, completion: nil)
+                                self.performSegue(withIdentifier: "unwindToMypage", sender: self)
                             }
                             
                             

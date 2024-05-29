@@ -95,8 +95,8 @@ class changeProfileViewController : UIViewController{
                 
                 let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false){ timer in
                     
-                    
-                    self.performSegue(withIdentifier: "unwindToMypage", sender: self)
+                    foodfix.delete(key: "token")
+                    self.performSegue(withIdentifier: "backToLogin", sender: self)
                     
                 }
                 
