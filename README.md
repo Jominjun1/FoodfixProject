@@ -24,6 +24,8 @@
  - [작품 소개 사긴](#작품-소개-사진)
  - [기대 효과](#기대-효과)
  - [시연 동영상](#시연-동영상)
+ - [비교표](#비교표)
+ - [9.25 경진대회 참여시 추가 사항](#경진대회-참여시-추가-사항)
 
 ## 팀원 소개 및 역할
 
@@ -113,3 +115,16 @@
 
 * 프론트엔드(Android) : 최명진 [링크](https://youtu.be/1W3Jt--FotI?si=y0werGD-1l_KI9Vq)
 
+## 비교표
+
+![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/bb5fc391-b5bc-4fe3-ae70-f609b5f64f0f)
+
+
+* 최우수 : https://github.com/capstone-aloha
+* 우수1 : https://github.com/TeamCookCaps
+* 우수2 : https://github.com/godi00/capstone
+
+## 경진대회 참여시 추가 사항
+1. Azure, GCP에서 수행 추가
+2. 지도 API 추가
+3. 보안 서비스 업데이트
