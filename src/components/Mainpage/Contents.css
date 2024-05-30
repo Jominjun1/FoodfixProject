@@ -133,6 +133,7 @@
     border-radius: 40px;
     background-color: #52c56784;
     border: none;
+    word-break: keep-all;
 }
 
 .restaurant-custom-button:hover,

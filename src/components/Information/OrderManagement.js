@@ -90,14 +90,14 @@ const OrderManagement = () => {
                             <div className='order-items'>
                                 <p className='order-name'>주문 번호 : {order.packing_id}</p>
                                 <p className='order-price'>고객 정보 : {order.user_id} ({order.user_phone})</p>
-                                <p className='order-description'>상태 : {order.packing_status === "0" ? "대기" : "확정"}</p>
-                                <p className='order-description'>날짜 : {order.packing_date}</p>
-                                <p className='order-description'>시간 : {order.packing_time}</p>
+                                <p>상태 : {order.packing_status === "0" ? "대기" : "확정"}</p>
+                                <p>날짜 : {order.packing_date}</p>
+                                <p>시간 : {order.packing_time}</p>
                                 <p className='order-list'>주문 목록 : {order.menuItemDTOList && order.menuItemDTOList.map((menuItem, index) => (
                                     `${menuItem.menu_name} x ${menuItem.quantity}${index !== order.menuItemDTOList.length - 1 ? ' / ' : ''}`
                                 ))}
                                 </p>
-                                <p className='order-description'>총 가격: {calculateTotalPrice(order)}</p>
+                                <p>총 가격: {calculateTotalPrice(order)}</p>
 
                                 <div className='order-buttons'>
                                     <button onClick={() => updateOrderStatus(order.packing_id, 1)}>확정</button>
@@ -122,7 +122,7 @@ const OrderManagement = () => {
                                 <p>상태: {order.packing_status === "2" ? "취소" : "완료"}</p>
                                 <p>날짜: {order.packing_date}</p>
                                 <p>시간: {order.packing_time}</p>
-                                <p className='order-description'>총 가격: {calculateTotalPrice(order)}</p>
+                                <p>총 가격: {calculateTotalPrice(order)}</p>
                                 <button className='order-modal-button' onClick={() => updateOrderStatus(order.packing_id, 1)}>확정</button>
                             </div>
                         ))}

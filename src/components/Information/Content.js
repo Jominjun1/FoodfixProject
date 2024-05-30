@@ -9,13 +9,14 @@ const Content = () => {
     const initialTab = localStorage.getItem('selectedTab') || 'resManagement';
     const [selectedTab, setSelectedTab] = useState(initialTab);
     const navigate = useNavigate();
-    const [audio] = useState(new Audio('/images/alarm.mp3'));
+    const [orderAudio] = useState(new Audio('/images/order_sound.mp3'));
+    const [reservationAudio] = useState(new Audio('/images/reservation_sound.mp3'));
 
     useEffect(() => {
         let webSocket;
         const fetchStoreIdAndConnectWebSocket = async () => {
 
-            const playNotificationSound = () => {
+            const playNotificationSound = (audio) => {
                 audio.currentTime = 0;
                 audio.play();
             }
@@ -42,7 +43,9 @@ const Content = () => {
                     console.log('서버 : ', event.data);
                     const sessionId = event.data;
                     if(sessionId === "포장 주문 생성") {
-                        playNotificationSound();
+                        playNotificationSound(orderAudio);
+                    } else if(sessionId === "예약 주문 생성") {
+                        playNotificationSound(reservationAudio);
                     }
                     console.log('서버에서 세션 ID 수신:', sessionId);
                     localStorage.setItem('sessionId', sessionId); 
@@ -60,7 +63,7 @@ const Content = () => {
                 webSocket.close();
             }
         };
-    }, [audio]);
+    }, [orderAudio, reservationAudio]);
 
     const handleTabSelect = (tabName) => {
         setSelectedTab(tabName);

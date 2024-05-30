@@ -77,12 +77,12 @@ const ResManagement = () => {
                     {filteredReservations.map(reservation => (
                         <div className='res-items-container' key={reservation.reservation_id}>
                             <div className='res-items'>
-                                <p className='res-name'>주문 번호 : {reservation.reservation_id}</p>
+                                <p className='res-name'>예약 번호 : {reservation.reservation_id}</p>
                                 <p className='res-person'>고객 정보 : {reservation.user_id} ({reservation.user_phone})</p>
                                 <p className='res-description'>상태 : {reservation.reservation_status === "0" ? "대기" : "확정"}</p>
                                 <p className='res-description'>날짜 : {reservation.reservation_date}</p>
                                 <p className='res-description'>시간 : {reservation.reservation_time}</p>
-				                <p className='res-description'>인원 : {reservation.people_cnt}</p>
+				                <p className='res-description'>인원 : {reservation.num_people}</p>
                                 <p className='res-description'>요청사항 : {reservation.user_comments}</p>
 
                                 <div className='res-buttons'>
@@ -108,7 +108,7 @@ const ResManagement = () => {
                                 <p>상태: {reservation.reservation_status === "2" ? "취소" : "완료"}</p>
                                 <p>날짜: {reservation.reservation_date}</p>
                                 <p>시간: {reservation.reservation_time}</p>
-				                <p className='res-description'>인원 : {reservation.people_cnt}</p>
+				                <p className='res-description'>인원 : {reservation.num_people}</p>
                                 <p className='res-description'>요청사항 : {reservation.user_comments}</p>
 
                                 <button className='res-modal-button' onClick={() => updateReservationStatus(reservation.reservation_id, 1)}>확정</button>
