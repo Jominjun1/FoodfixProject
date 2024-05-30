@@ -108,11 +108,11 @@
 
 ## 시연 동영상
 
-* 프론트엔드(React) : 김규리 [링크](https://www.youtube.com/@user-oy5od5lm9j)
+* 프론트엔드(React) : 김규리 [링크](https://youtu.be/Te7HCASK7oM)
 
-* 프론트엔드(IOS) : 노현민 [링크](https://www.youtube.com/watch?v=sFjHMpNh9ig)
+* 프론트엔드(IOS) : 노현민 [링크](https://www.youtube.com/watch?v=iKVNI1_gh0Q)
 
-* 프론트엔드(Android) : 최명진 [링크](https://youtu.be/4o9sn4oTN18?si=c9vI-s1-xZ8Swdzu)
+* 프론트엔드(Android) : 최명진 [링크](https://youtu.be/1W3Jt--FotI?si=y0werGD-1l_KI9Vq)
 
 ## 9.25 한성 공학 경진 대회 발표시 추가 예정 사항
 
