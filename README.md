@@ -29,13 +29,13 @@
 
 ## 팀원 소개 및 역할
 
-* 백엔드(Spring boot) : 1971281-조민준  이메일 : simpers@naver.com [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/backend)
+* 백엔드(Spring boot) : 1971281-조민준  이메일: simpers@naver.com [코드](https://github.com/Jominjun1/FoodfixProject/blob/backend)
 
-* 프론트엔드(React) : 2071222-김규리 이메일 : kimgyulee00@gmail.com [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_web)
+* 프론트엔드(React) : 2071222-김규리 이메일: kimgyulee00@gmail.com [코드](https://github.com/Jominjun1/FoodfixProject/blob/frontend_web)
 
-* 프론트엔드(IOS) : 1871085-노현민 이메일 : miryumin@hansung.ac.kr [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_ios)
+* 프론트엔드(IOS) : 1871085-노현민 이메일: miryumin@hansung.ac.kr [코드](https://github.com/Jominjun1/FoodfixProject/blob/frontend_ios)
 
-* 프론트엔드(Android) : 1971277-최명진 이메일 : cmgjn1881@naver.com [코드 링크](https://github.com/Jominjun1/FoodfixProject/blob/frontend_android)
+* 프론트엔드(Android) : 1971277-최명진 이메일: cmgjn1881@naver.com [코드](https://github.com/Jominjun1/FoodfixProject/blob/frontend_android)
 
 ## 작품 개요
 
