@@ -86,7 +86,6 @@
  ![웹 사용자 기능 구성도](https://github.com/Jominjun1/FoodfixProject/assets/116476333/45858ca6-f7ab-42ff-9e2b-a469f687b942)
 
 </details>
-<br>
 <details>
  <summary>앱 사용자 기능 구성도</summary>
  
@@ -109,11 +108,11 @@
 
 ## 시연 동영상
 
-* 프론트엔드(React) : 김규리 [링크](https://youtu.be/Te7HCASK7oM)
+* 프론트엔드(React) : 김규리 [시연 동영상 링크](https://youtu.be/Te7HCASK7oM)
 
-* 프론트엔드(IOS) : 노현민 [링크](https://www.youtube.com/watch?v=iKVNI1_gh0Q)
+* 프론트엔드(IOS) : 노현민 [시연 동영상 링크](https://www.youtube.com/watch?v=iKVNI1_gh0Q)
 
-* 프론트엔드(Android) : 최명진 [링크](https://youtu.be/1W3Jt--FotI?si=y0werGD-1l_KI9Vq)
+* 프론트엔드(Android) : 최명진 [시연 동영상 링크](https://youtu.be/1W3Jt--FotI?si=y0werGD-1l_KI9Vq)
 
 ## 비교표
 
