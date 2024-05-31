@@ -29,7 +29,7 @@
  - [9.25 경진대회 참여시 추가 사항](#경진대회-참여시-추가-사항)
 
 ## 팀원 소개 및 역할
-![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/5bd6be62-b666-40e6-8dbb-cf2cc77e750b)
+<img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/294f0e5c-df35-408d-8d63-4c04a0e902f0" width="400" height="800"> 
 
 * 백엔드(Spring boot) : 1971281-조민준  이메일: simpers@naver.com [코드](https://github.com/Jominjun1/FoodfixProject/blob/backend)
 
