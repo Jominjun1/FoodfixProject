@@ -12,7 +12,7 @@
 <details>
   <summary>푸드픽스 API 명세서 보기</summary>
 
-<img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/e0fb37f7-feeb-45f1-9694-40eb965ae228" width="300" height="400"> 
+<img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/294f0e5c-df35-408d-8d63-4c04a0e902f0" width="300" height="400"> 
 </details>
 
 ## 목차
