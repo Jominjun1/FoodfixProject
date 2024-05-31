@@ -3,7 +3,7 @@
 ![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/6618c55f-f7af-4a78-a6a7-c91459636c78)
 
  2024 Capstone Project<br>
- 장려상<br>
+ 웹 부문 장려상<br>
  포장/예약 주문을 보다 편리하게, 효율적인 매장 관리를 위한 웹/앱 서비스
 
 </div>
@@ -29,6 +29,7 @@
  - [9.25 경진대회 참여시 추가 사항](#경진대회-참여시-추가-사항)
 
 ## 팀원 소개 및 역할
+![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/5bd6be62-b666-40e6-8dbb-cf2cc77e750b)
 
 * 백엔드(Spring boot) : 1971281-조민준  이메일: simpers@naver.com [코드](https://github.com/Jominjun1/FoodfixProject/blob/backend)
 
