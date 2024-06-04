@@ -28,7 +28,6 @@
  - [기대 효과](#기대-효과)
  - [시연 동영상](#시연-동영상)
  - [비교표](#비교표)
- - [9.25 경진대회 참여시 추가 사항](#경진대회-참여시-추가-사항)
 
 ## 팀원 소개 및 역할
 <img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/294f0e5c-df35-408d-8d63-4c04a0e902f0" width="800" height="800"> 
@@ -127,7 +126,3 @@
 * 우수1 : https://github.com/TeamCookCaps
 * 우수2 : https://github.com/godi00/capstone
 
-## 경진대회 참여시 추가 사항
-1. Azure, GCP에서 수행 추가
-2. 지도 API 추가
-3. 보안 서비스 업데이트
