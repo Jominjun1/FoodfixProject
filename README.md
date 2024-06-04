@@ -5,7 +5,7 @@
  2024 Capstone Project<br>
  포장/예약 주문을 보다 편리하게, 효율적인 매장 관리를 위한 웹/앱 서비스
  웹 부문 장려상<br>
-![image](https://github.com/Jominjun1/FoodfixProject/assets/116476333/e626defd-a8d1-4025-9f72-37d309fba5e8)
+<img src="https://github.com/Jominjun1/FoodfixProject/assets/116476333/e626defd-a8d1-4025-9f72-37d309fba5e8" width="600" height="800">
 
 </div>
 
