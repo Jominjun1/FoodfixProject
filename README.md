@@ -43,7 +43,7 @@
 
 | 역할 | 이름 | 학번 | 담당 기술 | 이메일 | 코드 링크 |
 |------|------|------|-----------|--------|-----------|
-| **Backend** | 조민준 | 1971281 | Spring Boot | simpers@naver.com | [링크](https://github.com/Jominjun1/FoodfixProject/tree/backend) |
+| **Backend** | 조민준 | 1971281 | Spring Boot | simpers@naver.com | [링크](https://github.com/Jominjun1/FoodfixProject/tree/spring) |
 | **Frontend Web** | 김규리 | 2071222 | React | kimgyulee00@gmail.com | [링크](https://github.com/Jominjun1/FoodfixProject/tree/frontend_react) |
 | **Frontend iOS** | 노현민 | 1871085 | Swift | miryumin@hansung.ac.kr | [링크](https://github.com/Jominjun1/FoodfixProject/tree/frontend_ios) |
 | **Frontend Android** | 최명진 | 1971277 | Kotlin | cmgjn1881@naver.com | [링크](https://github.com/Jominjun1/FoodfixProject/tree/frontend_android) |
